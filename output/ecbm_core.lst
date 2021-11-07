@@ -1,0 +1,550 @@
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ECBM_CORE
+OBJECT MODULE PLACED IN .\output\ecbm_core.obj
+COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\ecbm_core.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LI
+                    -B;.\device;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\ecbm_core.lst) OBJECT(.\output\ecbm_core.o
+                    -bj)
+
+line level    source
+
+   1          #include "ecbm_core.h"
+   2          /*------------------------------------×ÊÔ´³åÍ»¾¯¸æ---------------------------------*/
+   3          #if (ECBM_UART_LIB_EN == 0)&&(ECBM_AUTO_DOWNLOAD_EN == 1)
+              #error ×Ô¶¯ÏÂÔØ¹¦ÄÜÒò´®¿Ú¿âÎ´¼ÓÔØ¶ø¿ªÆôÊ§°Ü£¬ÇëÇ°Íùecbm_core.hÊ¹ÄÜ´®¿Ú¿â£¡
+              #endif
+   6          #if (ECBM_UART1_EN == 0)&&(ECBM_AUTO_DOWNLOAD_EN == 1)
+              #error ×Ô¶¯ÏÂÔØ¹¦ÄÜÒò´®¿Ú1Î´Ê¹ÄÜ¶ø¿ªÆôÊ§°Ü£¬ÇëÇ°Íùuart.hÊ¹ÄÜ´®¿Ú1£¡
+              #endif
+   9          #if (ECBM_UART1_IO != 0)&&(ECBM_AUTO_DOWNLOAD_EN == 1)
+              #error ×Ô¶¯ÏÂÔØ¹¦ÄÜÐèÒª´®¿Ú1Ó³Éäµ½P30ºÍP31£¬ÇëÇ°Íùuart.hÐÞ¸Ä´®¿Ú1µÄÊä³öIO£¡
+              #endif
+  12          /*--------------------------------------±äÁ¿¶¨Òå-----------------------------------*/
+  13          u32 xdata ecbm_sys_clk=0;
+  14          u16 xdata ecbm_delay_base;
+  15          /*-----------------------------------¿ÉÑ¡Ä£¿éÉè¶¨----------------------------------*/
+  16          union{
+  17              u32 num32;
+  18              u16 num16[2];
+  19              u8  num8[4];
+  20          }fast_cout;
+  21          /*-----------------------------------------`--------------
+  22          ºÁÃë¼¶ÑÓÊ±º¯Êý
+  23          -------------------------------------------------------*/
+  24          void delay_ms(u16 ms){
+  25   1          u16 i;
+  26   1           if(ms){
+  27   2              do{
+  28   3                  i=ecbm_delay_base;
+  29   3                  while(--i);
+  30   3              }while(--ms);    
+  31   2          }
+  32   1      }
+  33          /*-------------------------------------------------------
+  34          Î¢Ãë¼¶ÑÓÊ±º¯Êý£¨½ÚÅÄ£©
+  35          -------------------------------------------------------*/
+  36          void delay_us(u16 us){
+  37   1          u16 i;
+  38   1          i=us;
+  39   1          while(i--);
+  40   1      }
+  41          /*-------------------------------------------------------
+  42          Î¢Ãë¼¶ÑÓÊ±º¯ÊýµÄ½ÚÅÄ¼ÆËãº¯Êý
+  43          -------------------------------------------------------*/
+  44          u16 delay_set_us(u16 us){
+  45   1      //¹«Ê½¼ÆËãËù»¨µÄÊ±¼äÌ«³¤£¬²ð·Ö³ÉÁ½¸öº¯Êý¡£ÏÈÓÃÕâ¸öº¯ÊýÍÆËã³öÑÓÊ±µÄÊýÖµ£¬ÔÙÓÃÏÂÃæµÄº¯Êýµ÷ÓÃ¡£
+  46   1          fast_cout.num32=((u32)ecbm_delay_base*(u32)(us))*131;
+  47   1          return fast_cout.num16[0]>>1;
+  48   1      }
+  49          /************************************´®¿Úµ÷ÊÔÄ£¿é***************/#if ECBM_AUTO_DOWNLOAD_EN
+  50          /*-------------------------------------------------------
+  51          ×Ô¶¯ÏÂÔØËùÐèµÄ±äÁ¿ 
+  52          -------------------------------------------------------*/
+  53          __IO u8 xdata old_char;  //±£´æÉÏÒ»´Î½ÓÊÕµÄÊý¾Ý
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 2   
+
+  54          __IO u8 xdata char_count;//ÏàÍ¬Êý¾Ý¼ÆÊý
+  55          /*-------------------------------------------------------
+  56          ÏÂÔØÁ÷ÅÐ¶Ïº¯Êý
+  57          -------------------------------------------------------*/
+  58          void system_uart_reset(){
+  59   1          if(old_char!=UART1_GET_REG_SBUF){//ÅÐ¶ÏÖØ¸´×Ö·û£¬Èç¹û×Ö·û²»ÖØ¸´
+  60   2              old_char=UART1_GET_REG_SBUF;    //¾Í¸üÐÂoldchar
+  61   2              char_count=0;                //¼ÆÊýÆ÷ÇåÁã
+  62   2          }else{                            //Èç¹û×Ö·ûÖØ¸´
+  63   2              char_count++;                //ÔòÖØ¸´¼ÆÊýÆ÷+1
+  64   2          }
+  65   1          if(char_count>=233){            //½ÓÊÕµ½233¸öÖØ¸´Êý¾ÝÊ±
+  66   2              _nop_();
+  67   2              POWER_RESET;                //ÖØÆô
+  68   2              _nop_();
+  69   2              _nop_();
+  70   2          }
+  71   1      }
+  72          #if ECBM_MCU_CHECK_EN
+              /*-------------------------------------------------------
+              ÏµÍ³¼ì²éº¯Êý
+              -------------------------------------------------------*/
+              void system_check(){
+                  u8 i,j;    
+                  u16 aaa=0x1234;
+                  debug("ECBM V%u.%u.%u on %s",(u16)ECBM_FVN,(u16)ECBM_RVN,(u16)ECBM_BVN,ECBM_MCU_NAME);//Êä³ö°æ±¾ºÅºÍµ¥
+             -Æ¬»úÐÍºÅ
+                  debug("%uK",(u16)((ECBM_MCU&0x0F0000)>>16));
+                  debug("%02u",(u16)(ECBM_MCU_ROM_SIZE));
+              #if        ECBM_MCU    ==    0x110301
+                  debug("-8PIN");
+              #elif    ECBM_MCU    ==    0x110302
+                  debug("S2-16PIN/20PIN");
+              #elif    ECBM_MCU    ==    0x120502
+                  debug("S2");
+              #elif    ECBM_MCU    ==    0x120504
+                  debug("S4");
+              #elif    ECBM_MCU    ==    0x2405C2
+                  debug("S2A12");
+              #elif    ECBM_MCU    ==    0x2815C4
+                  debug("D4");
+              #elif    ECBM_MCU    ==    0x2805C4
+                  debug("S4A12");
+              #elif    ECBM_MCU    ==    0x3103A2
+                  debug("-16PIN/20PIN");
+              #elif    ECBM_MCU    ==    0x310201
+                  debug("-8PIN ");
+              #elif    ECBM_MCU    ==    0x3102A1
+                  debug("A-8PIN");
+              #elif    ECBM_MCU    ==    0x3103A1
+                  debug("T-20PIN");
+              #elif    ECBM_MCU    ==    0x3205A2
+                  debug("S2");
+              #elif    ECBM_MCU    ==    0x3205A4
+                  debug("S4");
+              #elif    ECBM_MCU    ==    0x4103A2
+                  debug("-20PIN");
+              #elif    ECBM_MCU    ==    0x4105A2
+                  debug("-32PIN");    
+              #elif    ECBM_MCU    ==    0x4205C4
+                  debug("T-48PIN");
+              #elif    ECBM_MCU    ==    0x4305C2
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 3   
+
+                  debug("S2-48PIN");    
+              #elif    ECBM_MCU    ==    0x4305C4
+                  debug("S4-48PIN");
+              #elif    ECBM_MCU    ==    0x4805C4
+                  debug("U-48PIN/64PIN");    
+              #endif
+                  j=0;
+                  debug("\r\nChecking MCU ID");
+                  for(i=0;i<7;i++){
+                      debug(".");
+                      if((REG_ID(i))==(MCUID[i])){
+                          j++;
+                      }
+                  }
+                  if(j!=7){
+                      debug("Error\r\nPlease check the setting of the MCU model\r\n");
+                  }else{
+                      debug("OK\r\nID    :");for(i=0;i<7;i++){debug("%02X",(u16)(MCUID[i]));}debug("\r\n");        //Êä³
+             -öÎ¨Ò»IDºÅ
+                      debug("DATA  :128\tByte\r\n");//DATAÇø¹Ì¶¨ÊÇ128Byte
+                      debug("IDATA :128\tByte\r\n");//IDATAÇø¹Ì¶¨ÊÇ128Byte
+                      debug("XDATA :%u\tByte\r\n",(u16)((ECBM_MCU&0x0F0000)>>16)*1024);//´ÓÅäÖÃÎÄ¼þÖÐ»ñÈ¡XDATAÇø´óÐ¡
+                      debug("FLASH :%lu\tByte\r\n",(u32)ECBM_MCU_ROM_SIZE*1024);//´ÓÅäÖÃÎÄ¼þÖÐ»ñÈ¡FLASHÇø´óÐ¡
+                      debug("EEPROM:%u\tByte\r\n",(u16)512);//´ÓÅäÖÃÎÄ¼þÖÐ»ñÈ¡EEPROMÇø´óÐ¡
+                      debug("SYSCLK:%lu\tHz\r\n",ecbm_sys_clk);//Êä³öÄÚ²¿¾§ÕñÖµ£¬ÔÚÍ¼ÐÎ½çÃæÉÏÉèÖÃ
+                      debug("LSI   :%u\tHz\r\n",REG_LSI);//Êä³öÄÚ²¿¾§ÕñÖµ£¬ÔÚÍ¼ÐÎ½çÃæÉÏÉèÖÃ
+                      debug("BGV   :%u\tmV\r\n",REG_BGV);//Êä³öÄÚ²¿µçÑ¹»ù×¼Öµ£¬ÐèÒªÔÚSTC-ISPÉÏÉèÖÃ
+                      debug("ENDIAN:");
+                      if(*((char*)(&aaa))==0x12)debug("big\tendian\r\n");
+                      if(*((char*)(&aaa))==0x34)debug("little\tendian\r\n");
+                  }    
+              }
+              #endif
+ 147          /****************************************************************************/#endif
+ 148          /*-------------------------------------------------------
+ 149          ¸ñÊ½»¯·¢ËÍº¯Êý
+ 150          -------------------------------------------------------*/
+ 151          void debug(const char * str,...){
+ 152   1          char xdata buf[64];  //×Ö·û´®»º´æ¡£
+ 153   1          va_list vp;          //¶¨Òå²ÎÊýµØÖ·¡£
+ 154   1          va_start(vp, str);   //¸³Öµ²ÎÊýµÄµØÖ·¡£
+ 155   1          vsprintf(buf,str,vp);//Ê¹ÓÃÄÚÖÃµÄprintfº¯Êý¸ñÊ½»¯¡£
+ 156   1          va_end(vp);          //Ê¹ÓÃÍêÒª¹Ø±Õ¡£
+ 157   1          uart_string(1,buf);  //½«¸ñÊ½»¯Ö®ºóµÄ×Ö·û´®·¢ËÍ³öÈ¥¡£
+ 158   1      }
+ 159          /*----------------------------------ÆäËûÏµÍ³º¯Êý-----------------------------------*/
+ 160          #define SYS_HSI_S 0 //ÄÚ²¿¸ßËÙÊ±ÖÓHSI(±ê×¼)
+ 161          #define SYS_HSI_C 1 //ÄÚ²¿¸ßËÙÊ±ÖÓHSI(×Ô¶¨Òå)
+ 162          #define SYS_LSI   2 //ÄÚ²¿µÍËÙÊ±ÖÓLSI
+ 163          #define SYS_LSE   3 //Íâ²¿µÍËÙÊ±ÖÓLSI
+ 164          #define SYS_HSE_A 4 //Íâ²¿ÓÐÔ´¾§Õñ
+ 165          #define SYS_HSE_P 5 //Íâ²¿ÎÞÔ´¾§Õñ
+ 166          void system_set_clock(u8 source){
+ 167   1          switch(source){
+ 168   2              case SYS_HSI_S:
+ 169   2              case SYS_HSI_C:{
+ 170   3                  CLK_HSI_POWER_ON;    //Ê¹ÄÜHSI£¬¼´ÄÚ²¿24MµÄIRC¡£
+ 171   3                  CLK_SET_SOURCE_HSI;    //ÇÐ»»µ½HSI¡£
+ 172   3                  CLK_HSE_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 173   3                  CLK_LSE_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 174   3                  CLK_LSI_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 175   3              }break;
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 4   
+
+ 176   2              case SYS_LSI:{
+ 177   3                  CLK_LSI_POWER_ON;    //Ê¹ÄÜLSI£¬¼´ÄÚ²¿32KµÄIRC¡£
+ 178   3                  CLK_SET_SOURCE_LSI;    //ÇÐ»»µ½LSI¡£
+ 179   3                  CLK_HSI_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 180   3                  CLK_LSE_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 181   3                  CLK_HSE_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 182   3              }break;
+ 183   2              case SYS_LSE:{
+ 184   3                  CLK_LSE_POWER_ON;    //Ê¹ÄÜLSE£¬¼´Íâ²¿µÍËÙ¾§Õñ¡£
+ 185   3                  CLK_SET_SOURCE_LSE;    //ÇÐ»»µ½LSE¡£
+ 186   3                  CLK_LSI_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 187   3                  CLK_HSI_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 188   3                  CLK_HSE_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 189   3              }break;
+ 190   2              case SYS_HSE_A:{
+ 191   3                  CLK_HSE_A_POWER_ON;    //Ê¹ÄÜHSE£¨ÓÐÔ´¾§Õñ£©¡£
+ 192   3                  CLK_SET_SOURCE_HSE;    //ÇÐ»»µ½HSE¡£
+ 193   3                  CLK_HSI_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 194   3                  CLK_LSE_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 195   3                  CLK_LSI_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 196   3              }break;
+ 197   2              case SYS_HSE_P:{
+ 198   3                  CLK_HSE_P_POWER_ON;    //Ê¹ÄÜHSE£¨ÎÞÔ´¾§Õñ£©¡£
+ 199   3                  CLK_SET_SOURCE_HSE;    //ÇÐ»»µ½HSE¡£
+ 200   3                  CLK_HSI_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 201   3                  CLK_LSE_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 202   3                  CLK_LSI_POWER_OFF;    //¹Ø±ÕÆäËûÊ±ÖÓÔ´£¬Ê¡µç¡£
+ 203   3              }break;
+ 204   2          }
+ 205   1      }
+ 206          void system_set_div(u8 div){
+ 207   1          if(div==0){                    //ÅÅ³ýµô0Õâ¸ö²»ÎÈ¶¨Ñ¡Ïî¡£
+ 208   2              CLK_SET_REG_CLKDIV(1);    //Èç¹ûÊäÈë0µÄ»°¾Í¸Ä³É1¡£
+ 209   2          }else{
+ 210   2              CLK_SET_REG_CLKDIV(div);//Èç¹û²»ÊÇ0£¬¾ÍÖ±½ÓÐ´Èë¼Ä´æÆ÷¡£
+ 211   2          }
+ 212   1      }
+ 213          /*-------------------------------------------------------
+ 214          ¿âº¯ÊýÏµÍ³³õÊ¼»¯º¯Êý
+ 215          -------------------------------------------------------*/
+ 216          void system_init(void){
+ 217   1          #define ECBM_SYSCLK_STEP1 48000
+ 218   1          #define ECBM_SYSCLK_STEP2 76000
+ 219   1          #define ECBM_SYSCLK_STEP  54000    
+ 220   1          #if ECBM_SYSCLK_TYPE == 0    
+ 221   1          u32 sys_count;
+ 222   1          #endif
+ 223   1          EX_SFR_ENABLE;//´ò¿ª¶îÍâµÄ¼Ä´æÆ÷¡£
+ 224   1      //-------------»ñÈ¡ÏµÍ³Ê±ÖÓ------------//
+ 225   1      #if ECBM_SYSCLK_TYPE == 0//Èç¹ûÊ¹ÄÜÁË±ê×¼ÆµÂÊ£¨HSI£©£¬
+ 226   1          #if ((ECBM_MCU&0xF00000)>0x200000)//¼ì²éÊÇ²»ÊÇÓÐÁ½¸öÆµ¶ÎµÄÐÍºÅ¡£
+                      if(IRCBAND){//Èç¹ûÓÃµÄÊÇ33MÆµ¶Î£¬¾ÍÓÃÖÐÐÄÆµÂÊ36MÀ´¼ÆËã¡£
+                          sys_count=36000000L-(s32)((s32)REG_HSI1-(s32)IRTRIM)*ECBM_SYSCLK_STEP2;
+                      }else{//Èç¹ûÓÃµÄÊÇ24MÆµ¶Î£¬¾ÍÓÃÖÐÐÄÆµÂÊ24MÀ´¼ÆËã¡£
+                          sys_count=24000000L-(s32)((s32)REG_HSI-(s32)IRTRIM)*ECBM_SYSCLK_STEP1;
+                      }
+                  #else //Èç¹ûÊÇÊ¹ÓÃµ¥Æµ¶ÎµÄÐÍºÅ¡£
+ 233   1              sys_count=24000000L-(s32)((s32)REG_HSI-(s32)IRTRIM)*ECBM_SYSCLK_STEP;  //¾ÍÓÃÖÐÐÄÆµÂÊ24MÀ´¼ÆËã¡£
+ 234   1          #endif
+ 235   1          sys_count/=CLKDIV;//ËãÉÏ·ÖÆµÏµÊý¡£
+ 236   1          if      (sys_count<5764800L ){//¸ñÊ½»¯´¦Àí£¬¼ÆËã»áÓÐÎó²î£¬µÃµ½²»Ò»¶¨ÊÇ±ê×¼ÆµÂÊ£¬ÔÚÕâÀï¸ñÊ½»¯³É±ê×¼ÆµÂÊ
+             -¡£
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 5   
+
+ 237   2              ecbm_sys_clk=5529600;
+ 238   2          }else if(sys_count<8529600L ){
+ 239   2              ecbm_sys_clk=6000000;
+ 240   2          }else if(sys_count<11529600L){
+ 241   2              ecbm_sys_clk=11059200;
+ 242   2          }else if(sys_count<15216000L){
+ 243   2              ecbm_sys_clk=12000000;
+ 244   2          }else if(sys_count<19216000L){
+ 245   2              ecbm_sys_clk=18432000;
+ 246   2          }else if(sys_count<21059200L){
+ 247   2              ecbm_sys_clk=20000000;
+ 248   2          }else if(sys_count<23059200L){
+ 249   2              ecbm_sys_clk=22118400;
+ 250   2          }else if(sys_count<25500000L){
+ 251   2              ecbm_sys_clk=24000000;
+ 252   2          }else if(sys_count<28500000L){
+ 253   2              ecbm_sys_clk=27000000;
+ 254   2          }else if(sys_count<31500000L){
+ 255   2              ecbm_sys_clk=30000000;
+ 256   2          }else if(sys_count<33500000L){
+ 257   2              ecbm_sys_clk=33177600;
+ 258   2          }else if(sys_count<33500000L){
+ 259   2              ecbm_sys_clk=35000000;    //×î´óÖ§³Öµ½33M
+ 260   2          }
+ 261   1      #elif ECBM_SYSCLK_TYPE == 2//Èç¹ûÊ¹ÄÜÁËÄÚ²¿µÍËÙÊ±ÖÓ£¬
+                  ecbm_sys_clk=REG_LSI;//´ÓramÀï¶Á³öÊ±ÖÓÖµ¡£
+              #else 
+                  ecbm_sys_clk=ECBM_SYSCLK_SETTING;
+              #endif
+ 266   1      #if ECBM_SYSCLK_TYPE >1//¸ù¾Ý½çÃæµÄÑ¡Ôñ£¬ÉèÖÃÊ±ÖÓÔ´¡£
+                  system_set_clock(ECBM_SYSCLK_TYPE);
+              #endif    
+ 269   1      //-------------ÉèÖÃÑÓÊ±»ù×¼------------//        
+ 270   1          ecbm_delay_base=ecbm_sys_clk/10000;
+ 271   1      //---------------×Ô¶¯ÏÂÔØ--------------//
+ 272   1      #if ECBM_AUTO_DOWNLOAD_EN//ÅÐ¶Ï·ñÐèÒª¿ªÆô×Ô¶¯ÏÂÔØ¡£
+ 273   1          old_char=0;         //³õÊ¼»¯´®¿ÚÏà¹Ø±äÁ¿
+ 274   1          char_count=0;       //³õÊ¼»¯´®¿ÚÏà¹Ø±äÁ¿
+ 275   1          uart_init();
+ 276   1      #endif
+ 277   1      //-------------»ù±¾Ó²¼þÉèÖÃ------------//
+ 278   1      #if ECBM_POWER_LIB_EN
+ 279   1          #if ECBM_POWER_RST_CFG_EN
+                      power_rstcfg_init();
+                  #endif
+ 282   1      #endif    
+ 283   1      //-------------Ê±ÖÓÊä³öÉèÖÃ------------//    
+ 284   1      #if ECBM_SYSCLK_OUT_EN //ÅÐ¶ÏÊÇ·ñÐèÒª¿ªÆôÊ±ÖÓÊä³ö¡£
+                  #if ((ECBM_MCU&0xF00000)>0x200000)//¼ì²éÊÇ²»ÊÇGH¡£
+                      #if ECBM_SYSLCK_OUT_PIN
+                          CLK_SET_OUT_TO_P16_GH;
+                      #else
+                          CLK_SET_OUT_TO_P54_GH;
+                      #endif
+                      CLK_OUT_SET_DIV_GH(ECBM_SYSCLK_OUT_SETTING_GH);
+                  #else
+                      #if ECBM_SYSLCK_OUT_PIN
+                          CLK_SET_OUT_TO_P16_FA;
+                      #else
+                          CLK_SET_OUT_TO_P54_FA;
+                      #endif
+                      CLK_OUT_SET_DIV_FA(ECBM_SYSCLK_OUT_SETTING_FA);
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 6   
+
+                  #endif
+              #endif
+ 301   1      //--------------ÉèÖÃÈ·ÈÏ---------------//
+ 302   1          EA_ENABLE;//´ò¿ª×ÜÖÐ¶Ï¡£
+ 303   1      #if ECBM_MCU_CHECK_EN
+                  delay_ms(500);
+                  system_check();
+              #endif
+ 307   1      }
+ 308          /*---------------------------------ÆäËû·ÇÏµÍ³º¯Êý---------------------------------*/
+ 309          /*-------------------------------------------------------
+ 310          Èí¼þ´®¿Ú¡£
+ 311          -------------------------------------------------------*/
+ 312          #if ECBM_SOFT_DEBUG_EN
+              #if ECBM_GPIO_LIB_EN == 0  
+              #error Èíµ÷ÊÔ¹¦ÄÜÐèÒªGPIO¿âµÄÖ§³Ö£¬ÇëÈ·ÈÏGPIO¿â³ÊÊ¹ÄÜ×´Ì¬¡£
+              #endif 
+              void debug_soft(u8 io,const char * str,...){
+                  u8 i;                     //Î»·¢ËÍ¼ÆÊý¡£
+                  u16 j,len;                //×Ö·û·¢ËÍ¼ÆÊý¡¢×Ö·û³¤¶È¡£
+                  u16 delay_debug;
+                  char xdata buf[64];       //×Ö·û´®»º´æ¡£
+                  va_list vp;               //¶¨Òå²ÎÊýµØÖ·¡£
+                  va_start(vp, str);        //¸³Öµ²ÎÊýµÄµØÖ·¡£
+                  len=vsprintf(buf,str,vp); //Ê¹ÓÃÄÚÖÃµÄprintfº¯Êý¸ñÊ½»¯¡£
+                  va_end(vp);                  //Ê¹ÓÃÍêÒª¹Ø±Õ¡£
+                  delay_debug=delay_set_us(100);
+                  for(j=0;j<len;j++){
+                      gpio_out(io,1);       //Ä¬ÈÏ¸ßµçÆ½¡£
+                      gpio_out(io,0);       //À­µÍ±íÊ¾¿ªÊ¼Î»¡£
+                      delay_us(delay_debug);//ÑÓÊ±100us£¬¸ù¾Ý9600²¨ÌØÂÊÉè¶¨µÄ¡£ÏÂÍ¬¡£
+                      for(i=0;i<8;i++){     //°´Î»·¢ËÍ¡£
+                          if(buf[j]&0x01){  //ÏÈ·¢µÍÎ»¡£
+                              gpio_out(io,1);
+                          }else{
+                              gpio_out(io,0);
+                          }    
+                          buf[j]>>=1;       //·¢ÍêÓÒÒÆ£¬ÎªÁËÏÂ´Î·¢ËÍ¡£
+                          delay_us(delay_debug);
+                      }
+                      gpio_out(io,1);       //·¢ËÍÍêÒ»¸ö×Ö½Ú£¬À­¸ß±íÊ¾Í£Ö¹Î»¡£
+                      delay_us(delay_debug);//ÑÓÊ±200us£¬ºÍÉÏÃæµÄ½âËµÒ»Ñù¡£
+                      delay_us(delay_debug);
+                  }
+              }
+              #endif
+ 345          /**********************************strÏµÁÐº¯Êý************************/#if ECBM_STRING_EN
+              /*-------------------------------------------------------
+              ×Ö·û´®²éÕÒº¯Êý¡£
+              -------------------------------------------------------*/
+              u16 str_find(char * dest,char * key){
+                  u16 key_count=0,key_first=0,count=0;
+                  while(*dest){    //ÅÐ¶ÏÄ¿±ê×Ö·û´®¡£
+                      count++;    //¼ÇÂ¼Ñ­»·µÄ´ÎÊý¡£
+                      if(key[key_count]==(*dest)){//¼ÙÈç¹Ø¼ü´Ê×Ö·û´®µ±Ç°Î»±È¶Ô³É¹¦£¬
+                          key_count++;            //ÄÇÃ´¾Í±È½ÏÏÂÒ»Î»¡£
+                      }else{                        //¼ÙÈçÃ»ÓÐ±È¶Ô³É¹¦£¬
+                          key_count=0;            //ÄÇÃ´¾Í´ÓÍ·¿ªÊ¼±È¶Ô¡£
+                          key_first=count;        //ÖØÖÃµÚÒ»Î»³öÏÖÎ»ÖÃ¡£
+                      }
+                      dest++;                        //¶ÁÈ¡Ä¿±ê×Ö·û´®µÄÏÂÒ»Î»¡£
+                      if(key[key_count]==0){        //Èç¹û¹Ø¼ü´Ê×Ö·û´®±È¶ÔÍê£¬
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 7   
+
+                          return key_first;        //·µ»Ø¹Ø¼ü´Ê×Ö·û´®µÚÒ»´Î³öÏÖµÄÎ»ÖÃ¡£
+                      } 
+                  }
+                  return 0xffff;//ÄÜÔËÐÐµ½ÕâÒ»²½£¬ËµÃ÷Ö±µ½Ä¿±ê×Ö·û´®½áÊø¶¼Ã»ÓÐ±È¶Ô³É¹¦£¬·µ»Ø-1¡£
+                  //ÓÅ»¯ÁË194×Ö½Ú
+                  
+              //    u16 dest_c,   key_c;  //±äÁ¿¼ÆÊýº¯Êý¡£
+              //    u16 dest_len, key_len;//×Ö·û´®³¤¶È¡£
+              //    char * dest_t,* key_t;//¼ÆËã³¤¶ÈËùÐèµÄÁÙÊ±±äÁ¿¡£
+              //    dest_t  =dest;        //½«Ä¿±ê×Ö·û´®·ÅÈëÁÙÊ±±äÁ¿ÖÐ¡£
+              //    key_t   =key;         //½«²éÕÒ¹Ø¼ü×Ö×Ö·û´®·ÅÈëÁÙÊ±±äÁ¿ÖÐ¡£
+              //    dest_len=0;           //ÇåÁã¼ÆÊý±äÁ¿¡£
+              //    key_len =0;           //ÇåÁã¼ÆÊý±äÁ¿¡£
+              //    while(*dest_t){       //¼ÆËã³öÄ¿±ê×Ö·û´®µÄ³¤¶È¡£
+              //        dest_len++;       //¼ÆËãÔ­ÀíÊÇÅÐ¶Ï×Ö·û´®ÖÐ·Ç0×Ö·ûµÄ¸öÊý¡£
+              //        dest_t++;         //Ö¸Õë+1¡£ÏÂÒ»´ÎµÄ×Ö·ûÊÇ0µÄ»°£¬Õâ¸öÑ­»·¾Í½áÊøÁË¡£
+              //    }
+              //    while(*key_t){        //¼ÆËã³ö¹Ø¼ü×Ö×Ö·û´®µÄ³¤¶È¡£
+              //        key_len++;        //¼ÆËãÔ­ÀíÊÇÅÐ¶Ï×Ö·û´®ÖÐ·Ç0×Ö·ûµÄ¸öÊý¡£
+              //        key_t++;          //Ö¸Õë+1¡£ÏÂÒ»´ÎµÄ×Ö·ûÊÇ0µÄ»°£¬Õâ¸öÑ­»·¾Í½áÊøÁË¡£
+              //    }
+              //    if(dest_len<key_len){ //Èç¹ûÄ¿±êµÄ³¤¶È±È¹Ø¼ü×ÖµÄ³¤¶È¶Ì£¬ËµÃ÷ÕâÊÇÓÐÎÊÌâµÄ¡£
+              //        return 0xffff;    //·µ»Ø0xFFFF¡£
+              //    }
+              //    for(dest_c=0;dest_c<=(dest_len-key_len);dest_c++){ //¼ÙÈçÄ¿±ê×Ö·û´®ÓÐ10¸ö£¬¹Ø¼ü×ÖÓÐ3¸ö¡£ÄÇÃ´×î¶à¼ì²â
+             -µ½µÚ7¸ö×Ö·ûµÄÊ±ºò¾ÍÓÐ½áÂÛÁË¡£
+              //        for(key_c=0;key_c<key_len;key_c++){            //¹Ø¼ü×ÖÓÐ¼¸¸ö£¬¾ÍÅÐ¶Ï¼¸´Î¡£
+              //            if(dest[dest_c+key_c]!=key[key_c]){        //Ö»ÒªÓöµ½ÓÐÒ»¸ö±È¶Ô²»ÉÏµÄ£¬Á¢ÂíÌø³öÕâ´ÎÅÐ¶Ï¡£
+              //                break;
+              //            }
+              //        }
+              //        if(key_c==key_len){                            //Ö»ÓÐÈ«²¿±È¶ÔÍê±Ï£¬²Å»áÏàµÈ¡£
+              //            return dest_c;                             //ÄÇÃ´´ËÊ±·µ»ØµÄ¾ÍÊÇ¹Ø¼ü×ÖµÚÒ»´Î³öÏÖÔÚ×Ö·û´®ÀïµÄÎ
+             -»ÖÃ¡£
+              //        }
+              //    }
+              //    return 0xffff;        //Ã»ÕÒµ½¾Í·µ»Ø0xFFFF¡£
+              }
+              /*-------------------------------------------------------
+              IOÐÅÏ¢¶ÁÈ¡º¯Êý¡£
+              -------------------------------------------------------*/
+              u8 str_read_pin(char * str,u16 pos){
+                  u8  dat=0,offset,count; //´Ó×óÍùÓÒÒÀ´ÎÊÇ¶ÁÈ¡µÄÐÅÏ¢¡¢×Ö·û´®Æ«ÒÆºÍ×ÖÊýÍ³¼Æ¡£
+                  count=0;                //×ÖÊýÍ³¼ÆÇåÁã¡£
+                  for(offset=0;offset<10;offset++){//Ô¤Áô10¸öÆ«ÒÆÁ¿¡£
+                      if((str[pos+offset]>='0')&&(str[pos+offset]<='7')){//IO¿ÚµÄ±àºÅ¶¼ÊÇ´Ó0~7¡£
+                          count++;                            //ÔÚÕâ¸ö·¶Î§ÄÚ£¬×ÖÊý+1¡£
+                          if(count==1){                       //Èç¹ûÊÇµÚÒ»¸öÊý£¬
+                              dat=(str[pos+offset]-'0')<<4;   //½âÎö³öÀ´·Åµ½¸ß4Î»¡£
+                          }
+                          if(count==2){                       //Èç¹ûÊÇµÚ¶þ¸öÊý£¬
+                              dat=(str[pos+offset]-'0')|dat;  //½âÎö³öÀ´·Åµ½µÍ4Î»¡£
+                              return dat;                     //·µ»Ø¸ÃÖµ¡£
+                          }
+                      }
+                      if((str[pos+offset]>='8')&&(str[pos+offset]<='9')){//Èç¹ûÊÇ8ºÍ9£¬ÄÇÃ´Ö»Ôö¼Ó×ÖÊý£¬²»Ð´ÈëÖµ¡£
+                          count++;
+                      }
+                      if(str[pos+offset]==',')break;//Óöµ½¶ººÅ¾ÍÍË³ö¡£
+                      if(str[pos+offset]==0)break;  //×Ö·û´®½áÊøÒ²ÍË³ö¡£
+                  }
+                  return     dat;
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 8   
+
+              }
+              /*-------------------------------------------------------
+              u16±äÁ¿¶ÁÈ¡º¯Êý¡£
+              -------------------------------------------------------*/
+              u16 str_read_u16(char * str,u16 pos){
+                  u16 dat=0; //¶ÁÈ¡µÄÐÅÏ¢¡£
+                  u8  offset;//×Ö·û´®Æ«ÒÆ¡£
+                  for(offset=0;offset<20;offset++){//Ô¤Áô20¸ö×Ö·ûµÄÆ«ÒÆ¡£
+                      if((str[pos+offset]>='0')&&(str[pos+offset]<='9')){//Êý×Ö¶¼ÊÇ´Ó0~9¡£
+                          dat*=10;                  //±äÁ¿Ôö¼ÓÒ»Î»£¬¼´Ô­À´ÊÇ12£¬¾Í±ä³É120£¬¿Õ³öµÄ¸öÊý¾ÍÄÃÀ´×°ÐÂµÄÊý¡£
+                          dat+=str[pos+offset]-'0'; //½«ÐÂµÄÊý¼Óµ½¸öÎ»ÉÏ¡£
+                      }
+                      if(str[pos+offset]==',')break;//Óöµ½¶ººÅ¾ÍÍË³ö¡£
+                      if(str[pos+offset]=='.')break;//Óöµ½µãºÅ¾ÍÍË³ö¡£
+                      if(str[pos+offset]==0)break;  //×Ö·û´®½áÊøÒ²ÍË³ö¡£
+                  }
+                  return     dat;
+              }
+              /*-------------------------------------------------------
+              ×Ö·û´®ÍÆ³öÖ¸Áîº¯Êý£¨´ø×Ö·û´®³¤¶È²ÎÊý°æ£©¡£
+              -------------------------------------------------------*/
+              u8 str_push_len(u8 * dest,u16 dlen,u8 * key,u16 klen){
+                  u16 i,j=0,start=0,stop=0;
+                  for(i=0;i<dlen;i++){        //´ÓÍ·¿ªÊ¼£¬Ö±µ½Ö¸¶¨µÄ³¤¶È¡£
+                      if(dest[i]==key[j]){    //°Ñµ±Ç°µÄ×Ö·ûºÍ¹Ø¼ü´Ê±È½Ï³É¹¦£¬
+                          j++;                //È¡¹Ø¼ü´ÊµÄÏÂÒ»¸ö×Ö¡£
+                          if(j==klen){        //µ±¹Ø¼ü´ÊÈ«²¿±È¶ÔÍê³ÉµÄÊ±ºò¡£
+                              stop=i;            //±£´æ¡¾½áÊøÎ»ÖÃ¡¿¡£
+                              break;            //ÍË³öÑ­»·¡£
+                          }
+                      }else{                    //Èç¹ûµ±Ç°µÄ×Ö·ûºÍ¹Ø¼ü´Ê±È½ÏÊ§°Ü£¬
+                          j=0;                //ÏÂÒ»´Î´ÓÍ·¿ªÊ¼±È¶Ô¡£
+                          start=i+1;            //¸üÐÂ¡¾¿ªÊ¼Î»ÖÃ¡¿ÎªÏÂÒ»Î»£¨ÒòÎªµ±Ç°Î»Ê§°ÜÁË£©¡£
+                      }
+                  }
+                  if(start<=stop){            //µ±±È¶Ô³É¹¦µÄÊ±ºò£¬¡¾¿ªÊ¼Î»ÖÃ¡¿¿Ï¶¨Ð¡ÓÚµÈÓÚ¡¾½áÊøÎ»ÖÃ¡¿¡£
+                      for(i=start;i<stop;i++){//½«´Ó¡¾¿ªÊ¼Î»ÖÃ¡¿µ½¡¾½áÊøÎ»ÖÃ¡¿Ö®¼äµÄ»º´æÈ«ÇåÁã¡£
+                          dest[i]=0;
+                      }
+                      return 1;                //·µ»ØÍÆ³ö³É¹¦¡£
+                  }else{
+                      return 0;                //·µ»ØÍÆ³öÊ§°Ü¡£
+                  }
+              }
+              /*****************************************************************************/#endif
+ 466          /*³ÌÐòÇøÕÛµþ×¨ÓÃ******************CRC16Ä£¿é***********************/#if ECBM_CRC16_EN
+              /*-------------------------------------------------------
+              ¼ÆËãCRC16º¯Êý¡£
+              -------------------------------------------------------*/
+              u16 crc16(u8 buf[],u16 len){
+                  u16 crc_value= 0xFFFF;                             //³õÊ¼»¯CRC±äÁ¿¸÷Î»Îª1¡£
+                  u8 i,j;                                            //Ñ­»·ÓÃµÄÁÙÊ±±äÁ¿¡£
+                  for(i=0;i<len;i++){                                //¼ÆËã»º´æµÄÃ¿Ò»¸ö×Ö½Ú¡£
+                      crc_value^=buf[i];                            //µ±Ç°Êý¾ÝÒì»òCRCµÍ×Ö½Ú£¬ÔÚC51Àï¿ÉÒÔÖ±½Ó´¦Àí¡£
+                      for(j=0;j<8;j++){                            //¼ÆËãÃ¿¸ö×Ö½ÚµÄÃ¿Ò»Î»¡£
+                          if(crc_value&0x01){                        //ÅÐ¶ÏÓÒÒÆÇ°×îµÍÎ»ÊÇ·ñÎª1¡£
+                               crc_value=(crc_value>>1)^0xA001;    //Èç¹ûÎª1ÔòÓÒÒÆ²¢Òì»ò±í´ïÊ½¡£
+                          }else{
+                              crc_value>>=1;                        //·ñÔòÖ±½ÓÓÒÒÆÒ»Î»¡£
+                          }           
+                      }
+                  } 
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/06/2021 22:11:58 PAGE 9   
+
+                  return crc_value;                                //·µ»Ø¼ÆËãCRC16µÄ½á¹û¡£
+              }
+              /*-------------------------------------------------------
+              ²åÈëCRC16º¯Êý¡£
+              -------------------------------------------------------*/
+              void crc16_insert_buf(u8 buf[],u16 len){
+                  u16 value;                    //ÁÙÊ±±äÁ¿¡£
+                  value=crc16(buf,len-2);        //¼ÆËã³öCRC16Öµ¡£
+                  buf[len-2]=(u8)(value>>8);    //°´¸ßÎ»ÔÚÇ°£¬
+                  buf[len-1]=(u8)(value);        //µÍÎ»ÔÚºóµÄË³Ðò´æ·Å¡£
+              }
+              /*-------------------------------------------------------
+              ¼ì²éCRC16º¯Êý¡£
+              -------------------------------------------------------*/
+              u8 crc16_check_buf(u8 buf[],u16 len){
+                  if(crc16(buf,len-2)==((buf[len-2]<<8)+(buf[len-1]))){//¼ÆËãÇ°ÃæµÄCRC16ÖµºÍºóÃæ±£´æµÄCRC16Öµ±È½Ï¡£
+                      return 1;//±È½Ï³É¹¦·µ»Ø1£»
+                  }else{
+                      return 0;//±È½ÏÊ§°Ü·µ»Ø0£»
+                  }
+              }
+              /*³ÌÐòÇøÕÛµþ×¨ÓÃ************************************************************/#endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1053    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     12     114
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

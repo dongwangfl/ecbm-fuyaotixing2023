@@ -1,0 +1,809 @@
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE GPIO
+OBJECT MODULE PLACED IN .\output\gpio.obj
+COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\gpio.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\d
+                    -evice;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\gpio.lst) OBJECT(.\output\gpio.obj)
+
+line level    source
+
+   1          #include "ecbm_core.h"//统一加载核心头文件
+   2          u8 code ecbm_pin_mask[]={0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
+   3          u8 data ecbm_port,ecbm_pin;
+   4          /*--------------------------------------程序定义-----------------------------------*/
+   5          /*程序区折叠专用************************IO设置模块******************************/#if 1
+   6          /*-------------------------------------------------------
+   7          IO口上拉电阻配置函数。
+   8          -------------------------------------------------------*/
+   9          #if ECBM_GPIO_UPPULL_EN
+  10          void gpio_uppull(u8 pin,u8 en){
+  11   1          /*---从这里开始，都是在解读IO口编号。---*/
+  12   1          if(pin==Dxx)goto gpio_uppull_end;
+  13   1          ecbm_port=pin&0xf0;
+  14   1          ecbm_pin =ecbm_pin_mask[pin&0x0f];
+  15   1          if((pin&0x0f)>7){
+  16   2              return;
+  17   2          }
+  18   1          /*-------到这里结束，解读完成。-------*/
+  19   1          if(en){//如果是使能，则将对应的IO配置上拉电阻。
+  20   2              switch(ecbm_port){
+  21   3                  #if ECBM_GPIO0_EN
+  22   3                  case 0x00:P0PU|=ecbm_pin;break;
+  23   3                  #endif
+  24   3                  #if ECBM_GPIO1_EN
+  25   3                  case 0x10:P1PU|=ecbm_pin;break;
+  26   3                  #endif
+  27   3                  #if ECBM_GPIO2_EN
+  28   3                  case 0x20:P2PU|=ecbm_pin;break;
+  29   3                  #endif
+  30   3                  #if ECBM_GPIO3_EN
+  31   3                  case 0x30:P3PU|=ecbm_pin;break;
+  32   3                  #endif
+  33   3                  #if ECBM_GPIO4_EN
+  34   3                  case 0x40:P4PU|=ecbm_pin;break;
+  35   3                  #endif
+  36   3                  #if ECBM_GPIO5_EN
+  37   3                  case 0x50:P5PU|=ecbm_pin;break;
+  38   3                  #endif
+  39   3                  #if ECBM_GPIO6_EN
+  40   3                  case 0x60:P6PU|=ecbm_pin;break;
+  41   3                  #endif
+  42   3                  #if ECBM_GPIO7_EN
+  43   3                  case 0x70:P7PU|=ecbm_pin;break;
+  44   3                  #endif
+  45   3                  default:return;break;
+  46   3              }
+  47   2          }else{//如果是失能，则将对应的IO取消上拉电阻。
+  48   2              switch(ecbm_port){
+  49   3                  #if ECBM_GPIO0_EN
+  50   3                  case 0x00:P0PU&=~ecbm_pin;break;
+  51   3                  #endif
+  52   3                  #if ECBM_GPIO1_EN
+  53   3                  case 0x10:P1PU&=~ecbm_pin;break;
+  54   3                  #endif
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 2   
+
+  55   3                  #if ECBM_GPIO2_EN
+  56   3                  case 0x20:P2PU&=~ecbm_pin;break;
+  57   3                  #endif
+  58   3                  #if ECBM_GPIO3_EN
+  59   3                  case 0x30:P3PU&=~ecbm_pin;break;
+  60   3                  #endif
+  61   3                  #if ECBM_GPIO4_EN
+  62   3                  case 0x40:P4PU&=~ecbm_pin;break;
+  63   3                  #endif
+  64   3                  #if ECBM_GPIO5_EN
+  65   3                  case 0x50:P5PU&=~ecbm_pin;break;
+  66   3                  #endif
+  67   3                  #if ECBM_GPIO6_EN
+  68   3                  case 0x60:P6PU&=~ecbm_pin;break;
+  69   3                  #endif
+  70   3                  #if ECBM_GPIO7_EN
+  71   3                  case 0x70:P7PU&=~ecbm_pin;break;
+  72   3                  #endif
+  73   3                  default:return;break;
+  74   3              }
+  75   2          }
+  76   1          gpio_uppull_end:;
+  77   1      }
+  78          #endif
+  79          /*-------------------------------------------------------
+  80          设置IO口工作模式函数。
+  81          -------------------------------------------------------*/
+  82          #if ECBM_GPIO_MODE_EN
+  83          void gpio_mode(u8 pin,u8 mode){
+  84   1          /*---从这里开始，都是在解读IO口编号。---*/
+  85   1          if(pin==Dxx)goto gpio_mode_end;
+  86   1          ecbm_port=pin&0xf0;
+  87   1          ecbm_pin=ecbm_pin_mask[pin&0x0f];
+  88   1          if((pin&0x0f)>7){
+  89   2              return;
+  90   2          }
+  91   1          switch(ecbm_port){
+  92   2              #if ECBM_GPIO0_EN
+  93   2              case 0x00:ecbm_port=GPIO_P0;break;
+  94   2              #endif
+  95   2              #if ECBM_GPIO1_EN
+  96   2              case 0x10:ecbm_port=GPIO_P1;break;
+  97   2              #endif
+  98   2              #if ECBM_GPIO2_EN
+  99   2              case 0x20:ecbm_port=GPIO_P2;break;
+ 100   2              #endif
+ 101   2              #if ECBM_GPIO3_EN
+ 102   2              case 0x30:ecbm_port=GPIO_P3;break;
+ 103   2              #endif
+ 104   2              #if ECBM_GPIO4_EN
+ 105   2              case 0x40:ecbm_port=GPIO_P4;break;
+ 106   2              #endif
+ 107   2              #if ECBM_GPIO5_EN
+ 108   2              case 0x50:ecbm_port=GPIO_P5;break;
+ 109   2              #endif
+ 110   2              #if ECBM_GPIO6_EN
+ 111   2              case 0x60:ecbm_port=GPIO_P6;break;
+ 112   2              #endif
+ 113   2              #if ECBM_GPIO7_EN
+ 114   2              case 0x70:ecbm_port=GPIO_P7;break;
+ 115   2              #endif
+ 116   2              default:return;break;
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 3   
+
+ 117   2          }
+ 118   1          /*-------到这里结束，解读完成。-------*/
+ 119   1          if(mode>3){
+ 120   2              return;
+ 121   2          }    
+ 122   1          #if ECBM_GPIO0_EN
+ 123   1          if(ecbm_port==GPIO_P0){//根据输入参数来设定不同的IO配置，下同。
+ 124   2              if(mode==GPIO_PU){P0M1&=~ecbm_pin;P0M0&=~ecbm_pin;}
+ 125   2              if(mode==GPIO_HZ){P0M1|= ecbm_pin;P0M0&=~ecbm_pin;}
+ 126   2              if(mode==GPIO_OD){P0M1|= ecbm_pin;P0M0|= ecbm_pin;}
+ 127   2              if(mode==GPIO_PP){P0M1&=~ecbm_pin;P0M0|= ecbm_pin;}
+ 128   2          }
+ 129   1          #endif
+ 130   1          #if ECBM_GPIO1_EN
+ 131   1          if(ecbm_port==GPIO_P1){
+ 132   2              if(mode==GPIO_PU){P1M1&=~ecbm_pin;P1M0&=~ecbm_pin;}
+ 133   2              if(mode==GPIO_HZ){P1M1|= ecbm_pin;P1M0&=~ecbm_pin;}
+ 134   2              if(mode==GPIO_OD){P1M1|= ecbm_pin;P1M0|= ecbm_pin;}
+ 135   2              if(mode==GPIO_PP){P1M1&=~ecbm_pin;P1M0|= ecbm_pin;}
+ 136   2          }
+ 137   1          #endif
+ 138   1          #if ECBM_GPIO2_EN
+ 139   1          if(ecbm_port==GPIO_P2){
+ 140   2              if(mode==GPIO_PU){P2M1&=~ecbm_pin;P2M0&=~ecbm_pin;}
+ 141   2              if(mode==GPIO_HZ){P2M1|= ecbm_pin;P2M0&=~ecbm_pin;}
+ 142   2              if(mode==GPIO_OD){P2M1|= ecbm_pin;P2M0|= ecbm_pin;}
+ 143   2              if(mode==GPIO_PP){P2M1&=~ecbm_pin;P2M0|= ecbm_pin;}
+ 144   2          }    
+ 145   1          #endif
+ 146   1          #if ECBM_GPIO3_EN
+ 147   1          if(ecbm_port==GPIO_P3){
+ 148   2              if(mode==GPIO_PU){P3M1&=~ecbm_pin;P3M0&=~ecbm_pin;}
+ 149   2              if(mode==GPIO_HZ){P3M1|= ecbm_pin;P3M0&=~ecbm_pin;}
+ 150   2              if(mode==GPIO_OD){P3M1|= ecbm_pin;P3M0|= ecbm_pin;}
+ 151   2              if(mode==GPIO_PP){P3M1&=~ecbm_pin;P3M0|= ecbm_pin;}
+ 152   2          }
+ 153   1          #endif
+ 154   1          #if ECBM_GPIO4_EN
+ 155   1          if(ecbm_port==GPIO_P4){
+ 156   2              if(mode==GPIO_PU){P4M1&=~ecbm_pin;P4M0&=~ecbm_pin;}
+ 157   2              if(mode==GPIO_HZ){P4M1|= ecbm_pin;P4M0&=~ecbm_pin;}
+ 158   2              if(mode==GPIO_OD){P4M1|= ecbm_pin;P4M0|= ecbm_pin;}
+ 159   2              if(mode==GPIO_PP){P4M1&=~ecbm_pin;P4M0|= ecbm_pin;}
+ 160   2          }
+ 161   1          #endif
+ 162   1          #if ECBM_GPIO5_EN
+ 163   1          if(ecbm_port==GPIO_P5){
+ 164   2              if(mode==GPIO_PU){P5M1&=~ecbm_pin;P5M0&=~ecbm_pin;}
+ 165   2              if(mode==GPIO_HZ){P5M1|= ecbm_pin;P5M0&=~ecbm_pin;}
+ 166   2              if(mode==GPIO_OD){P5M1|= ecbm_pin;P5M0|= ecbm_pin;}
+ 167   2              if(mode==GPIO_PP){P5M1&=~ecbm_pin;P5M0|= ecbm_pin;}
+ 168   2          }    
+ 169   1          #endif
+ 170   1          #if ECBM_GPIO6_EN
+ 171   1          if(ecbm_port==GPIO_P6){
+ 172   2              if(mode==GPIO_PU){P6M1&=~ecbm_pin;P6M0&=~ecbm_pin;}
+ 173   2              if(mode==GPIO_HZ){P6M1|= ecbm_pin;P6M0&=~ecbm_pin;}
+ 174   2              if(mode==GPIO_OD){P6M1|= ecbm_pin;P6M0|= ecbm_pin;}
+ 175   2              if(mode==GPIO_PP){P6M1&=~ecbm_pin;P6M0|= ecbm_pin;}
+ 176   2          }
+ 177   1          #endif
+ 178   1          #if ECBM_GPIO7_EN
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 4   
+
+ 179   1          if(ecbm_port==GPIO_P7){
+ 180   2              if(mode==GPIO_PU){P7M1&=~ecbm_pin;P7M0&=~ecbm_pin;}
+ 181   2              if(mode==GPIO_HZ){P7M1|= ecbm_pin;P7M0&=~ecbm_pin;}
+ 182   2              if(mode==GPIO_OD){P7M1|= ecbm_pin;P7M0|= ecbm_pin;}
+ 183   2              if(mode==GPIO_PP){P7M1&=~ecbm_pin;P7M0|= ecbm_pin;}
+ 184   2          }    
+ 185   1          #endif
+ 186   1          gpio_mode_end:;
+ 187   1      }
+ 188          #endif
+ 189          /*-------------------------------------------------------
+ 190          设置IO口工作速度函数。
+ 191          -------------------------------------------------------*/
+ 192          #if    ECBM_GPIO_SPEED_EN == 1
+ 193          #if ((ECBM_MCU&0xF00000)>0x200000)//检查是不是GH。
+              void gpio_speed(u8 pin,u8 speed){
+                  /*---从这里开始，都是在解读IO口编号。---*/
+                  if(pin==Dxx)goto gpio_speed_end;
+                  ecbm_port=pin&0xf0;
+                  ecbm_pin=ecbm_pin_mask[pin&0x0f];
+                  if((pin&0x0f)>7){
+                      return;  
+                  }
+                  switch(ecbm_port){
+                      #if ECBM_GPIO0_EN
+                      case 0x00:ecbm_port=GPIO_P0;break;
+                      #endif
+                      #if ECBM_GPIO1_EN
+                      case 0x10:ecbm_port=GPIO_P1;break;
+                      #endif
+                      #if ECBM_GPIO2_EN
+                      case 0x20:ecbm_port=GPIO_P2;break;
+                      #endif
+                      #if ECBM_GPIO3_EN
+                      case 0x30:ecbm_port=GPIO_P3;break;
+                      #endif
+                      #if ECBM_GPIO4_EN
+                      case 0x40:ecbm_port=GPIO_P4;break;
+                      #endif
+                      #if ECBM_GPIO5_EN
+                      case 0x50:ecbm_port=GPIO_P5;break;
+                      #endif
+                      #if ECBM_GPIO6_EN
+                      case 0x60:ecbm_port=GPIO_P6;break;
+                      #endif
+                      #if ECBM_GPIO7_EN
+                      case 0x70:ecbm_port=GPIO_P7;break;
+                      #endif
+                      default:return;break;
+                  }
+                  /*-------到这里结束，解读完成。-------*/
+                  if(speed==GPIO_SLOW){
+                      switch(ecbm_port){
+                          #if ECBM_GPIO0_EN
+                          case GPIO_P0:{P0SR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO1_EN
+                          case GPIO_P1:{P1SR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO2_EN
+                          case GPIO_P2:{P2SR|=ecbm_pin;}break;
+                          #endif
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 5   
+
+                          #if ECBM_GPIO3_EN
+                          case GPIO_P3:{P3SR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO4_EN
+                          case GPIO_P4:{P4SR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO5_EN
+                          case GPIO_P5:{P5SR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO6_EN
+                          case GPIO_P6:{P6SR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO7_EN
+                          case GPIO_P7:{P7SR|=ecbm_pin;}break;
+                          #endif
+                      }
+                  }else{
+                      switch(ecbm_port){
+                          #if ECBM_GPIO0_EN
+                          case GPIO_P0:{P0SR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO1_EN
+                          case GPIO_P1:{P1SR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO2_EN
+                          case GPIO_P2:{P2SR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO3_EN
+                          case GPIO_P3:{P3SR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO4_EN
+                          case GPIO_P4:{P4SR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO5_EN
+                          case GPIO_P5:{P5SR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO6_EN
+                          case GPIO_P6:{P6SR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO7_EN
+                          case GPIO_P7:{P7SR&=~ecbm_pin;}break;
+                          #endif
+                      }        
+                  }
+                  gpio_speed_end:;
+              }
+              #endif
+ 288          #endif
+ 289          /*-------------------------------------------------------
+ 290          设置IO口驱动电流函数。
+ 291          -------------------------------------------------------*/
+ 292          #if    ECBM_GPIO_CURRENT_EN == 1
+ 293          #if ((ECBM_MCU&0xF00000)>0x200000)//检查是不是GH。
+              void gpio_current(u8 pin,u8 current){
+                  /*---从这里开始，都是在解读IO口编号。---*/
+                  if(pin==Dxx)goto gpio_current_end;
+                  ecbm_port=pin&0xf0;
+                  ecbm_pin=ecbm_pin_mask[pin&0x0f];
+                  if((pin&0x0f)>7){
+                      return;
+                  }
+                  switch(ecbm_port){
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 6   
+
+                      #if ECBM_GPIO0_EN
+                      case 0x00:ecbm_port=GPIO_P0;break;
+                      #endif
+                      #if ECBM_GPIO1_EN
+                      case 0x10:ecbm_port=GPIO_P1;break;
+                      #endif
+                      #if ECBM_GPIO2_EN
+                      case 0x20:ecbm_port=GPIO_P2;break;
+                      #endif
+                      #if ECBM_GPIO3_EN
+                      case 0x30:ecbm_port=GPIO_P3;break;
+                      #endif
+                      #if ECBM_GPIO4_EN
+                      case 0x40:ecbm_port=GPIO_P4;break;
+                      #endif
+                      #if ECBM_GPIO5_EN
+                      case 0x50:ecbm_port=GPIO_P5;break;
+                      #endif
+                      #if ECBM_GPIO6_EN
+                      case 0x60:ecbm_port=GPIO_P6;break;
+                      #endif
+                      #if ECBM_GPIO7_EN
+                      case 0x70:ecbm_port=GPIO_P7;break;
+                      #endif
+                      default:return;break;
+                  }
+                  /*-------到这里结束，解读完成。-------*/
+                  if(current==GPIO_GEN){
+                      switch(ecbm_port){
+                          #if ECBM_GPIO0_EN
+                          case GPIO_P0:{P0DR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO1_EN
+                          case GPIO_P1:{P1DR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO2_EN
+                          case GPIO_P2:{P2DR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO3_EN
+                          case GPIO_P3:{P3DR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO4_EN
+                          case GPIO_P4:{P4DR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO5_EN
+                          case GPIO_P5:{P5DR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO6_EN
+                          case GPIO_P6:{P6DR|=ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO7_EN
+                          case GPIO_P7:{P7DR|=ecbm_pin;}break;
+                          #endif
+                      }
+                  }else{
+                      switch(ecbm_port){
+                          #if ECBM_GPIO0_EN
+                          case GPIO_P0:{P0DR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO1_EN
+                          case GPIO_P1:{P1DR&=~ecbm_pin;}break;
+                          #endif
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 7   
+
+                          #if ECBM_GPIO2_EN
+                          case GPIO_P2:{P2DR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO3_EN
+                          case GPIO_P3:{P3DR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO4_EN
+                          case GPIO_P4:{P4DR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO5_EN
+                          case GPIO_P5:{P5DR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO6_EN
+                          case GPIO_P6:{P6DR&=~ecbm_pin;}break;
+                          #endif
+                          #if ECBM_GPIO7_EN
+                          case GPIO_P7:{P7DR&=~ecbm_pin;}break;
+                          #endif
+                      }        
+                  }
+                  gpio_current_end:;
+              }
+              #endif
+ 388          #endif
+ 389          /*程序区折叠专用**************************************************************/#endif
+ 390          /*程序区折叠专用**********************普通IO操作模块****************************/#if 1
+ 391          /*-------------------------------------------------------
+ 392          P口写入函数，直接写入8位数据到某个P口上。
+ 393          -------------------------------------------------------*/
+ 394          #if ECBM_GPIO_WRITE_EN
+ 395          void gpio_write(u8 port,u8 dat){
+ 396   1          switch(port){//通过判断P口编号进入不同的分支。
+ 397   2              #if ECBM_GPIO0_EN
+ 398   2              case GPIO_P0:P0=dat;break;//将数据发送到对应的P口，下同。
+ 399   2              #endif
+ 400   2              #if ECBM_GPIO1_EN
+ 401   2              case GPIO_P1:P1=dat;break;
+ 402   2              #endif
+ 403   2              #if ECBM_GPIO2_EN
+ 404   2              case GPIO_P2:P2=dat;break;
+ 405   2              #endif
+ 406   2              #if ECBM_GPIO3_EN
+ 407   2              case GPIO_P3:P3=dat;break;
+ 408   2              #endif
+ 409   2              #if ECBM_GPIO4_EN
+ 410   2              case GPIO_P4:P4=dat;break;
+ 411   2              #endif
+ 412   2              #if ECBM_GPIO5_EN
+ 413   2              case GPIO_P5:P5=dat;break;
+ 414   2              #endif
+ 415   2              #if ECBM_GPIO6_EN
+ 416   2              case GPIO_P6:P6=dat;break;
+ 417   2              #endif
+ 418   2              #if ECBM_GPIO7_EN
+ 419   2              case GPIO_P7:P7=dat;break;
+ 420   2              #endif
+ 421   2              case GPIO_Px:break;
+ 422   2              default:return;break;
+ 423   2          }
+ 424   1      }
+ 425          #endif
+ 426          /*-------------------------------------------------------
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 8   
+
+ 427          P口读出函数，将整个P口的值一次性读出(并口)。
+ 428          -------------------------------------------------------*/
+ 429          #if ECBM_GPIO_READ_EN
+ 430          u8   gpio_read(u8 port){
+ 431   1          switch(port){//通过判断P口编号进入不同的分支。
+ 432   2              #if ECBM_GPIO0_EN
+ 433   2              case GPIO_P0:return P0;break;//将对应P口的值返回，下同。
+ 434   2              #endif
+ 435   2              #if ECBM_GPIO1_EN
+ 436   2              case GPIO_P1:return P1;break;
+ 437   2              #endif
+ 438   2              #if ECBM_GPIO2_EN
+ 439   2              case GPIO_P2:return P2;break;
+ 440   2              #endif
+ 441   2              #if ECBM_GPIO3_EN
+ 442   2              case GPIO_P3:return P3;break;
+ 443   2              #endif
+ 444   2              #if ECBM_GPIO4_EN
+ 445   2              case GPIO_P4:return P4;break;
+ 446   2              #endif
+ 447   2              #if ECBM_GPIO5_EN
+ 448   2              case GPIO_P5:return P5;break;
+ 449   2              #endif
+ 450   2              #if ECBM_GPIO6_EN
+ 451   2              case GPIO_P6:return P6;break;
+ 452   2              #endif
+ 453   2              #if ECBM_GPIO7_EN
+ 454   2              case GPIO_P7:return P7;break;
+ 455   2              #endif
+ 456   2                      default:
+ 457   2              case GPIO_Px:return 0xff;break;
+ 458   2          }
+ 459   1      }
+ 460          #endif
+ 461          /*-------------------------------------------------------
+ 462          IO口输出函数。
+ 463          -------------------------------------------------------*/
+ 464          #if ECBM_GPIO_OUT_EN
+ 465          void gpio_out(u8 pin,u8 value){
+ 466   1          /*---从这里开始，都是在解读IO口编号。---*/
+ 467   1          if(pin==Dxx)goto gpio_out_end;
+ 468   1          ecbm_port=pin&0xf0;
+ 469   1          ecbm_pin =ecbm_pin_mask[pin&0x0f];
+ 470   1          if((pin&0x0f)>7){
+ 471   2              return;
+ 472   2          }
+ 473   1          /*-------到这里结束，解读完成。-------*/
+ 474   1          if(value){//用或运算实现输出高电平，速度会快一些。
+ 475   2              switch(ecbm_port){
+ 476   3                  #if ECBM_GPIO0_EN
+ 477   3                  case 0x00:P0|=ecbm_pin;break;
+ 478   3                  #endif
+ 479   3                  #if ECBM_GPIO1_EN
+ 480   3                  case 0x10:P1|=ecbm_pin;break;
+ 481   3                  #endif
+ 482   3                  #if ECBM_GPIO2_EN
+ 483   3                  case 0x20:P2|=ecbm_pin;break;
+ 484   3                  #endif
+ 485   3                  #if ECBM_GPIO3_EN
+ 486   3                  case 0x30:P3|=ecbm_pin;break;
+ 487   3                  #endif
+ 488   3                  #if ECBM_GPIO4_EN
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 9   
+
+ 489   3                  case 0x40:P4|=ecbm_pin;break;
+ 490   3                  #endif
+ 491   3                  #if ECBM_GPIO5_EN
+ 492   3                  case 0x50:P5|=ecbm_pin;break;
+ 493   3                  #endif
+ 494   3                  #if ECBM_GPIO6_EN
+ 495   3                  case 0x60:P6|=ecbm_pin;break;
+ 496   3                  #endif
+ 497   3                  #if ECBM_GPIO7_EN
+ 498   3                  case 0x70:P7|=ecbm_pin;break;
+ 499   3                  #endif
+ 500   3                  default:return;break;
+ 501   3              }
+ 502   2          }else{//用与运算实现输出低电平，速度会快一些。
+ 503   2              switch(ecbm_port){
+ 504   3                  #if ECBM_GPIO0_EN
+ 505   3                  case 0x00:P0&=~ecbm_pin;break;
+ 506   3                  #endif
+ 507   3                  #if ECBM_GPIO1_EN
+ 508   3                  case 0x10:P1&=~ecbm_pin;break;
+ 509   3                  #endif
+ 510   3                  #if ECBM_GPIO2_EN
+ 511   3                  case 0x20:P2&=~ecbm_pin;break;
+ 512   3                  #endif
+ 513   3                  #if ECBM_GPIO3_EN
+ 514   3                  case 0x30:P3&=~ecbm_pin;break;
+ 515   3                  #endif
+ 516   3                  #if ECBM_GPIO4_EN
+ 517   3                  case 0x40:P4&=~ecbm_pin;break;
+ 518   3                  #endif
+ 519   3                  #if ECBM_GPIO5_EN
+ 520   3                  case 0x50:P5&=~ecbm_pin;break;
+ 521   3                  #endif
+ 522   3                  #if ECBM_GPIO6_EN
+ 523   3                  case 0x60:P6&=~ecbm_pin;break;
+ 524   3                  #endif
+ 525   3                  #if ECBM_GPIO7_EN
+ 526   3                  case 0x70:P7&=~ecbm_pin;break;
+ 527   3                  #endif
+ 528   3                  default:return;break;
+ 529   3              }        
+ 530   2          }
+ 531   1          gpio_out_end:;
+ 532   1      }
+ 533          #endif
+ 534          /*-------------------------------------------------------
+ 535          IO口输入函数。
+ 536          -------------------------------------------------------*/
+ 537          #if ECBM_GPIO_IN_EN
+ 538          u8  gpio_in(u8 pin){
+ 539   1          u8 data value;
+ 540   1          /*---从这里开始，都是在解读IO口编号。---*/
+ 541   1          if(pin==Dxx)return 0;
+ 542   1          ecbm_port=pin&0xf0;
+ 543   1          ecbm_pin =ecbm_pin_mask[pin&0x0f];
+ 544   1          if((pin&0x0f)>7){
+ 545   2              return 1; 
+ 546   2          }
+ 547   1          /*-------到这里结束，解读完成。-------*/
+ 548   1          switch(ecbm_port){//直接读取整个P口的数据
+ 549   2              #if ECBM_GPIO0_EN
+ 550   2              case 0x00:value=P0;break;
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 10  
+
+ 551   2              #endif
+ 552   2              #if ECBM_GPIO1_EN
+ 553   2              case 0x10:value=P1;break;
+ 554   2              #endif
+ 555   2              #if ECBM_GPIO2_EN
+ 556   2              case 0x20:value=P2;break;
+ 557   2              #endif
+ 558   2              #if ECBM_GPIO3_EN
+ 559   2              case 0x30:value=P3;break;
+ 560   2              #endif
+ 561   2              #if ECBM_GPIO4_EN
+ 562   2              case 0x40:value=P4;break;
+ 563   2              #endif
+ 564   2              #if ECBM_GPIO5_EN
+ 565   2              case 0x50:value=P5;break;
+ 566   2              #endif
+ 567   2              #if ECBM_GPIO6_EN
+ 568   2              case 0x60:value=P6;break;
+ 569   2              #endif
+ 570   2              #if ECBM_GPIO7_EN
+ 571   2              case 0x70:value=P7;break;
+ 572   2              #endif
+ 573   2              default:break;
+ 574   2          }
+ 575   1          if(value&ecbm_pin)return 1;//通过与运算来获取某一位的电平状态。
+ 576   1          else return 0;
+ 577   1      }
+ 578          #endif
+ 579          /*-------------------------------------------------------
+ 580          IO口电平翻转函数。
+ 581          -------------------------------------------------------*/
+ 582          #if ECBM_GPIO_TOGGLE_EN
+ 583          void gpio_toggle(u8 pin){
+ 584   1          /*---从这里开始，都是在解读IO口编号。---*/
+ 585   1          if(pin==Dxx)goto gpio_toggle_end;
+ 586   1          ecbm_port=pin&0xf0;
+ 587   1          ecbm_pin =ecbm_pin_mask[pin&0x0f];
+ 588   1          if((pin&0x0f)>7){
+ 589   2              return; 
+ 590   2          }
+ 591   1          /*-------到这里结束，解读完成。-------*/
+ 592   1          switch(ecbm_port){//用异或运算直接翻转对应的IO口。
+ 593   2              #if ECBM_GPIO0_EN
+ 594   2              case 0x00:P0^=ecbm_pin;break;
+ 595   2              #endif
+ 596   2              #if ECBM_GPIO1_EN
+ 597   2              case 0x10:P1^=ecbm_pin;break;
+ 598   2              #endif
+ 599   2              #if ECBM_GPIO2_EN
+ 600   2              case 0x20:P2^=ecbm_pin;break;
+ 601   2              #endif
+ 602   2              #if ECBM_GPIO3_EN
+ 603   2              case 0x30:P3^=ecbm_pin;break;
+ 604   2              #endif
+ 605   2              #if ECBM_GPIO4_EN
+ 606   2              case 0x40:P4^=ecbm_pin;break;
+ 607   2              #endif
+ 608   2              #if ECBM_GPIO5_EN
+ 609   2              case 0x50:P5^=ecbm_pin;break;
+ 610   2              #endif
+ 611   2              #if ECBM_GPIO6_EN
+ 612   2              case 0x60:P6^=ecbm_pin;break;
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 11  
+
+ 613   2              #endif
+ 614   2              #if ECBM_GPIO7_EN
+ 615   2              case 0x70:P7^=ecbm_pin;break;
+ 616   2              #endif
+ 617   2              default:return;break;
+ 618   2          }
+ 619   1          gpio_toggle_end:;
+ 620   1      }
+ 621          #endif
+ 622          /*程序区折叠专用**************************************************************/#endif
+ 623          /*程序区折叠专用**********************快速IO操作模块****************************/#if 1
+ 624          /*-------------------------------------------------------
+ 625          IO口电平快速翻转函数。
+ 626          -------------------------------------------------------*/
+ 627          #if ECBM_GPIO_TOGGLE_FAST_EN
+ 628          void gpio_toggle_fast(u8 port,u8 pin){
+ 629   1          switch(port){//与上面的翻转函数比起来，就是少了IO解析的代码，实测那段代码非常耗时。
+ 630   2              #if ECBM_GPIO0_EN
+ 631   2              case GPIO_P0:P0^=pin;break;
+ 632   2              #endif
+ 633   2              #if ECBM_GPIO1_EN
+ 634   2              case GPIO_P1:P1^=pin;break;
+ 635   2              #endif
+ 636   2              #if ECBM_GPIO2_EN
+ 637   2              case GPIO_P2:P2^=pin;break;
+ 638   2              #endif
+ 639   2              #if ECBM_GPIO3_EN
+ 640   2              case GPIO_P3:P3^=pin;break;
+ 641   2              #endif
+ 642   2              #if ECBM_GPIO4_EN
+ 643   2              case GPIO_P4:P4^=pin;break;
+ 644   2              #endif
+ 645   2              #if ECBM_GPIO5_EN
+ 646   2              case GPIO_P5:P5^=pin;break;
+ 647   2              #endif
+ 648   2              #if ECBM_GPIO6_EN
+ 649   2              case GPIO_P6:P6^=pin;break;
+ 650   2              #endif
+ 651   2              #if ECBM_GPIO7_EN
+ 652   2              case GPIO_P7:P7^=pin;break;
+ 653   2              #endif
+ 654   2              case GPIO_Px:break;
+ 655   2          }
+ 656   1      }
+ 657          #endif
+ 658          /*-------------------------------------------------------
+ 659          IO口电平快速输出函数。
+ 660          -------------------------------------------------------*/
+ 661          #if ECBM_GPIO_OUT_FAST_EN
+ 662          void gpio_out_fast   (u8 port,u8 pin,u8 val){
+ 663   1          if(val){//与上面的输出函数比起来，就是少了IO解析的代码，实测那段代码非常耗时。
+ 664   2              switch(port){
+ 665   3                  #if ECBM_GPIO0_EN
+ 666   3                  case GPIO_P0:P0|=pin;break;
+ 667   3                  #endif
+ 668   3                  #if ECBM_GPIO1_EN
+ 669   3                  case GPIO_P1:P1|=pin;break;
+ 670   3                  #endif
+ 671   3                  #if ECBM_GPIO2_EN
+ 672   3                  case GPIO_P2:P2|=pin;break;
+ 673   3                  #endif
+ 674   3                  #if ECBM_GPIO3_EN
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 12  
+
+ 675   3                  case GPIO_P3:P3|=pin;break;
+ 676   3                  #endif
+ 677   3                  #if ECBM_GPIO4_EN
+ 678   3                  case GPIO_P4:P4|=pin;break;
+ 679   3                  #endif
+ 680   3                  #if ECBM_GPIO5_EN
+ 681   3                  case GPIO_P5:P5|=pin;break;
+ 682   3                  #endif
+ 683   3                  #if ECBM_GPIO6_EN
+ 684   3                  case GPIO_P6:P6|=pin;break;
+ 685   3                  #endif
+ 686   3                  #if ECBM_GPIO7_EN
+ 687   3                  case GPIO_P7:P7|=pin;break;
+ 688   3                  #endif
+ 689   3                  case GPIO_Px:break;
+ 690   3              } 
+ 691   2          }else{
+ 692   2              switch(port){
+ 693   3                  #if ECBM_GPIO0_EN
+ 694   3                  case GPIO_P0:P0&=~pin;break;
+ 695   3                  #endif
+ 696   3                  #if ECBM_GPIO1_EN
+ 697   3                  case GPIO_P1:P1&=~pin;break;
+ 698   3                  #endif
+ 699   3                  #if ECBM_GPIO2_EN
+ 700   3                  case GPIO_P2:P2&=~pin;break;
+ 701   3                  #endif
+ 702   3                  #if ECBM_GPIO3_EN
+ 703   3                  case GPIO_P3:P3&=~pin;break;
+ 704   3                  #endif
+ 705   3                  #if ECBM_GPIO4_EN
+ 706   3                  case GPIO_P4:P4&=~pin;break;
+ 707   3                  #endif
+ 708   3                  #if ECBM_GPIO5_EN
+ 709   3                  case GPIO_P5:P5&=~pin;break;
+ 710   3                  #endif
+ 711   3                  #if ECBM_GPIO6_EN
+ 712   3                  case GPIO_P6:P6&=~pin;break;
+ 713   3                  #endif
+ 714   3                  #if ECBM_GPIO7_EN
+ 715   3                  case GPIO_P7:P7&=~pin;break;
+ 716   3                  #endif
+ 717   3                  case GPIO_Px:break;
+ 718   3              } 
+ 719   2          }
+ 720   1      }
+ 721          #endif
+ 722          /*-------------------------------------------------------
+ 723          IO口电平快速输入函数。
+ 724          -------------------------------------------------------*/
+ 725          #if ECBM_GPIO_IN_FAST_EN
+ 726          u8  gpio_in_fast    (u8 port,u8 pin){
+ 727   1          u8 val;
+ 728   1          switch(port){//与上面的输入函数比起来，就是少了IO解析的代码，实测那段代码非常耗时。
+ 729   2              #if ECBM_GPIO0_EN
+ 730   2              case GPIO_P0:val=P0;break;
+ 731   2              #endif
+ 732   2              #if ECBM_GPIO1_EN
+ 733   2              case GPIO_P1:val=P1;break;
+ 734   2              #endif
+ 735   2              #if ECBM_GPIO2_EN
+ 736   2              case GPIO_P2:val=P2;break;
+C51 COMPILER V9.60.0.0   GPIO                                                              11/06/2021 22:11:59 PAGE 13  
+
+ 737   2              #endif
+ 738   2              #if ECBM_GPIO3_EN
+ 739   2              case GPIO_P3:val=P3;break;
+ 740   2              #endif
+ 741   2              #if ECBM_GPIO4_EN
+ 742   2              case GPIO_P4:val=P4;break;
+ 743   2              #endif
+ 744   2              #if ECBM_GPIO5_EN
+ 745   2              case GPIO_P5:val=P5;break;
+ 746   2              #endif
+ 747   2              #if ECBM_GPIO6_EN
+ 748   2              case GPIO_P6:val=P6;break;
+ 749   2              #endif
+ 750   2              #if ECBM_GPIO7_EN
+ 751   2              case GPIO_P7:val=P7;break;
+ 752   2              #endif
+ 753   2              case GPIO_Px:return 1;break;
+ 754   2          } 
+ 755   1          if(val&pin)return 1;
+ 756   1          else return 0;
+ 757   1      }
+ 758          #endif
+ 759          /*程序区折叠专用**************************************************************/
+ 760          #endif  //和最上面的#ifndef配合成一个程序段。
+ 761                  //以一个空行为结尾。
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1663    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

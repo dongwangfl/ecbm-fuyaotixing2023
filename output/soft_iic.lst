@@ -1,0 +1,220 @@
+C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/06/2021 22:12:00 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SOFT_IIC
+OBJECT MODULE PLACED IN .\output\soft_iic.obj
+COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\soft_iic.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB
+                    -;.\device;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\soft_iic.lst) OBJECT(.\output\soft_iic.obj)
+
+line level    source
+
+   1          #include "ecbm_core.h"//Í³Ò»¼ÓÔØºËÐÄÍ·ÎÄ¼þ
+   2          #if ECBM_SOFTIIC_LIB_EN//¼ì²é±¾¿âÓÐÃ»ÓÐ±»Ê¹ÄÜ
+   3          /*--------------------------------------±äÁ¿¶¨Òå-----------------------------------*/
+   4          u8 idata soft_iic_def_sda_port;
+   5          u8 idata soft_iic_def_sda_pin;
+   6          u8 idata soft_iic_def_scl_port;
+   7          u8 idata soft_iic_def_scl_pin;
+   8          u8 idata soft_iic_max=0;
+   9          u8 idata soft_iic_index=0;
+  10          /*--------------------------------------³ÌÐò¶¨Òå-----------------------------------*/
+  11          /*-------------------------------------------------------
+  12          Èí¼þIICÒý½ÅÇÐ»»º¯Êý¡£
+  13          -------------------------------------------------------*/
+  14          void soft_iic_set_pin(soft_iic_def * dev){
+  15   1          if(soft_iic_index!=dev->dev_id){
+  16   2              soft_iic_def_scl_port=io2port(dev->scl_pin);
+  17   2              soft_iic_def_scl_pin =io2pin (dev->scl_pin);
+  18   2              soft_iic_def_sda_port=io2port(dev->sda_pin);
+  19   2              soft_iic_def_sda_pin =io2pin (dev->sda_pin);
+  20   2              soft_iic_index=dev->dev_id;
+  21   2          }    
+  22   1      }
+  23          /*-------------------------------------------------------
+  24          Èí¼þIIC³õÊ¼»¯º¯Êý¡£
+  25          -------------------------------------------------------*/
+  26          void soft_iic_init(soft_iic_def * dev,u8 scl,u8 sda){
+  27   1          dev->scl_pin=scl;
+  28   1          dev->sda_pin=sda;
+  29   1          gpio_mode   (scl,GPIO_OD);//IICµÄÒý½ÅÐèÒªÊÇ¿ªÂ©Ä£Ê½
+  30   1          gpio_mode   (sda,GPIO_OD);//IICµÄÒý½ÅÐèÒªÊÇ¿ªÂ©Ä£Ê½
+  31   1          gpio_uppull (scl,1);    //IICÐèÒªÒ»¸öÉÏÀ­µç×è
+  32   1          gpio_uppull (sda,1);    //IICÐèÒªÒ»¸öÉÏÀ­µç×è
+  33   1          gpio_out    (scl,1);
+  34   1          gpio_out    (sda,1);
+  35   1          dev->dev_id =++soft_iic_max;
+  36   1          soft_iic_set_pin(dev);
+  37   1      }
+  38          /*-------------------------------------------------------
+  39          Èí¼þIICÒý½ÅÇÐ»»º¯Êý£¨ÄÚÁª°æ£©¡£
+  40          -------------------------------------------------------*/
+  41          void soft_iic_set_pin_linkage(u8 id,u8 scl,u8 sda){
+  42   1          if(soft_iic_index!=id){
+  43   2              soft_iic_def_scl_port=io2port(scl);
+  44   2              soft_iic_def_scl_pin =io2pin (scl);
+  45   2              soft_iic_def_sda_port=io2port(sda);
+  46   2              soft_iic_def_sda_pin =io2pin (sda);
+  47   2              soft_iic_index=id;
+  48   2          }    
+  49   1      }
+  50          /*-------------------------------------------------------
+  51          Èí¼þIIC³õÊ¼»¯º¯Êý£¨ÄÚÁª°æ£©¡£
+  52          -------------------------------------------------------*/
+  53          u8 soft_iic_init_linkage(u8 scl,u8 sda){
+  54   1          u8 id;
+C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/06/2021 22:12:00 PAGE 2   
+
+  55   1          gpio_mode   (scl,GPIO_OD);//IICµÄÒý½ÅÐèÒªÊÇ¿ªÂ©Ä£Ê½
+  56   1          gpio_mode   (sda,GPIO_OD);//IICµÄÒý½ÅÐèÒªÊÇ¿ªÂ©Ä£Ê½
+  57   1          gpio_uppull (scl,1);      //IICÐèÒªÒ»¸öÉÏÀ­µç×è
+  58   1          gpio_uppull (sda,1);      //IICÐèÒªÒ»¸öÉÏÀ­µç×è
+  59   1          gpio_out    (scl,1);      //À­¸ßIIC×ÜÏß
+  60   1          gpio_out    (sda,1);
+  61   1          id =++soft_iic_max;
+  62   1          soft_iic_set_pin_linkage(id,scl,sda);
+  63   1          return id;
+  64   1      }
+  65          /*-------------------------------------------------------
+  66          Èí¼þIICÆô¶¯º¯Êý¡£
+  67          -------------------------------------------------------*/
+  68          u8 soft_iic_start(void){
+  69   1          gpio_out_fast   (soft_iic_def_sda_port,soft_iic_def_sda_pin,1);
+  70   1          gpio_out_fast   (soft_iic_def_scl_port,soft_iic_def_scl_pin,1);
+  71   1          if(gpio_in_fast (soft_iic_def_sda_port,soft_iic_def_sda_pin)==0)return -1;/* SDAÏßÎªµÍµçÆ½Ôò×ÜÏßÃ¦,ÍË³
+             -ö */
+  72   1          gpio_toggle_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin);
+  73   1          if(gpio_in_fast (soft_iic_def_sda_port,soft_iic_def_sda_pin)==1)return -1;/* SDAÏßÎª¸ßµçÆ½Ôò×ÜÏß³ö´í,Í
+             -Ë³ö */
+  74   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+  75   1          return 0;
+  76   1      }
+  77          /*-------------------------------------------------------
+  78          Èí¼þIICÍ£Ö¹º¯Êý¡£
+  79          -------------------------------------------------------*/
+  80          void soft_iic_stop(void){
+  81   1          gpio_out_fast   (soft_iic_def_sda_port,soft_iic_def_sda_pin,0);
+  82   1          gpio_out_fast   (soft_iic_def_scl_port,soft_iic_def_scl_pin,0);
+  83   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+  84   1          gpio_toggle_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin);
+  85   1      }
+  86          /*-------------------------------------------------------
+  87          Èí¼þIICÖ÷»úÐ´ACKº¯Êý¡£
+  88          -------------------------------------------------------*/
+  89          void soft_iic_write_ack(void){
+  90   1          gpio_out_fast   (soft_iic_def_scl_port,soft_iic_def_scl_pin,0);
+  91   1          gpio_out_fast   (soft_iic_def_sda_port,soft_iic_def_sda_pin,0);
+  92   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+  93   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+  94   1      }
+  95          /*-------------------------------------------------------
+  96          Èí¼þIICÖ÷»úÐ´NO ACKº¯Êý¡£
+  97          -------------------------------------------------------*/
+  98          void soft_iic_write_nack(void){
+  99   1          gpio_out_fast   (soft_iic_def_scl_port,soft_iic_def_scl_pin,0);
+ 100   1          gpio_out_fast   (soft_iic_def_sda_port,soft_iic_def_sda_pin,1);
+ 101   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+ 102   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+ 103   1      }
+ 104          /*-------------------------------------------------------
+ 105          Èí¼þIICÖ÷»ú¶ÁACKº¯Êý¡£
+ 106          -------------------------------------------------------*/
+ 107          u8 soft_iic_read_ack(void){
+ 108   1          gpio_out_fast   (soft_iic_def_scl_port,soft_iic_def_scl_pin,0);
+ 109   1          gpio_out_fast   (soft_iic_def_sda_port,soft_iic_def_sda_pin,1);
+ 110   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+ 111   1          if(gpio_in_fast (soft_iic_def_sda_port,soft_iic_def_sda_pin)==1){
+ 112   2              gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+ 113   2              return -1;
+ 114   2          }
+C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/06/2021 22:12:00 PAGE 3   
+
+ 115   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+ 116   1          return 0;
+ 117   1      }
+ 118          /*-------------------------------------------------------
+ 119          Èí¼þIICÖ÷»úÐ´º¯Êý¡£
+ 120          -------------------------------------------------------*/
+ 121          void soft_iic_write(u8 dat){
+ 122   1          u8 i,old;
+ 123   1          old=dat;
+ 124   1          if(dat&0x80){
+ 125   2              gpio_out_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin,1);
+ 126   2          }else{
+ 127   2              gpio_out_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin,0);
+ 128   2          }
+ 129   1          gpio_out_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin,0);
+ 130   1          for(i=0;i<8;i++){
+ 131   2              if((old^dat)&0x80){
+ 132   3                  gpio_toggle_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin);
+ 133   3              }
+ 134   2              gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+ 135   2              old=dat;
+ 136   2              dat<<=1;
+ 137   2              gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
+ 138   2          }
+ 139   1      //¾É³ÌÐò±£Áô
+ 140   1      //    for(i=0;i<8;i++){
+ 141   1      //        if(dat&0x80){
+ 142   1      //            gpio_out_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin,1);
+ 143   1      //        }else{
+ 144   1      //            gpio_out_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin,0);
+ 145   1      //        }
+ 146   1      //        gpio_out_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin,1);
+ 147   1      //        gpio_out_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin,0);
+ 148   1      //        dat<<=1;
+ 149   1      //    }
+ 150   1      }
+ 151          /*-------------------------------------------------------
+ 152          Èí¼þIICÖ÷»ú¶Áº¯Êý¡£
+ 153          -------------------------------------------------------*/
+ 154          u8 soft_iic_read(void){
+ 155   1          u8 i,dat;
+ 156   1          dat=0;
+ 157   1          gpio_out_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin,1);
+ 158   1          for(i=0;i<8;i++){
+ 159   2              dat<<=1;
+ 160   2              gpio_out_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin,1);
+ 161   2              if(gpio_in_fast(soft_iic_def_sda_port,soft_iic_def_sda_pin)==1){
+ 162   3                  dat|=0x01;
+ 163   3              }
+ 164   2              gpio_out_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin,0);
+ 165   2          }
+ 166   1          return dat;
+ 167   1      }
+ 168          /*-------------------------------------------------------
+ 169          Èí¼þIICÖ÷»úÑ°ÕÒº¯Êý¡£
+ 170          -------------------------------------------------------*/
+ 171          #if SOFT_IIC_FIND_EN == 1
+ 172          u8 soft_iic_find(u8 addr[]){
+ 173   1          u8 i,c;
+ 174   1          c=0;
+ 175   1          for(i=0;i<128;i++){
+ 176   2              soft_iic_start();
+C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/06/2021 22:12:00 PAGE 4   
+
+ 177   2              soft_iic_write(i<<1);
+ 178   2              if(soft_iic_read_ack()==0){
+ 179   3                  addr[c]=(i<<1);
+ 180   3                  c++;
+ 181   3              }
+ 182   2              soft_iic_stop();
+ 183   2          }    
+ 184   1          return c;
+ 185   1      }
+ 186          #endif
+ 187          #endif  //ºÍ×îÉÏÃæµÄ#ifndefÅäºÏ³ÉÒ»¸ö³ÌÐò¶Î¡£
+ 188                  //ÒÔÒ»¸ö¿ÕÐÐÎª½áÎ²¡£
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    974    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      17
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =      6    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

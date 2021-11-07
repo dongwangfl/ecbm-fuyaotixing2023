@@ -1,0 +1,66 @@
+C51 COMPILER V9.60.0.0   CMP                                                               11/06/2021 22:12:00 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE CMP
+OBJECT MODULE PLACED IN .\output\cmp.obj
+COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\cmp.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\de
+                    -vice;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\cmp.lst) OBJECT(.\output\cmp.obj)
+
+line level    source
+
+   1          #include "ecbm_core.h"//统一加载核心头文件
+   2          #if ECBM_CMP_LIB_EN   //检查本库有没有被使能
+   3          /*------------------------------------资源冲突警告---------------------------------*/
+   4          #if (ECBM_MCU == 0x110301)||(ECBM_MCU == 0x310201)||(ECBM_MCU == 0x3102A1)
+              #error 该型号没有比较器！
+              #endif
+   7          /*--------------------------------------程序定义-----------------------------------*/
+   8          /*-------------------------------------------------------
+   9          比较器初始化函数。
+  10          -------------------------------------------------------*/
+  11          void cmp_init(void){
+  12   1          CMP_SET_REG_CMPCR2(ECBM_CMP_CMPCR2);//写入比较器前端控制信息。
+  13   1          CMP_SET_REG_CMPCR1(ECBM_CMP_CMPCR1);//写入比较器后端控制信息。
+  14   1          CMP_SET_REG_CMPEXCFG(ECBM_CMP_EXCFG);//写入比较器扩展配置信息。
+  15   1          #if ECBM_CMP_INIT_ON                //如果设定了初始化开启，
+  16   1          CMP_POWER_ON;                       //就开启比较器。
+  17   1          #endif
+  18   1      }
+  19          /*-------------------------------------------------------
+  20          比较器读取结果函数。
+  21          -------------------------------------------------------*/
+  22          u8 cmp_read(void){
+  23   1          if(CMP_GET_RESULT){//判断结果寄存器，
+  24   2              return 1;      //有结果就返回1，
+  25   2          }else{
+  26   2              return 0;      //否则返回0。
+  27   2          }
+  28   1      }
+  29          /*-------------------------------------------------------
+  30          比较器开启函数。
+  31          -------------------------------------------------------*/
+  32          void cmp_start(void){
+  33   1          CMP_POWER_ON;
+  34   1      }
+  35          /*-------------------------------------------------------
+  36          比较器关闭函数。
+  37          -------------------------------------------------------*/
+  38          void cmp_stop(void){
+  39   1          CMP_POWER_OFF;
+  40   1      }
+  41          #endif  //和最上面的#ifndef配合成一个程序段。
+  42                  //以一个空行为结尾。
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     34    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

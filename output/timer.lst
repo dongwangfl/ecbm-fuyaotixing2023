@@ -1,0 +1,351 @@
+C51 COMPILER V9.60.0.0   TIMER                                                             11/06/2021 22:11:59 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TIMER
+OBJECT MODULE PLACED IN .\output\timer.obj
+COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\timer.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\
+                    -device;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\timer.lst) OBJECT(.\output\timer.obj)
+
+line level    source
+
+   1          #include "ecbm_core.h"//统一加载核心头文件
+   2          #if ECBM_TIMER_LIB_EN //检查本库有没有被使能
+   3          /*------------------------------------资源冲突警告---------------------------------*/
+   4          //------------------------------------串口冲突警告---------------------------------//
+   5          #if ECBM_UART_LIB_EN == 1  //判断串口库是否调用。
+   6          
+   7          #if (ECBM_UART1_EN == 1)&&((ECBM_UART1_AUXR_CONFIG&0x01) == 0)&&(ECBM_TIMER1_EN == 1)
+              #error 串口1和定时器1冲突，请换一个定时器使用！
+              #endif
+  10          
+  11          #if (ECBM_UART1_EN == 1)&&((ECBM_UART1_AUXR_CONFIG&0x01) == 0x01)&&(ECBM_TIMER2_EN == 1)
+              #error 串口1和定时器2冲突，请换一个定时器使用！
+              #endif
+  14          
+  15          #if (ECBM_UART2_EN == 1)&&(ECBM_TIMER2_EN == 1)
+              #error 串口2和定时器2冲突，请换一个定时器使用！
+              #endif
+  18          
+  19          #if (ECBM_UART3_EN == 1)&&((ECBM_UART3_S3CON_CONFIG&0x40)==0)&&(ECBM_TIMER2_EN == 1)
+              #error 串口3和定时器2冲突，请换一个定时器使用！
+              #endif
+  22          
+  23          #if (ECBM_UART3_EN == 1)&&(ECBM_UART3_S3CON_CONFIG&0x40)&&(ECBM_TIMER3_EN == 1)
+              #error 串口3和定时器3冲突，请换一个定时器使用！
+              #endif
+  26          
+  27          #if (ECBM_UART4_EN == 1)&&((ECBM_UART4_S4CON_CONFIG&0x40)==0)&&(ECBM_TIMER2_EN == 1)
+              #error 串口4和定时器2冲突，请换一个定时器使用！
+              #endif
+  30          
+  31          #if (ECBM_UART4_EN == 1)&&(ECBM_UART4_S4CON_CONFIG&0x40)&&(ECBM_TIMER4_EN == 1)
+              #error 串口4和定时器4冲突，请换一个定时器使用！
+              #endif
+  34          #endif
+  35          //----------------------------------定时器数量警告---------------------------------//
+  36          #if ((ECBM_MCU&0x000F00)<0x000400)&&(ECBM_TIMER3_EN == 1)
+              #error 该型号没有定时器3，请换一个定时器使用！
+              #endif
+  39          
+  40          #if ((ECBM_MCU&0x000F00)<0x000500)&&(ECBM_TIMER4_EN == 1)
+              #error 该型号没有定时器4，请换一个定时器使用！
+              #endif
+  43          /*--------------------------------------程序定义-----------------------------------*/
+  44          /*-------------------------------------------------------
+  45          定时器开始函数。
+  46          -------------------------------------------------------*/
+  47          void timer_start(u8 id){
+  48   1          switch(id){
+  49   2              #if ECBM_TIMER0_EN
+                      case 0:{TIMER0_POWER_ON;}break;        
+                      #endif
+  52   2              #if ECBM_TIMER1_EN
+                      case 1:{TIMER1_POWER_ON;}break;    
+                      #endif
+C51 COMPILER V9.60.0.0   TIMER                                                             11/06/2021 22:11:59 PAGE 2   
+
+  55   2              #if ECBM_TIMER2_EN
+                      case 2:{TIMER2_POWER_ON;}break;        
+                      #endif
+  58   2              #if ECBM_TIMER3_EN
+                      case 3:{TIMER3_POWER_ON;}break;    
+                      #endif
+  61   2              #if ECBM_TIMER4_EN
+                      case 4:{TIMER4_POWER_ON;}break;    
+                      #endif    
+  64   2              default:break;
+  65   2          }    
+  66   1      }
+  67          /*-------------------------------------------------------
+  68          定时器停止函数。
+  69          -------------------------------------------------------*/
+  70          void timer_stop(u8 id){
+  71   1          switch(id){
+  72   2              #if ECBM_TIMER0_EN
+                      case 0:{TIMER0_POWER_OFF;}break;        
+                      #endif
+  75   2              #if ECBM_TIMER1_EN
+                      case 1:{TIMER1_POWER_OFF;}break;    
+                      #endif
+  78   2              #if ECBM_TIMER2_EN
+                      case 2:{TIMER2_POWER_OFF;}break;        
+                      #endif
+  81   2              #if ECBM_TIMER3_EN
+                      case 3:{TIMER3_POWER_OFF;}break;    
+                      #endif
+  84   2              #if ECBM_TIMER4_EN
+                      case 4:{TIMER4_POWER_OFF;}break;    
+                      #endif    
+  87   2              default:break;
+  88   2          }    
+  89   1      }
+  90          /*-------------------------------------------------------
+  91          定时器输出控制函数。
+  92          -------------------------------------------------------*/
+  93          void timer_out(u8 id,u8 en){
+  94   1          if(en){
+  95   2              switch(id){
+  96   3                  #if ECBM_TIMER0_EN
+                          case 0:{TIMER0_OUT_ON;gpio_mode(D35,GPIO_OUT);}break;        
+                          #endif
+  99   3                  #if ECBM_TIMER1_EN
+                          case 1:{TIMER1_OUT_ON;gpio_mode(D34,GPIO_OUT);}break;    
+                          #endif
+ 102   3                  #if ECBM_TIMER2_EN
+                          case 2:{TIMER2_OUT_ON;gpio_mode(D13,GPIO_OUT);}break;        
+                          #endif
+ 105   3                  #if ECBM_TIMER3_EN
+                          case 3:{TIMER3_OUT_ON;gpio_mode(D05,GPIO_OUT);}break;    
+                          #endif
+ 108   3                  #if ECBM_TIMER4_EN
+                          case 4:{TIMER4_OUT_ON;gpio_mode(D07,GPIO_OUT);}break;    
+                          #endif   
+ 111   3                  default:break;
+ 112   3              }    
+ 113   2          }else{
+ 114   2              switch(id){
+ 115   3                  #if ECBM_TIMER0_EN
+                          case 0:{TIMER0_OUT_OFF;gpio_mode(D35,GPIO_IN);}break;        
+C51 COMPILER V9.60.0.0   TIMER                                                             11/06/2021 22:11:59 PAGE 3   
+
+                          #endif
+ 118   3                  #if ECBM_TIMER1_EN
+                          case 1:{TIMER1_OUT_OFF;gpio_mode(D34,GPIO_IN);}break;    
+                          #endif
+ 121   3                  #if ECBM_TIMER2_EN
+                          case 2:{TIMER2_OUT_OFF;gpio_mode(D13,GPIO_IN);}break;        
+                          #endif
+ 124   3                  #if ECBM_TIMER3_EN
+                          case 3:{TIMER3_OUT_OFF;gpio_mode(D05,GPIO_IN);}break;    
+                          #endif
+ 127   3                  #if ECBM_TIMER4_EN
+                          case 4:{TIMER4_OUT_OFF;gpio_mode(D07,GPIO_IN);}break;    
+                          #endif 
+ 130   3                  default:break;
+ 131   3              }    
+ 132   2          }
+ 133   1      }
+ 134          /*-------------------------------------------------------
+ 135          定时器初始化函数。
+ 136          -------------------------------------------------------*/
+ 137          void timer_init(void){
+ 138   1      #if ECBM_TIMER0_EN     //判断定时器0有没有使能。
+                  TIMER0_SET_REG_AUXR    (ECBM_TIMER0_AUXR);//写上设定的数据。
+                  TIMER0_SET_REG_TMOD    (ECBM_TIMER0_TMOD);//写上设定的数据。
+                  TIMER0_SET_REG_HL    (65536-ECBM_TIMER0_COUNT);//写入初值。
+                  #if ECBM_TIMER0_IT_EN == 1    //如果开启了中断。
+                  TIMER0_IT_ENABLE;
+                  #endif
+              #endif
+ 146   1          
+ 147   1      #if ECBM_TIMER1_EN     //判断定时器1有没有使能。
+                  TIMER1_SET_REG_AUXR(ECBM_TIMER1_AUXR);//写上设定的数据。
+                  TIMER1_SET_REG_TMOD(ECBM_TIMER1_TMOD);//写上设定的数据。
+                  TIMER1_SET_REG_HL(65536-ECBM_TIMER1_COUNT);//写入初值。
+                  #if ECBM_TIMER1_IT_EN == 1    //如果开启了中断。
+                  TIMER1_IT_ENABLE;
+                  #endif
+              #endif
+ 155   1          
+ 156   1      #if ECBM_TIMER2_EN     //判断定时器2有没有使能。
+                  TIMER2_SET_REG_AUXR    (ECBM_TIMER2_AUXR);//写上设定的数据。
+                  TIMER2_SET_REG_HL    (65536-ECBM_TIMER2_COUNT);//写入初值。
+                  #if ECBM_TIMER2_IT_EN == 1    //如果开启了中断。
+                  TIMER2_IT_ENABLE;
+                  #endif
+              #endif
+ 163   1              
+ 164   1      #if ECBM_TIMER3_EN     //判断定时器3有没有使能。
+                  TIMER3_SET_REG_T4T3M(ECBM_TIMER3_T4T3M);//写上设定的数据。
+                  TIMER3_SET_REG_HL    (65536-ECBM_TIMER3_COUNT);//写入初值。
+                  #if ECBM_TIMER3_IT_EN == 1    //如果开启了中断。
+                  TIMER3_IT_ENABLE;
+                  #endif
+              #endif
+ 171   1      
+ 172   1      #if ECBM_TIMER4_EN     //判断定时器4有没有使能。
+                  TIMER4_SET_REG_T4T3M(ECBM_TIMER4_T4T3M);//写上设定的数据。
+                  TIMER4_SET_REG_HL    (65536-ECBM_TIMER4_COUNT);//写入初值。
+                  #if ECBM_TIMER4_IT_EN == 1    //如果开启了中断。
+                  TIMER4_IT_ENABLE;
+                  #endif
+              #endif
+C51 COMPILER V9.60.0.0   TIMER                                                             11/06/2021 22:11:59 PAGE 4   
+
+ 179   1      }
+ 180          /*-------------------------------------------------------
+ 181          定时器设定定时模式函数。
+ 182          -------------------------------------------------------*/
+ 183          void timer_set_timer_mode(u8 id,u16 us){
+ 184   1          u16 n,max_1T,max_12T;
+ 185   1          max_1T=(u16)(65535.0/((float)ecbm_sys_clk/1000000.0));
+ 186   1          if(ecbm_sys_clk<= 12000000L){
+ 187   2              max_12T=65535;
+ 188   2          }else{
+ 189   2              max_12T=(u16)(65535.0/((float)ecbm_sys_clk/12000000.0));
+ 190   2          }
+ 191   1          if((us<=max_1T)&&(us>0)){
+ 192   2              n=1;
+ 193   2          }else if((us<=max_12T)&&(us>0)){
+ 194   2              n=12;
+ 195   2          }else{
+ 196   2              return; 
+ 197   2          }
+ 198   1          switch(id){
+ 199   2              #if ECBM_TIMER0_EN
+                      case 0:{
+                          if(n==1){
+                              TIMER0_SET_MODE_1T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/1000000.0));
+                          }else if(n==12){
+                              TIMER0_SET_MODE_12T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/12.0/1000000.0));
+                          }
+                          TIMER0_SET_REG_HL(n);
+                          TIMER0_SET_MODE_TIMER;
+                      }break;        
+                      #endif
+ 212   2              #if ECBM_TIMER1_EN
+                      case 1:{
+                          if(n==1){
+                              TIMER1_SET_MODE_1T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/1000000.0));
+                          }else if(n==12){
+                              TIMER1_SET_MODE_12T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/12.0/1000000.0));
+                          }
+                          TIMER1_SET_REG_HL(n);
+                          TIMER1_SET_MODE_TIMER;
+                      }break;    
+                      #endif
+ 225   2              #if ECBM_TIMER2_EN
+                      case 2:{
+                          if(n==1){
+                              TIMER2_SET_MODE_1T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/1000000.0));
+                          }else if(n==12){
+                              TIMER2_SET_MODE_12T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/12.0/1000000.0));
+                          }
+                          TIMER2_SET_REG_HL(n);
+                          TIMER2_SET_MODE_TIMER;
+                      }break;        
+                      #endif
+ 238   2              #if ECBM_TIMER3_EN
+                      case 3:{
+                          if(n==1){
+C51 COMPILER V9.60.0.0   TIMER                                                             11/06/2021 22:11:59 PAGE 5   
+
+                              TIMER3_SET_MODE_1T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/1000000.0));
+                          }else if(n==12){
+                              TIMER3_SET_MODE_12T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/12.0/1000000.0));
+                          }
+                          TIMER3_SET_REG_HL(n);
+                          TIMER3_SET_MODE_TIMER;
+                      }break;    
+                      #endif
+ 251   2              #if ECBM_TIMER4_EN
+                      case 4:{
+                          if(n==1){
+                              TIMER4_SET_MODE_1T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/1000000.0));
+                          }else if(n==12){
+                              TIMER4_SET_MODE_12T;
+                              n=65536-(u16)((float)us*((float)ecbm_sys_clk/12.0/1000000.0));
+                          }
+                          TIMER4_SET_REG_HL(n);
+                          TIMER4_SET_MODE_TIMER;
+                      }break;
+                      #endif  
+ 264   2              default:break;
+ 265   2          }
+ 266   1      }
+ 267          /*-------------------------------------------------------
+ 268          定时器设定初值函数。
+ 269          -------------------------------------------------------*/
+ 270          void timer_set_value(u8 id,u16 value){
+ 271   1          value=value;
+ 272   1          switch(id){
+ 273   2              #if ECBM_TIMER0_EN
+                      case 0:{TIMER0_SET_REG_HL(value);}break;        
+                      #endif
+ 276   2              #if ECBM_TIMER1_EN
+                      case 1:{TIMER1_SET_REG_HL(value);}break;    
+                      #endif
+ 279   2              #if ECBM_TIMER2_EN
+                      case 2:{TIMER2_SET_REG_HL(value);}break;        
+                      #endif
+ 282   2              #if ECBM_TIMER3_EN
+                      case 3:{TIMER3_SET_REG_HL(value);}break;    
+                      #endif
+ 285   2              #if ECBM_TIMER4_EN
+                      case 4:{TIMER4_SET_REG_HL(value);}break;
+                      #endif   
+ 288   2              default:break;
+ 289   2          }
+ 290   1      }
+ 291          /*-------------------------------------------------------
+ 292          定时器计数值获取函数。
+ 293          -------------------------------------------------------*/
+ 294          u16 timer_get_value(u8 id){
+ 295   1          u16 value=0;
+ 296   1          switch(id){
+ 297   2              #if ECBM_TIMER0_EN
+                      case 0:{value=TIMER0_GET_REG_HL;}break;        
+                      #endif
+ 300   2              #if ECBM_TIMER1_EN 
+                      case 1:{value=TIMER1_GET_REG_HL;}break;    
+                      #endif
+C51 COMPILER V9.60.0.0   TIMER                                                             11/06/2021 22:11:59 PAGE 6   
+
+ 303   2              #if ECBM_TIMER2_EN
+                      case 2:{value=TIMER2_GET_REG_HL;}break;        
+                      #endif
+ 306   2              #if ECBM_TIMER3_EN
+                      case 3:{value=TIMER3_GET_REG_HL;}break;    
+                      #endif
+ 309   2              #if ECBM_TIMER4_EN
+                      case 4:{value=TIMER4_GET_REG_HL;}break;
+                      #endif   
+ 312   2              default:break;   
+ 313   2          }
+ 314   1          return value;
+ 315   1      }
+ 316          #endif  //和最上面的#ifndef配合成一个程序段。
+ 317                  //以一个空行为结尾。
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    257    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       9
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

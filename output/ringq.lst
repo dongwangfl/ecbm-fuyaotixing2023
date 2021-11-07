@@ -1,0 +1,106 @@
+C51 COMPILER V9.60.0.0   RINGQ                                                             11/06/2021 22:38:26 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE RINGQ
+OBJECT MODULE PLACED IN .\output\ringq.obj
+COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ringq.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device;.\
+                    -device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\ringq.lst) OBJECT(.\output\ringq.obj)
+
+line level    source
+
+   1          #include <stdio.h>
+   2          #include "string.h"
+   3          #include "ringq.h"
+   4          
+   5          
+   6          
+   7          //初始化队列
+   8          void initQueue(QUEUE* queue_q)
+   9          {
+  10   1          memset(queue_q->BUF, 0, BUF_SIZE);
+  11   1          queue_q->front = queue_q->rear = 0;
+  12   1      }
+  13          //插入成功返回1,否则返回0
+  14          unsigned char  In_Queue(QUEUE* queue_q, unsigned char value)
+  15          {
+  16   1          if (Is_FullQueue(queue_q) != 1)
+  17   1          {
+  18   2              queue_q->BUF[queue_q->rear] = value;
+  19   2              queue_q->rear = (queue_q->rear + 1) % BUF_SIZE;
+  20   2              return 1;
+  21   2          }
+  22   1          else return 0;
+  23   1      }
+  24          //满了返回1,反正返回0
+  25          unsigned char Is_FullQueue(QUEUE* queue_q)
+  26          {
+  27   1          if ((queue_q->rear + 1) % BUF_SIZE == queue_q->front) return 1;
+  28   1      
+  29   1          else  return 0;
+  30   1      }
+  31          
+  32          //空队列返回1,否则返回0
+  33          unsigned char Is_EmptyQueue(QUEUE* queue_q)
+  34          {
+  35   1          if (queue_q->front == queue_q->rear)return 1;
+  36   1          else return 0;
+  37   1      }
+  38          //成功返回1,否则返回0
+  39          unsigned char Out_Queue(QUEUE* queue_q,unsigned char  *value)
+  40          {
+  41   1          if (Is_EmptyQueue(queue_q) != 1)
+  42   1          {
+  43   2              *value = queue_q->BUF[queue_q->front];
+  44   2              queue_q->BUF[queue_q->front] = 0;
+  45   2              queue_q->front = (queue_q->front + 1) % BUF_SIZE;
+  46   2              return 1;
+  47   2          }
+  48   1          else
+  49   1          {
+  50   2              return 0;
+  51   2          }
+  52   1      }
+  53          //成功返回1,否则返回0，在调用此函数前，最好将对应的str参数清0
+  54          unsigned char Get_Line(QUEUE* queue_q,unsigned char *str)
+C51 COMPILER V9.60.0.0   RINGQ                                                             11/06/2021 22:38:26 PAGE 2   
+
+  55          {
+  56   1          unsigned char temp;
+  57   1          unsigned char i = 0 ;
+  58   1          if(Is_EmptyQueue(queue_q))return 0;
+  59   1      //    for(i = 0 ; i < BUF_SIZE; i++)
+  60   1      //    {
+  61   1      //        if (Out_Queue(queue_q, &temp) == 1)
+  62   1      //        {
+  63   1      //            str[i] = temp;
+  64   1      //        }
+  65   1      //        else break;
+  66   1      //    }
+  67   1      //    return 1;
+  68   1          if (Out_Queue(queue_q, &temp) == 1)
+  69   1          {
+  70   2              *str++ = temp;
+  71   2              while (temp != '\n')
+  72   2              {
+  73   3                  if (Out_Queue(queue_q, &temp) == 1)*str++ = temp;
+  74   3                  else break;
+  75   3              }
+  76   2              return 1;
+  77   2          }
+  78   1          return 0;
+  79   1      
+  80   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    503    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----      24
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

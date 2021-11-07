@@ -1,0 +1,228 @@
+C51 COMPILER V9.60.0.0   EEPROM                                                            11/06/2021 22:11:59 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE EEPROM
+OBJECT MODULE PLACED IN .\output\eeprom.obj
+COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\eeprom.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.
+                    -\device;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\eeprom.lst) OBJECT(.\output\eeprom.obj)
+
+line level    source
+
+   1          #include "ecbm_core.h"//统一加载核心头文件
+   2          #if ECBM_EEPROM_LIB_EN//检查本库有没有被使能
+   3          /*--------------------------------------变量定义-----------------------------------*/
+   4          u8 eeprom_wait;//EEPROM的等待时间。
+   5          /*--------------------------------------程序定义-----------------------------------*/
+   6          /*-------------------------------------------------------
+   7          eeprom初始化函数。
+   8          -------------------------------------------------------*/
+   9          void eeprom_init(void){
+  10   1      #if  (((ECBM_MCU&0xF00000)<=0x200000)&&(ECBM_MCU!=0x2815C4))
+  11   1          u32 pro,cls;
+  12   1      //7
+  13   1          pro=ecbm_sys_clk/7;
+  14   1          cls=ecbm_sys_clk/5000;
+  15   1      //    debug("s=%lu,p=%lu,c=%lu\r\n",ecbm_sys_clk,pro,cls);
+  16   1          if((pro<166666)&&(pro>90909)&&(cls>111)&&(cls<250)){
+  17   2              eeprom_wait=7;
+  18   2              goto eep_end;
+  19   2          }
+  20   1      //6
+  21   1          pro=ecbm_sys_clk/14;
+  22   1          cls=ecbm_sys_clk/10000;
+  23   1      //    debug("s=%lu,p=%lu,c=%lu\r\n",ecbm_sys_clk,pro,cls);
+  24   1          if((pro<166666)&&(pro>90909)&&(cls>111)&&(cls<250)){
+  25   2              eeprom_wait=6;
+  26   2              goto eep_end;
+  27   2          }
+  28   1      //5
+  29   1          pro=ecbm_sys_clk/21;
+  30   1          cls=ecbm_sys_clk/15000;
+  31   1      //    debug("s=%lu,p=%lu,c=%lu\r\n",ecbm_sys_clk,pro,cls);
+  32   1          if((pro<166666)&&(pro>90909)&&(cls>111)&&(cls<250)){
+  33   2              eeprom_wait=5;
+  34   2              goto eep_end;
+  35   2          }    
+  36   1      //4
+  37   1          pro=ecbm_sys_clk/42;
+  38   1          cls=ecbm_sys_clk/30000;
+  39   1      //    debug("s=%lu,p=%lu,c=%lu\r\n",ecbm_sys_clk,pro,cls);
+  40   1          if((pro<166666)&&(pro>90909)&&(cls>111)&&(cls<250)){
+  41   2              eeprom_wait=4;
+  42   2              goto eep_end;
+  43   2          }    
+  44   1      //3
+  45   1          pro=ecbm_sys_clk/84;
+  46   1          cls=ecbm_sys_clk/60000;
+  47   1      //    debug("s=%lu,p=%lu,c=%lu\r\n",ecbm_sys_clk,pro,cls);
+  48   1          if((pro<166666)&&(pro>90909)&&(cls>111)&&(cls<250)){
+  49   2              eeprom_wait=3;
+  50   2              goto eep_end;
+  51   2          }
+  52   1      //2
+  53   1          pro=ecbm_sys_clk/140;
+  54   1          cls=ecbm_sys_clk/100000;
+C51 COMPILER V9.60.0.0   EEPROM                                                            11/06/2021 22:11:59 PAGE 2   
+
+  55   1      //    debug("s=%lu,p=%lu,c=%lu\r\n",ecbm_sys_clk,pro,cls);
+  56   1          if((pro<166666)&&(pro>90909)&&(cls>111)&&(cls<250)){
+  57   2              eeprom_wait=2;
+  58   2              goto eep_end;
+  59   2          }    
+  60   1      //1
+  61   1          pro=ecbm_sys_clk/168;
+  62   1          cls=ecbm_sys_clk/120000;
+  63   1      //    debug("s=%lu,p=%lu,c=%lu\r\n",ecbm_sys_clk,pro,cls);
+  64   1          if((pro<166666)&&(pro>90909)&&(cls>111)&&(cls<250)){
+  65   2              eeprom_wait=1;
+  66   2              goto eep_end;
+  67   2          }
+  68   1      //0
+  69   1          pro=ecbm_sys_clk/301;
+  70   1          cls=ecbm_sys_clk/215000;
+  71   1      //    debug("s=%lu,p=%lu,c=%lu\r\n",ecbm_sys_clk,pro,cls);
+  72   1          if((pro<166666)&&(pro>90909)&&(cls>111)&&(cls<250)){
+  73   2              eeprom_wait=0;
+  74   2              goto eep_end;
+  75   2          }    
+  76   1          eep_end:
+  77   1          pro=0;
+  78   1          cls=0;
+  79   1      //    debug("wait=%u\r\n",(u16)eeprom_wait);
+  80   1      #else
+                  eeprom_wait=ecbm_sys_clk/1000000;
+                  IAP_TPS=eeprom_wait;
+                  eeprom_wait=0;
+              #endif
+  85   1      }
+  86          /*-------------------------------------------------------
+  87          eeprom关闭函数。
+  88          -------------------------------------------------------*/
+  89          void eeprom_off(){
+  90   1          IAP_SET_REG_CONTR(0);       //关闭IAP功能
+  91   1          IAP_CMD_NOP;                //清除命令寄存器
+  92   1          IAP_TRIG_CLS;               //清除触发寄存器
+  93   1          IAP_SET_REG_ADDR_H8(0xff);  //将地址设置到非IAP区域
+  94   1          IAP_SET_REG_ADDR_L8(0xff);  //将地址设置到非IAP区域
+  95   1      }
+  96          /*-------------------------------------------------------
+  97          eeprom擦除函数。
+  98          -------------------------------------------------------*/
+  99          void eeprom_erase(u16 addr){
+ 100   1          IAP_SET_REG_CONTR(eeprom_wait|IAP_EN);//使能IAP
+ 101   1          IAP_CMD_ERASE;              //设置IAP擦除命令
+ 102   1          IAP_SET_REG_ADDR_HL(addr);  //设置IAP地址
+ 103   1          IAP_TRIG_ON;                //触发命令
+ 104   1          _nop_();                    //稍稍等待一下
+ 105   1          eeprom_off();               //关闭IAP功能
+ 106   1      }
+ 107          /*-------------------------------------------------------
+ 108          eeprom写函数。
+ 109          -------------------------------------------------------*/
+ 110          void eeprom_write(u16 addr,u8 dat){
+ 111   1          IAP_SET_REG_CONTR(eeprom_wait|IAP_EN);//使能IAP
+ 112   1          IAP_CMD_WRITE;              //设置IAP写命令
+ 113   1          IAP_SET_REG_ADDR_HL(addr);  //设置IAP地址
+ 114   1          IAP_SET_REG_DATA(dat);      //写IAP数据
+ 115   1          IAP_TRIG_ON;                //触发命令
+ 116   1          _nop_();                    //稍稍等待一下
+C51 COMPILER V9.60.0.0   EEPROM                                                            11/06/2021 22:11:59 PAGE 3   
+
+ 117   1          eeprom_off();               //关闭IAP功能
+ 118   1      }
+ 119          /*-------------------------------------------------------
+ 120          eeprom读函数。
+ 121          -------------------------------------------------------*/
+ 122          u8 eeprom_read(u16 addr){
+ 123   1          u8 dat;
+ 124   1          IAP_SET_REG_CONTR(eeprom_wait|IAP_EN);  //使能IAP
+ 125   1          IAP_CMD_READ;                           //设置IAP读命令
+ 126   1          IAP_SET_REG_ADDR_HL(addr);              //设置IAP地址
+ 127   1          IAP_TRIG_ON;                            //触发命令
+ 128   1          _nop_();                                //稍稍等待一下
+ 129   1          dat=IAP_GET_REG_DATA;                   //读IAP数据
+ 130   1          eeprom_off();                           //关闭IAP功能
+ 131   1          return dat;
+ 132   1      }
+ 133          #if ECBM_EEPROM_EX_EN
+ 134          /*-------------------------------------------------------
+ 135          eeprom读函数延伸版(extension)。
+ 136          -------------------------------------------------------*/
+ 137          void eeprom_read_ex(u16 addr,u8 * dat,u16 num){
+ 138   1          u16 i;
+ 139   1          for(i=0;i<num;i++){
+ 140   2              dat[i]=eeprom_read(addr+i);
+ 141   2          }
+ 142   1      }
+ 143          /*-------------------------------------------------------
+ 144          eeprom写函数延伸版(extension)。
+ 145          -------------------------------------------------------*/
+ 146          
+ 147          u8 xdata eeprom_buf[512];//用于整合数据的缓存
+ 148          void eeprom_write_ex(u16 addr,u8 * dat,u16 num){
+ 149   1          u16 num_yu;         //剩余要写的数据的数量。
+ 150   1          u16 area;           //操作扇区。
+ 151   1          u16 area_addr_yu;   //扇区余下的地址数量。
+ 152   1          u16 area_start_addr;//扇区开始地址。
+ 153   1          u16 area_stop_addr; //扇区结束地址。
+ 154   1          u16 addr_offset;    //地址偏移。
+ 155   1          u16 dat_offset=0;   //数据偏移。
+ 156   1          u16 address;        //操作地址。
+ 157   1          u16 i;              //临时变量。
+ 158   1          address=addr;       //将地址参数赋值给操作地址。
+ 159   1          num_yu=num;         //将参数数量赋值为剩余数量。
+ 160   1          do{
+ 161   2              area=address>>9;                    //获取扇区。
+ 162   2              area_start_addr=(area<<9);          //获取扇区开始的地址。
+ 163   2              area_stop_addr=(area<<9)+512;       //获取扇区末尾的地址。
+ 164   2              area_addr_yu=area_stop_addr-address;//末尾地址减操作地址，得到地址剩余数量。
+ 165   2              if(num_yu<=area_addr_yu){           //如果要写的数少于地址剩余数量，说明不用跨扇区。
+ 166   3                  for(i=0;i<512;i++){             //将原来的数据读出来。
+ 167   4                      eeprom_buf[i]=eeprom_read(area_start_addr+i);
+ 168   4                  }
+ 169   3                  eeprom_erase(area_start_addr);      //清空扇区。
+ 170   3                  addr_offset=address-area_start_addr;//获取地址偏移。
+ 171   3                  for(i=0;i<num_yu;i++){              //修改数据。
+ 172   4                      eeprom_buf[addr_offset+i]=dat[dat_offset+i];
+ 173   4                  }
+ 174   3                  for(i=0;i<512;i++){                 //将数据写回去。
+ 175   4                      eeprom_write(area_start_addr+i,eeprom_buf[i]);
+ 176   4                  }
+ 177   3                  break;                              //写完就跳出循环。
+ 178   3              }else{                                  //如果要写的数多于地址剩余量。
+C51 COMPILER V9.60.0.0   EEPROM                                                            11/06/2021 22:11:59 PAGE 4   
+
+ 179   3                  for(i=0;i<512;i++){                 //将原来的数据读出来。
+ 180   4                      eeprom_buf[i]=eeprom_read(area_start_addr+i);
+ 181   4                  }
+ 182   3                  eeprom_erase(area_start_addr);      //清空扇区。
+ 183   3                  addr_offset=address-area_start_addr;//获取地址偏移。
+ 184   3                  for(i=0;i<area_addr_yu;i++){        //修改数据。
+ 185   4                      eeprom_buf[addr_offset+i]=dat[dat_offset+i];
+ 186   4                  }
+ 187   3                  for(i=0;i<512;i++){                 //将数据写回去。
+ 188   4                      eeprom_write(area_start_addr+i,eeprom_buf[i]);
+ 189   4                  }
+ 190   3                  address+=area_addr_yu;              //写了多少，地址就加多少。
+ 191   3                  num_yu -=area_addr_yu;              //剩余数量就要减多少。
+ 192   3                  dat_offset+=area_addr_yu;           //缓存的偏移就加多少。
+ 193   3              }
+ 194   2          }while(1);    
+ 195   1      }
+ 196          #endif
+ 197          #endif  //和最上面的#ifndef配合成一个程序段。
+ 198                  //以一个空行为结尾。
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2176    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =    513      38
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
