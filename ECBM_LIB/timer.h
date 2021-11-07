@@ -34,7 +34,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //<<< Use Configuration Wizard in Context Menu >>>
 //<e>定时器0使能与设置
 //<i>勾选该选项会使能定时器0，开放和定时器0相关的操作函数。若未使用定时器0，可以关掉优化空间。
-#define ECBM_TIMER0_EN 0
+#define ECBM_TIMER0_EN 1
 //<o.3>定时器开关
 //<0=>软件开关 <1=>软硬件开关。
 //<i>当选择“软件开关”时，运行timer_start函数就能启动定时器0。
@@ -57,7 +57,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //<o.7>时钟分频
 //<i>就相当于STC-ISP工具里的12T模式和1T模式。
 //<0=>系统时钟12分频（Fosc/12） <1=>系统时钟不分频
-#define ECBM_TIMER0_AUXR 0x80
+#define ECBM_TIMER0_AUXR 0x00
 //<o.0>对外输出时钟
 //<i>勾选该选项后，每次定时器0发生溢出时，T0CLKO（P35）脚的电平自动发生翻转。
 #define ECBM_TIMER0_INTCLKO 0x00
@@ -67,9 +67,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //<i>比如定时模式下，主频24MHz的时间基准是1/24000000秒，定时100us的脉冲数就是0.0001/(1/24000000)=2400。那么输入2400就行了。
 //<i>时间基准计算比较麻烦，做定时器应用时可以直接调用timer_set_timer_mode函数。
 //<i>如果是在计数模式下，希望统计到100个脉冲就触发中断，那么输入100就行了。
-#define ECBM_TIMER0_COUNT 10
+#define ECBM_TIMER0_COUNT 47104
 //<q>定时器0的中断使能
-#define ECBM_TIMER0_IT_EN 0
+#define ECBM_TIMER0_IT_EN 1
 //</e>
 //<e>定时器1使能与设置
 //<i>勾选该选项会使能定时器1，开放和定时器1相关的操作函数。若未使用定时器1，可以关掉优化空间。
