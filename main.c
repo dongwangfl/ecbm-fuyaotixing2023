@@ -4,6 +4,11 @@
 #include "ds1302.h"
 #include <stdlib.h>
 
+#define  FUYAOSHIJIAN 7
+#define DUISHISHIJIAN 8
+#define QINGSHUJUSHIJIAN 0
+
+sbit BEEP= P3^7;
 unsigned char line1[128]= {0};
 unsigned char line2[128]= {0};
 
@@ -96,10 +101,13 @@ void fun1(void)TIMER0_IT_NUM{//这是定时器0的中断处理函数。10ms
 
 }
 void main() {			//main函数，必须的。
+	
     int times = 0 ;
     int len = 0 ;
+    bit    yifuyao=0;
+    bit    yiduishi=0;
     unsigned char time[2]= {0};
-
+	unsigned char  volatile beep = 0;
     system_init();		//系统初始化函数，也是必须的。
     timer_init();
     timer_start(0);//再打开定时器0。
@@ -129,7 +137,7 @@ void main() {			//main函数，必须的。
         uart_printf(1,"send command AT+CIPSNTPCFG=1,8 failed\r\n");
     }
 
-    delay_ms(500);
+    delay_ms(1000);
     uart_printf(2,"AT+CIPSNTPTIME?\r\n");
 
 
@@ -142,9 +150,48 @@ void main() {			//main函数，必须的。
             tickflag=0;
             DS1302_GetTime(now);
             uart_printf(1,"%bd: %bd: %bd\r\n",now[2],now[1],now[0]);
-			
-        }
 
+            if(now[2] == DUISHISHIJIAN && now[1] ==1 && now[0] == 1 && yiduishi == 0)  // 8：1:1时，连接服器器对时
+            {
+                uart_printf(2,"AT+CIPSNTPTIME?\r\n");
+                yiduishi = 1;
+            }
+            if(now[2] == QINGSHUJUSHIJIAN && now[1] == 1&& now[0] == 0)//0：1：0时清fifuyao和yiduishi
+            {
+                yifuyao=0;
+                yiduishi=0;
+            }
+            if(now[2] == FUYAOSHIJIAN)
+            {
+                if(yifuyao==0)
+                {
+                    beep = 1;
+                    //判断是否已取瓶，已取瓶就将yifuyao置1
+                    P24 = 0 ;
+
+                    delay_ms(1);
+                    if(P32 == 1)
+                    {
+                        delay_ms(20);
+                        if(P32 == 1)
+                        {
+                            _nop_();
+                            yifuyao = 1;
+                        }
+                    }
+                    P24 = 1 ;
+
+                }
+                else beep = 0;
+            }
+			if(beep)
+			{
+				BEEP= !BEEP;
+			}
+			else BEEP = 0 ;
+
+        }
+        //以下是串口处理程序
         if(flag>0)
         {
             flag-=1;
@@ -181,24 +228,20 @@ void main() {			//main函数，必须的。
                 init[3] = 1;
                 init[4] = 1,init[5] = 1,init[6]=21;
 
-                if(init[0]!=0&&init[1]!=0&&init[2]!=0)
+                if(init[2] == 18)
                 {
-                    DS1302_SetTime(init);
-                    uart_printf(1,"set time ok\r\n");
+                    if(init[0]!=0&&init[1]!=0&&init[2]!=0)
+                    {
+                        DS1302_SetTime(init);
+                        uart_printf(1,"set time ok\r\n");
+                    }
                 }
-
                 //秒    分    时    日    月  星期    年
                 //extern BYTE data init[7] ;
-
-
-                // uart_printf(1,"%s\r\n",time);
-                // uart_printf(1,"-------\r\n");
             }
-
             memset(line2,0,BUF_SIZE);
         }
-
-
+        //以上是串口处理程序
     }
 }
 unsigned char temp1 = 0 ;

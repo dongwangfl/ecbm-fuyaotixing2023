@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/07/2021 21:50:18 PAGE 1   
+C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/08/2021 17:51:24 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SOFT_IIC
@@ -62,7 +62,7 @@ line level    source
   52          -------------------------------------------------------*/
   53          u8 soft_iic_init_linkage(u8 scl,u8 sda){
   54   1          u8 id;
-C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/07/2021 21:50:18 PAGE 2   
+C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/08/2021 17:51:24 PAGE 2   
 
   55   1          gpio_mode   (scl,GPIO_OD);//IIC的引脚需要是开漏模式
   56   1          gpio_mode   (sda,GPIO_OD);//IIC的引脚需要是开漏模式
@@ -126,7 +126,7 @@ line level    source
  112   2              gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
  113   2              return -1;
  114   2          }
-C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/07/2021 21:50:18 PAGE 3   
+C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/08/2021 17:51:24 PAGE 3   
 
  115   1          gpio_toggle_fast(soft_iic_def_scl_port,soft_iic_def_scl_pin);
  116   1          return 0;
@@ -190,7 +190,7 @@ line level    source
  174   1          c=0;
  175   1          for(i=0;i<128;i++){
  176   2              soft_iic_start();
-C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/07/2021 21:50:18 PAGE 4   
+C51 COMPILER V9.60.0.0   SOFT_IIC                                                          11/08/2021 17:51:24 PAGE 4   
 
  177   2              soft_iic_write(i<<1);
  178   2              if(soft_iic_read_ack()==0){

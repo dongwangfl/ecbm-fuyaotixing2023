@@ -54,7 +54,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //<o>高速(HSI/HSE)频率选择
 //<i>定义单片机运行的时钟频率（单位Hz）。
 //<i>当你在stcisp工具上输入了自定义频率或者使用了外部晶振的时候，需要在这里输入晶振频率。
-#define ECBM_SYSCLK_SETTING 22118400L
+#define ECBM_SYSCLK_SETTING 5529600L
 //<e>系统时钟输出
 //<i>可以输出时钟频率用于驱动其他外设，或者用于检测内部的工作频率。
 #define ECBM_SYSCLK_OUT_EN 0

@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 1   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ECBM_CORE
@@ -62,7 +62,7 @@ line level    source
   51          自动下载所需的变量 
   52          -------------------------------------------------------*/
   53          __IO u8 xdata old_char;  //保存上一次接收的数据
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 2   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 2   
 
   54          __IO u8 xdata char_count;//相同数据计数
   55          /*-------------------------------------------------------
@@ -126,7 +126,7 @@ line level    source
               #elif    ECBM_MCU    ==    0x4205C4
                   debug("T-48PIN");
               #elif    ECBM_MCU    ==    0x4305C2
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 3   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 3   
 
                   debug("S2-48PIN");    
               #elif    ECBM_MCU    ==    0x4305C4
@@ -190,7 +190,7 @@ line level    source
  173   3                  CLK_LSE_POWER_OFF;    //关闭其他时钟源，省电。
  174   3                  CLK_LSI_POWER_OFF;    //关闭其他时钟源，省电。
  175   3              }break;
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 4   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 4   
 
  176   2              case SYS_LSI:{
  177   3                  CLK_LSI_POWER_ON;    //使能LSI，即内部32K的IRC。
@@ -254,7 +254,7 @@ line level    source
  235   1          sys_count/=CLKDIV;//算上分频系数。
  236   1          if      (sys_count<5764800L ){//格式化处理，计算会有误差，得到不一定是标准频率，在这里格式化成标准频率
              -。
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 5   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 5   
 
  237   2              ecbm_sys_clk=5529600;
  238   2          }else if(sys_count<8529600L ){
@@ -318,7 +318,7 @@ line level    source
                           CLK_SET_OUT_TO_P54_FA;
                       #endif
                       CLK_OUT_SET_DIV_FA(ECBM_SYSCLK_OUT_SETTING_FA);
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 6   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 6   
 
                   #endif
               #endif
@@ -382,7 +382,7 @@ line level    source
                       }
                       dest++;                        //读取目标字符串的下一位。
                       if(key[key_count]==0){        //如果关键词字符串比对完，
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 7   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 7   
 
                           return key_first;        //返回关键词字符串第一次出现的位置。
                       } 
@@ -446,7 +446,7 @@ line level    source
                       if(str[pos+offset]==0)break;  //字符串结束也退出。
                   }
                   return     dat;
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 8   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 8   
 
               }
               /*-------------------------------------------------------
@@ -510,7 +510,7 @@ line level    source
                           }           
                       }
                   } 
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/07/2021 21:50:16 PAGE 9   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 9   
 
                   return crc_value;                                //返回计算CRC16的结果。
               }
