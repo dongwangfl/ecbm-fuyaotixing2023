@@ -82,7 +82,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //<q>单片机设置检查
 //<i>勾选此选项，会自动调用system_check函数，然后在电脑端的串口助手看到单片机的一些信息。
 //<i>system_check函数会对晶振频率等信息进行检测，然后给出结果。如果有设置错误的，可根据提示修改。
-#define ECBM_MCU_CHECK_EN  0 
+#define ECBM_MCU_CHECK_EN  1 
 //<q>软调试功能
 //<i>为了自动下载功能，一般都会打开串口1。平时使用串口1来调试皆可。
 //<i>但是如果有特殊需求，比如没有硬件串口或者串口被占用的情况，可以使用该功能。

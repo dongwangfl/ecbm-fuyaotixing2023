@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 17:51:23 PAGE 1   
+C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 20:59:46 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TIMER
@@ -62,7 +62,7 @@ line level    source
   52   2              #if ECBM_TIMER1_EN
                       case 1:{TIMER1_POWER_ON;}break;    
                       #endif
-C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 17:51:23 PAGE 2   
+C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 20:59:46 PAGE 2   
 
   55   2              #if ECBM_TIMER2_EN
                       case 2:{TIMER2_POWER_ON;}break;        
@@ -126,7 +126,7 @@ line level    source
  114   2              switch(id){
  115   3                  #if ECBM_TIMER0_EN
  116   3                  case 0:{TIMER0_OUT_OFF;gpio_mode(D35,GPIO_IN);}break;        
-C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 17:51:23 PAGE 3   
+C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 20:59:46 PAGE 3   
 
  117   3                  #endif
  118   3                  #if ECBM_TIMER1_EN
@@ -190,7 +190,7 @@ line level    source
                   TIMER4_IT_ENABLE;
                   #endif
               #endif
-C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 17:51:23 PAGE 4   
+C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 20:59:46 PAGE 4   
 
  179   1      }
  180          /*-------------------------------------------------------
@@ -254,7 +254,7 @@ line level    source
  238   2              #if ECBM_TIMER3_EN
                       case 3:{
                           if(n==1){
-C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 17:51:23 PAGE 5   
+C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 20:59:46 PAGE 5   
 
                               TIMER3_SET_MODE_1T;
                               n=65536-(u16)((float)us*((float)ecbm_sys_clk/1000000.0));
@@ -318,7 +318,7 @@ line level    source
  300   2              #if ECBM_TIMER1_EN 
                       case 1:{value=TIMER1_GET_REG_HL;}break;    
                       #endif
-C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 17:51:23 PAGE 6   
+C51 COMPILER V9.60.0.0   TIMER                                                             11/08/2021 20:59:46 PAGE 6   
 
  303   2              #if ECBM_TIMER2_EN
                       case 2:{value=TIMER2_GET_REG_HL;}break;        

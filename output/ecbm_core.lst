@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 1   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ECBM_CORE
@@ -62,7 +62,7 @@ line level    source
   51          ◊‘∂Øœ¬‘ÿÀ˘–Ëµƒ±‰¡ø 
   52          -------------------------------------------------------*/
   53          __IO u8 xdata old_char;  //±£¥Ê…œ“ª¥ŒΩ” ’µƒ ˝æ›
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 2   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 2   
 
   54          __IO u8 xdata char_count;//œ‡Õ¨ ˝æ›º∆ ˝
   55          /*-------------------------------------------------------
@@ -83,17 +83,17 @@ line level    source
   70   2          }
   71   1      }
   72          #if ECBM_MCU_CHECK_EN
-              /*-------------------------------------------------------
-              œµÕ≥ºÏ≤È∫Ø ˝
-              -------------------------------------------------------*/
-              void system_check(){
-                  u8 i,j;    
-                  u16 aaa=0x1234;
-                  debug("ECBM V%u.%u.%u on %s",(u16)ECBM_FVN,(u16)ECBM_RVN,(u16)ECBM_BVN,ECBM_MCU_NAME);// ‰≥ˆ∞Ê±æ∫≈∫Õµ•
+  73          /*-------------------------------------------------------
+  74          œµÕ≥ºÏ≤È∫Ø ˝
+  75          -------------------------------------------------------*/
+  76          void system_check(){
+  77   1          u8 i,j;    
+  78   1          u16 aaa=0x1234;
+  79   1          debug("ECBM V%u.%u.%u on %s",(u16)ECBM_FVN,(u16)ECBM_RVN,(u16)ECBM_BVN,ECBM_MCU_NAME);// ‰≥ˆ∞Ê±æ∫≈∫Õµ•
              -∆¨ª˙–Õ∫≈
-                  debug("%uK",(u16)((ECBM_MCU&0x0F0000)>>16));
-                  debug("%02u",(u16)(ECBM_MCU_ROM_SIZE));
-              #if        ECBM_MCU    ==    0x110301
+  80   1          debug("%uK",(u16)((ECBM_MCU&0x0F0000)>>16));
+  81   1          debug("%02u",(u16)(ECBM_MCU_ROM_SIZE));
+  82   1      #if        ECBM_MCU    ==    0x110301
                   debug("-8PIN");
               #elif    ECBM_MCU    ==    0x110302
                   debug("S2-16PIN/20PIN");
@@ -106,8 +106,8 @@ line level    source
               #elif    ECBM_MCU    ==    0x2815C4
                   debug("D4");
               #elif    ECBM_MCU    ==    0x2805C4
-                  debug("S4A12");
-              #elif    ECBM_MCU    ==    0x3103A2
+  95   1          debug("S4A12");
+  96   1      #elif    ECBM_MCU    ==    0x3103A2
                   debug("-16PIN/20PIN");
               #elif    ECBM_MCU    ==    0x310201
                   debug("-8PIN ");
@@ -126,7 +126,7 @@ line level    source
               #elif    ECBM_MCU    ==    0x4205C4
                   debug("T-48PIN");
               #elif    ECBM_MCU    ==    0x4305C2
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 3   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 3   
 
                   debug("S2-48PIN");    
               #elif    ECBM_MCU    ==    0x4305C4
@@ -134,33 +134,33 @@ line level    source
               #elif    ECBM_MCU    ==    0x4805C4
                   debug("U-48PIN/64PIN");    
               #endif
-                  j=0;
-                  debug("\r\nChecking MCU ID");
-                  for(i=0;i<7;i++){
-                      debug(".");
-                      if((REG_ID(i))==(MCUID[i])){
-                          j++;
-                      }
-                  }
-                  if(j!=7){
-                      debug("Error\r\nPlease check the setting of the MCU model\r\n");
-                  }else{
-                      debug("OK\r\nID    :");for(i=0;i<7;i++){debug("%02X",(u16)(MCUID[i]));}debug("\r\n");        // ‰≥
+ 121   1          j=0;
+ 122   1          debug("\r\nChecking MCU ID");
+ 123   1          for(i=0;i<7;i++){
+ 124   2              debug(".");
+ 125   2              if((REG_ID(i))==(MCUID[i])){
+ 126   3                  j++;
+ 127   3              }
+ 128   2          }
+ 129   1          if(j!=7){
+ 130   2              debug("Error\r\nPlease check the setting of the MCU model\r\n");
+ 131   2          }else{
+ 132   2              debug("OK\r\nID    :");for(i=0;i<7;i++){debug("%02X",(u16)(MCUID[i]));}debug("\r\n");        // ‰≥
              -ˆŒ®“ªID∫≈
-                      debug("DATA  :128\tByte\r\n");//DATA«¯πÃ∂® «128Byte
-                      debug("IDATA :128\tByte\r\n");//IDATA«¯πÃ∂® «128Byte
-                      debug("XDATA :%u\tByte\r\n",(u16)((ECBM_MCU&0x0F0000)>>16)*1024);//¥”≈‰÷√Œƒº˛÷–ªÒ»°XDATA«¯¥Û–°
-                      debug("FLASH :%lu\tByte\r\n",(u32)ECBM_MCU_ROM_SIZE*1024);//¥”≈‰÷√Œƒº˛÷–ªÒ»°FLASH«¯¥Û–°
-                      debug("EEPROM:%u\tByte\r\n",(u16)512);//¥”≈‰÷√Œƒº˛÷–ªÒ»°EEPROM«¯¥Û–°
-                      debug("SYSCLK:%lu\tHz\r\n",ecbm_sys_clk);// ‰≥ˆƒ⁄≤øæß’Ò÷µ£¨‘⁄Õº–ŒΩÁ√Ê…œ…Ë÷√
-                      debug("LSI   :%u\tHz\r\n",REG_LSI);// ‰≥ˆƒ⁄≤øæß’Ò÷µ£¨‘⁄Õº–ŒΩÁ√Ê…œ…Ë÷√
-                      debug("BGV   :%u\tmV\r\n",REG_BGV);// ‰≥ˆƒ⁄≤øµÁ—πª˘◊º÷µ£¨–Ë“™‘⁄STC-ISP…œ…Ë÷√
-                      debug("ENDIAN:");
-                      if(*((char*)(&aaa))==0x12)debug("big\tendian\r\n");
-                      if(*((char*)(&aaa))==0x34)debug("little\tendian\r\n");
-                  }    
-              }
-              #endif
+ 133   2              debug("DATA  :128\tByte\r\n");//DATA«¯πÃ∂® «128Byte
+ 134   2              debug("IDATA :128\tByte\r\n");//IDATA«¯πÃ∂® «128Byte
+ 135   2              debug("XDATA :%u\tByte\r\n",(u16)((ECBM_MCU&0x0F0000)>>16)*1024);//¥”≈‰÷√Œƒº˛÷–ªÒ»°XDATA«¯¥Û–°
+ 136   2              debug("FLASH :%lu\tByte\r\n",(u32)ECBM_MCU_ROM_SIZE*1024);//¥”≈‰÷√Œƒº˛÷–ªÒ»°FLASH«¯¥Û–°
+ 137   2              debug("EEPROM:%u\tByte\r\n",(u16)512);//¥”≈‰÷√Œƒº˛÷–ªÒ»°EEPROM«¯¥Û–°
+ 138   2              debug("SYSCLK:%lu\tHz\r\n",ecbm_sys_clk);// ‰≥ˆƒ⁄≤øæß’Ò÷µ£¨‘⁄Õº–ŒΩÁ√Ê…œ…Ë÷√
+ 139   2              debug("LSI   :%u\tHz\r\n",REG_LSI);// ‰≥ˆƒ⁄≤øæß’Ò÷µ£¨‘⁄Õº–ŒΩÁ√Ê…œ…Ë÷√
+ 140   2              debug("BGV   :%u\tmV\r\n",REG_BGV);// ‰≥ˆƒ⁄≤øµÁ—πª˘◊º÷µ£¨–Ë“™‘⁄STC-ISP…œ…Ë÷√
+ 141   2              debug("ENDIAN:");
+ 142   2              if(*((char*)(&aaa))==0x12)debug("big\tendian\r\n");
+ 143   2              if(*((char*)(&aaa))==0x34)debug("little\tendian\r\n");
+ 144   2          }    
+ 145   1      }
+ 146          #endif
  147          /****************************************************************************/#endif
  148          /*-------------------------------------------------------
  149          ∏Ò ΩªØ∑¢ÀÕ∫Ø ˝
@@ -190,7 +190,7 @@ line level    source
  173   3                  CLK_LSE_POWER_OFF;    //πÿ±’∆‰À˚ ±÷”‘¥£¨ °µÁ°£
  174   3                  CLK_LSI_POWER_OFF;    //πÿ±’∆‰À˚ ±÷”‘¥£¨ °µÁ°£
  175   3              }break;
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 4   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 4   
 
  176   2              case SYS_LSI:{
  177   3                  CLK_LSI_POWER_ON;    // πƒ‹LSI£¨º¥ƒ⁄≤ø32KµƒIRC°£
@@ -254,7 +254,7 @@ line level    source
  235   1          sys_count/=CLKDIV;//À„…œ∑÷∆µœµ ˝°£
  236   1          if      (sys_count<5764800L ){//∏Ò ΩªØ¥¶¿Ì£¨º∆À„ª·”–ŒÛ≤Ó£¨µ√µΩ≤ª“ª∂® «±Í◊º∆µ¬ £¨‘⁄’‚¿Ô∏Ò ΩªØ≥…±Í◊º∆µ¬ 
              -°£
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 5   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 5   
 
  237   2              ecbm_sys_clk=5529600;
  238   2          }else if(sys_count<8529600L ){
@@ -318,16 +318,16 @@ line level    source
                           CLK_SET_OUT_TO_P54_FA;
                       #endif
                       CLK_OUT_SET_DIV_FA(ECBM_SYSCLK_OUT_SETTING_FA);
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 6   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 6   
 
                   #endif
               #endif
  301   1      //--------------…Ë÷√»∑»œ---------------//
  302   1          EA_ENABLE;//¥Úø™◊‹÷–∂œ°£
  303   1      #if ECBM_MCU_CHECK_EN
-                  delay_ms(500);
-                  system_check();
-              #endif
+ 304   1          delay_ms(500);
+ 305   1          system_check();
+ 306   1      #endif
  307   1      }
  308          /*---------------------------------∆‰À˚∑«œµÕ≥∫Ø ˝---------------------------------*/
  309          /*-------------------------------------------------------
@@ -382,7 +382,7 @@ line level    source
                       }
                       dest++;                        //∂¡»°ƒø±Í◊÷∑˚¥Æµƒœ¬“ªŒª°£
                       if(key[key_count]==0){        //»Áπ˚πÿº¸¥ ◊÷∑˚¥Æ±»∂‘ÕÍ£¨
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 7   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 7   
 
                           return key_first;        //∑µªÿπÿº¸¥ ◊÷∑˚¥Æµ⁄“ª¥Œ≥ˆœ÷µƒŒª÷√°£
                       } 
@@ -446,7 +446,7 @@ line level    source
                       if(str[pos+offset]==0)break;  //◊÷∑˚¥ÆΩ· ¯“≤ÕÀ≥ˆ°£
                   }
                   return     dat;
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 8   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 8   
 
               }
               /*-------------------------------------------------------
@@ -510,7 +510,7 @@ line level    source
                           }           
                       }
                   } 
-C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 17:51:22 PAGE 9   
+C51 COMPILER V9.60.0.0   ECBM_CORE                                                         11/08/2021 20:59:45 PAGE 9   
 
                   return crc_value;                                //∑µªÿº∆À„CRC16µƒΩ·π˚°£
               }
@@ -537,9 +537,9 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1053    ----
-   CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =     12     114
+   CODE SIZE        =   1510    ----
+   CONSTANT SIZE    =    304    ----
+   XDATA SIZE       =     12     118
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

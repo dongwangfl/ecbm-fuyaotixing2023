@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   IIC                                                               11/08/2021 17:51:24 PAGE 1   
+C51 COMPILER V9.60.0.0   IIC                                                               11/08/2021 20:59:47 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE IIC
@@ -62,7 +62,7 @@ line level    source
   52          /*-------------------------------------------------------
   53          IIC的引脚设置函数（内联版）。
   54          -------------------------------------------------------*/
-C51 COMPILER V9.60.0.0   IIC                                                               11/08/2021 17:51:24 PAGE 2   
+C51 COMPILER V9.60.0.0   IIC                                                               11/08/2021 20:59:47 PAGE 2   
 
   55          void iic_set_pin_linkage(u8 group){
   56   1          if(iic_index!=group){
@@ -126,7 +126,7 @@ line level    source
  114   1          IIC_SET_SPEED(res);//等待时钟
  115   1          IIC_SET_REG_MSST(0);//清除所有标志位
  116   1          iic_set_pin(ECBM_IIC_IO);//默认使用0组，即P14和P15
-C51 COMPILER V9.60.0.0   IIC                                                               11/08/2021 17:51:24 PAGE 3   
+C51 COMPILER V9.60.0.0   IIC                                                               11/08/2021 20:59:47 PAGE 3   
 
  117   1          iic_index=ECBM_IIC_IO;
  118   1          IIC_POWER_ON;//开启IIC
@@ -190,7 +190,7 @@ line level    source
  176   1          IIC_CMD_TX_DATA;//发送SEND命令
  177   1          while(iic_busy&&(timeout--));
  178   1      }
-C51 COMPILER V9.60.0.0   IIC                                                               11/08/2021 17:51:24 PAGE 4   
+C51 COMPILER V9.60.0.0   IIC                                                               11/08/2021 20:59:47 PAGE 4   
 
  179          void iic_write_ack(){
  180   1          u8 timeout=ECBM_IIC_TIMEOUT;

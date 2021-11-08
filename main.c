@@ -108,6 +108,53 @@ void main() {			//main函数，必须的。
     bit    yiduishi=0;
     unsigned char time[2]= {0};
 	unsigned char  volatile beep = 0;
+	unsigned int year=0;
+	BYTE BYTEYEAR = 0 ;
+	unsigned int secondstick = 0 ;
+	
+	
+	 P37 = 0 ;
+    P3M0 = 0X80;
+    P3M1 = 0;
+    beep = 0 ;
+
+    /**********************
+    	可以降低功耗
+    ******************/
+    P0M0 = 0xff ;
+    P0M1 = 0xff ;
+    P1M0 = 0xff;
+    P1M1 = 0xff;
+    P2M0 = 0xff;
+    P2M1 = 0xff;
+    P3M0 = 0xff;
+    P3M1 = 0xff;
+    P4M0 = 0xff;
+    P4M1 = 0xff;
+    P5M0 = 0xff ;
+    P5M1 = 0xff;
+	
+	 P1M0 &= 0XF0;  //P10 1 2 3串口二为准双向
+    P1M1 &=0XF0;
+
+    P3M1 &=0X7F; //P37 设置成推挽输出驱动蜂鸣器  M0 = 1 M1 = 0
+    P3M0 |= 0X80;
+
+    P3M1 &= 0XFB;//将P32设置成准双向模式
+    P3M0 &= 0XFB;
+
+    P2M1 &= 0X0F;//将P24,5,6,7设置成准双向模式，其它的为开漏
+    P2M0 &= 0X0F;
+
+    P3M1 &=0XFC; //串口P30 1 为准双向
+    P3M0 &=0XFC;
+
+	
+	
+	
+	
+	
+	
     system_init();		//系统初始化函数，也是必须的。
     timer_init();
     timer_start(0);//再打开定时器0。
@@ -137,7 +184,7 @@ void main() {			//main函数，必须的。
         uart_printf(1,"send command AT+CIPSNTPCFG=1,8 failed\r\n");
     }
 
-    delay_ms(1000);
+    delay_ms(3000);
     uart_printf(2,"AT+CIPSNTPTIME?\r\n");
 
 
@@ -150,7 +197,10 @@ void main() {			//main函数，必须的。
             tickflag=0;
             DS1302_GetTime(now);
             uart_printf(1,"%bd: %bd: %bd\r\n",now[2],now[1],now[0]);
-
+			secondstick++;
+			if(secondstick%5==0)P12=0;
+			else P12 = 1;
+				
             if(now[2] == DUISHISHIJIAN && now[1] ==1 && now[0] == 1 && yiduishi == 0)  // 8：1:1时，连接服器器对时
             {
                 uart_printf(2,"AT+CIPSNTPTIME?\r\n");
@@ -225,10 +275,22 @@ void main() {			//main函数，必须的。
                 time[1]=line2[len-14];
                 init[2] = atoi(time);
 
+				time[0]=line2[len-4];  //+CIPSNTPTIME:Mon Nov 08 19:49:26 2021  最后的21,保存到init中，
+				time[1] = line2[len-3];
+				init[6] = atoi(time);
+				
+				
+				time[0] = line2[len-6];//+CIPSNTPTIME:Mon Nov 08 19:49:26 2021  最后的20,和21组合，检测是否获取正确的时间
+				time[1] = line2[len-5];
+				BYTEYEAR = atoi(time);
+				
                 init[3] = 1;
-                init[4] = 1,init[5] = 1,init[6]=21;
-
-                if(init[2] == 18)
+                init[4] = 1,init[5] = 1;
+				
+				year=(int)(BYTEYEAR*100)+init[6];				
+				uart_printf(1,"--    %d\r\n",year);
+				
+                if(year>= 2021)
                 {
                     if(init[0]!=0&&init[1]!=0&&init[2]!=0)
                     {

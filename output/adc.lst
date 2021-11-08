@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   ADC                                                               11/08/2021 17:51:25 PAGE 1   
+C51 COMPILER V9.60.0.0   ADC                                                               11/08/2021 20:59:47 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE ADC
@@ -62,7 +62,7 @@ line level    source
                   gpio_mode(A10,GPIO_HZ);
               #endif
   54   1      #if ECBM_ADC_CH11
-C51 COMPILER V9.60.0.0   ADC                                                               11/08/2021 17:51:25 PAGE 2   
+C51 COMPILER V9.60.0.0   ADC                                                               11/08/2021 20:59:47 PAGE 2   
 
                   gpio_mode(A11,GPIO_HZ);
               #endif
@@ -126,7 +126,7 @@ line level    source
                   return (float)jg*vref/256.0f;//8位数据。
                   #else
  116   1          return (float)jg*vref/(ECBM_MCU_ADC_MAX);//12位数据。
-C51 COMPILER V9.60.0.0   ADC                                                               11/08/2021 17:51:25 PAGE 3   
+C51 COMPILER V9.60.0.0   ADC                                                               11/08/2021 20:59:47 PAGE 3   
 
  117   1          #endif
  118   1      }
