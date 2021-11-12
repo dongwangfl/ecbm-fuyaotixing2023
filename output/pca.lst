@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   PCA                                                               11/08/2021 20:59:48 PAGE 1   
+C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PCA
@@ -62,7 +62,7 @@ line level    source
   52   1      }
   53          /*-------------------------------------------------------
   54          PCA设置IO映射函数。
-C51 COMPILER V9.60.0.0   PCA                                                               11/08/2021 20:59:48 PAGE 2   
+C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 2   
 
   55          -------------------------------------------------------*/
   56          void pca_set_io(u8 io){
@@ -126,7 +126,7 @@ line level    source
               #elif (ECBM_MCU==0x3103A1)//STC8G1KxxT_20PIN
                   switch(io){
                       case PCA_PIN_P13_P11_P10_P37:{
-C51 COMPILER V9.60.0.0   PCA                                                               11/08/2021 20:59:48 PAGE 3   
+C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 3   
 
                           gpio_mode(D13,GPIO_IN);
                           gpio_mode(D11,GPIO_IN);
@@ -190,7 +190,7 @@ line level    source
  176   3                  pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
  177   3              }break;
  178   2              case 3:{//8位PWM模式
-C51 COMPILER V9.60.0.0   PCA                                                               11/08/2021 20:59:48 PAGE 4   
+C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 4   
 
  179   3                  pca_pwmx=0x00;
  180   3                  pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
@@ -254,7 +254,7 @@ line level    source
  238   1      }
  239          /*-------------------------------------------------------
  240          PCA在定时器模式或高速脉冲输出模式下的计数值设置函数
-C51 COMPILER V9.60.0.0   PCA                                                               11/08/2021 20:59:48 PAGE 5   
+C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 5   
 
  241          -------------------------------------------------------*/
  242          void pca_set_timer(u8 id,u16 count){
@@ -318,7 +318,7 @@ line level    source
                       case 1:{
                           mode=pca_mode_1;
                       }break;
-C51 COMPILER V9.60.0.0   PCA                                                               11/08/2021 20:59:48 PAGE 6   
+C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 6   
 
                       #endif
  304   2              #if ECBM_PCA2_EN
@@ -382,7 +382,7 @@ line level    source
  362   4                  }break;
  363   3              }
  364   2              switch(id){
-C51 COMPILER V9.60.0.0   PCA                                                               11/08/2021 20:59:48 PAGE 7   
+C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 7   
 
  365   3                  #if ECBM_PCA0_EN
                           case 0:{
@@ -446,7 +446,7 @@ line level    source
                       #endif
                       #if ECBM_PCA1_CALLBACK_EN == 1
                       pca1_callback();
-C51 COMPILER V9.60.0.0   PCA                                                               11/08/2021 20:59:48 PAGE 8   
+C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 8   
 
                       #endif
                   }

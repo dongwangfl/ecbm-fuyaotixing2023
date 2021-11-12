@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   EXTI                                                              11/08/2021 20:59:46 PAGE 1   
+C51 COMPILER V9.60.0.0   EXTI                                                              11/12/2021 21:36:39 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE EXTI
@@ -62,7 +62,7 @@ line level    source
                       EXTI4_SET_IO_HIGH;      //置一，防止内部接地影响读取。
                       #if ECBM_EXTI4_INIT
                           EXTI4_ENABLE;       //打开外部中断4
-C51 COMPILER V9.60.0.0   EXTI                                                              11/08/2021 20:59:46 PAGE 2   
+C51 COMPILER V9.60.0.0   EXTI                                                              11/12/2021 21:36:39 PAGE 2   
 
                       #endif
                   #endif
@@ -126,7 +126,7 @@ line level    source
                           }else{
                               EXTI0_SET_MODE_UP_DOWM;
                           }
-C51 COMPILER V9.60.0.0   EXTI                                                              11/08/2021 20:59:46 PAGE 3   
+C51 COMPILER V9.60.0.0   EXTI                                                              11/12/2021 21:36:39 PAGE 3   
 
                       }break;
                       #endif

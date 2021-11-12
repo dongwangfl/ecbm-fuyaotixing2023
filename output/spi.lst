@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   SPI                                                               11/08/2021 20:59:47 PAGE 1   
+C51 COMPILER V9.60.0.0   SPI                                                               11/12/2021 21:36:40 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SPI
@@ -62,7 +62,7 @@ line level    source
                           gpio_mode(D33,GPIO_IN);
                           gpio_mode(D32,GPIO_OUT);
                       }break;
-C51 COMPILER V9.60.0.0   SPI                                                               11/08/2021 20:59:47 PAGE 2   
+C51 COMPILER V9.60.0.0   SPI                                                               11/12/2021 21:36:40 PAGE 2   
 
                   }
                   #else
@@ -126,7 +126,7 @@ line level    source
                       }break;
                       case SPI_PIN_P22_P23_P24_P25:{
                           #if (ECBM_SPI_REG&0x80)
-C51 COMPILER V9.60.0.0   SPI                                                               11/08/2021 20:59:47 PAGE 3   
+C51 COMPILER V9.60.0.0   SPI                                                               11/12/2021 21:36:40 PAGE 3   
 
                           gpio_mode(D22,GPIO_IN);
                           #endif

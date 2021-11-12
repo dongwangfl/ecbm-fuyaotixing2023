@@ -4,9 +4,10 @@
 #include "ds1302.h"
 #include <stdlib.h>
 
-#define  FUYAOSHIJIAN 7
-#define DUISHISHIJIAN 8
-#define QINGSHUJUSHIJIAN 0
+unsigned char   FUYAOSHIJIAN =3;
+unsigned char FUYAOSHIJIANFENZHONG = 3;
+unsigned char  DUISHISHIJIAN =3;
+unsigned char  QINGSHUJUSHIJIAN = 3;
 
 sbit BEEP= P3^7;
 unsigned char line1[128]= {0};
@@ -157,9 +158,20 @@ void main() {			//main函数，必须的。
 	
     system_init();		//系统初始化函数，也是必须的。
     timer_init();
+	eeprom_init();
     timer_start(0);//再打开定时器0。
     timer_set_timer_mode(0,10000);
     DS1302_Initial();
+	
+	FUYAOSHIJIAN = eeprom_read(0);
+	FUYAOSHIJIANFENZHONG = eeprom_read(1);
+	DUISHISHIJIAN = eeprom_read(2);
+	QINGSHUJUSHIJIAN = eeprom_read(3);
+		if(FUYAOSHIJIAN == 3)FUYAOSHIJIAN = 7;
+		if(FUYAOSHIJIANFENZHONG==3)FUYAOSHIJIANFENZHONG=0;
+		if(DUISHISHIJIAN==3)DUISHISHIJIAN = 8;
+		if(QINGSHUJUSHIJIAN==3)QINGSHUJUSHIJIAN = 0;
+
 
     //两个串口的环形队列初始化
     ptrqueue1 = &queue1;
@@ -196,7 +208,7 @@ void main() {			//main函数，必须的。
         {
             tickflag=0;
             DS1302_GetTime(now);
-            uart_printf(1,"%bd: %bd: %bd\r\n",now[2],now[1],now[0]);
+            uart_printf(1,"%bd: %bd: %bd   ATIME：%bd   %bd \r\n",now[2],now[1],now[0],FUYAOSHIJIAN,FUYAOSHIJIANFENZHONG);
 			secondstick++;
 			if(secondstick%5==0)P12=0;
 			else P12 = 1;
@@ -211,7 +223,7 @@ void main() {			//main函数，必须的。
                 yifuyao=0;
                 yiduishi=0;
             }
-            if(now[2] == FUYAOSHIJIAN)
+            if(now[2] == FUYAOSHIJIAN &&now[1] >= FUYAOSHIJIANFENZHONG  )
             {
                 if(yifuyao==0)
                 {
@@ -245,10 +257,30 @@ void main() {			//main函数，必须的。
         if(flag>0)
         {
             flag-=1;
-            uart_printf(1,"uart1  %bd received:",flag);
-
+            uart_printf(1,"uart1 received:");	
             Get_Line(ptrqueue1,line1);
-            uart_printf(2,line1);
+			if(strlen(line1)>0)
+			{
+				if(line1[0]=='A' && line1[1] == 'T')	uart_printf(2,line1); //如果是AT指令，则转发串口2
+				else if(strncmp(line1,"SETATIME",8)==0)//如果接收到的是SETATIME，则是设置提醒服药时间，SETATIME#07:00+;
+				{
+					i=strpos(line1,'#');
+					if(i!=-1)
+					{
+						time[0]=line1[i+1];time[1]=line1[i+2];
+						FUYAOSHIJIAN = atoi(time);
+						time[0] = line1[i+4],time[1] = line1[i+5];
+						FUYAOSHIJIANFENZHONG = atoi(time);
+						time[0] = FUYAOSHIJIAN;time[1] = FUYAOSHIJIANFENZHONG;
+						eeprom_write_ex(0,time,2);
+						delay_ms(50);
+						time[0]=0;time[1] = 0;
+						eeprom_read_ex(0,time,2);
+						if(time[0] ==FUYAOSHIJIAN && time[1] == FUYAOSHIJIANFENZHONG) uart_printf(1,"SETATIME AT %bd：%bd  ....OK!\r\n",time[0],time[1]);
+						else uart_printf(1,"SETATIME FAILED!\r\n");
+					}
+				}
+			}
 
             memset(line1,0,BUF_SIZE);
         }
