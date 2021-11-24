@@ -212,11 +212,12 @@ void main() {			//main函数，必须的。
             uart_printf(1,"%bd: %bd: %bd   ATIME：%bd   %bd \r\n",now[2],now[1],now[0],FUYAOSHIJIAN,FUYAOSHIJIANFENZHONG);
             secondstick++;
             if(secondstick%5==0)P12=0;
+			else P12 = 1;
 			if(secondstick % 3600==0)//每个小时对一次时，避免偶尔对时失败，导致时间永远不能对时
 			{
 				uart_printf(2,"AT+CIPSNTPTIME?\r\n");
 			}
-            else P12 = 1;
+          
 
 //            if(now[2] == DUISHISHIJIAN && now[1] ==1 && now[0] == 1 && yiduishi == 0)  // 8：1:1时，连接服器器对时
 //            {
@@ -234,10 +235,10 @@ void main() {			//main函数，必须的。
                 {
                     beep = 1;
                     //判断是否已取瓶，已取瓶就将yifuyao置1
-                    P24 = 0 ;
+                    P24 = 0 ;//打开光电管的电源，
 
                     delay_ms(1);
-                    if(P32 == 1)
+                    if(P32 == 1) //检测药瓶是否在上面
                     {
                         delay_ms(20);
                         if(P32 == 1)
