@@ -178,6 +178,12 @@ void main() {			//main函数，必须的。
     ptrqueue2 = &queue2;
     initQueue(ptrqueue1);
     initQueue(ptrqueue2);
+	
+	uart_printf(1,"——————————————————————————————————————————————————\r\n");
+	uart_printf(1,"———————————————————————服药提醒————————————————————\r\n");
+	uart_printf(1,"实现的命令:\r\n");
+	uart_printf(1,"           1. 设置报警时间: SETATIME#07:00\r\n");
+	uart_printf(1,"——————————————————————————————————————————————————\r\n");
 
     uart_printf(1,"starting..\r\n");
     uart_set_baud(2,115200);
@@ -268,7 +274,7 @@ void main() {			//main函数，必须的。
             if(strlen(line1)>0)
             {
                 if(line1[0]=='A' && line1[1] == 'T')	uart_printf(2,line1); //如果是AT指令，则转发串口2
-                else if(strncmp(line1,"SETATIME",8)==0)//如果接收到的是SETATIME，则是设置提醒服药时间，SETATIME#07:00+;
+                else if(strncmp(line1,"SETATIME",8)==0)//如果接收到的是SETATIME，则是设置提醒服药时间，SETATIME#07:00;
                 {
                     i=strpos(line1,'#');
                     if(i!=-1)

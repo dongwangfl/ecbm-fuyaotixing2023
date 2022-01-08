@@ -18,5 +18,5 @@
 ".\output\pca.obj",
 ".\output\pwm.obj",
 ".\output\lcm.obj" 
-TO ".\output\ecbm" 
+TO ".\output\ecbm" Rtx51Tiny 
 PRINT(".\output\ecbm.m51") DISABLEWARNING (16) 
