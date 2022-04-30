@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              01/08/2022 22:38:24 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              04/30/2022 15:41:01 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
 OBJECT MODULE PLACED IN .\output\main.obj
-COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device;.\d
-                    -evice\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\main.lst) OBJECT(.\output\main.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device;.\devic
+                    -e\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\main.lst) TABS(2) OBJECT(.\output\main.obj)
 
 line level    source
 
@@ -18,403 +18,412 @@ line level    source
    8          unsigned char FUYAOSHIJIANFENZHONG = 3;
    9          unsigned char  DUISHISHIJIAN =3;
   10          unsigned char  QINGSHUJUSHIJIAN = 3;
-  11          
-  12          sbit BEEP= P3^7;
-  13          unsigned char line1[128]= {0};
-  14          unsigned char line2[128]= {0};
-  15          
-  16          unsigned char flag = 0;
-  17          unsigned char flag2 = 0 ;
-  18          QUEUE queue1,*ptrqueue1;
-  19          QUEUE queue2,*ptrqueue2;
-  20          int i = 0 ;
-  21          
-  22          unsigned char  find_string(unsigned char *line, char* p)
-  23          {
-  24   1          if(strstr(line,p)!=NULL)
-  25   1          {
-  26   2              return 1;
-  27   2          }
-  28   1          else
-  29   1          {
-  30   2              return 0;
-  31   2          }
-  32   1      }
-  33          
-  34          /* ¹¦  ÄÜ£º½«str×Ö·û´®ÖÐµÄoldstr×Ö·û´®Ìæ»»Îªnewstr×Ö·û´®
-  35           * ²Î  Êý£ºstr£º²Ù×÷Ä¿±ê oldstr£º±»Ìæ»»Õß newstr£ºÌæ»»Õß
-  36           * ·µ»ØÖµ£º·µ»ØÌæ»»Ö®ºóµÄ×Ö·û´®
-  37           * °æ  ±¾£º V0.2
-  38           */
-  39          char *strrpc(char *str,char *oldstr,char *newstr) {
-  40   1          char bstr[32];//×ª»»»º³åÇø
-  41   1          unsigned char i = 0 ;
-  42   1          memset(bstr,0,sizeof(bstr));
-  43   1      
-  44   1          for(i = 0; i < strlen(str); i++) {
-  45   2              if(!strncmp(str+i,oldstr,strlen(oldstr))) { //²éÕÒÄ¿±ê×Ö·û´®
-  46   3                  strcat(bstr,newstr);
-  47   3                  i += strlen(oldstr) - 1;
-  48   3              } else {
-  49   3                  strncat(bstr,str + i,1);//±£´æÒ»×Ö½Ú½ø»º³åÇø
-  50   3              }
-  51   2          }
-  52   1      
-  53   1          strcpy(str,bstr);
-  54   1          return str;
-C51 COMPILER V9.60.0.0   MAIN                                                              01/08/2022 22:38:24 PAGE 2   
+  11          unsigned char YIFUYAOCUNCHU = 0;
+  12          
+  13          sbit BEEP= P3^7;
+  14          unsigned char line1[128]= {0};
+  15          unsigned char line2[128]= {0};
+  16          
+  17          unsigned char flag = 0;
+  18          unsigned char flag2 = 0 ;
+  19          QUEUE queue1,*ptrqueue1;
+  20          QUEUE queue2,*ptrqueue2;
+  21          int i = 0 ;
+  22          
+  23          unsigned char  find_string(unsigned char *line, char* p)
+  24          {
+  25   1          if(strstr(line,p)!=NULL)
+  26   1          {
+  27   2              return 1;
+  28   2          }
+  29   1          else
+  30   1          {
+  31   2              return 0;
+  32   2          }
+  33   1      }
+  34          
+  35          /* ¹¦  ÄÜ£º½«str×Ö·û´®ÖÐµÄoldstr×Ö·û´®Ìæ»»Îªnewstr×Ö·û´®
+  36           * ²Î  Êý£ºstr£º²Ù×÷Ä¿±ê oldstr£º±»Ìæ»»Õß newstr£ºÌæ»»Õß
+  37           * ·µ»ØÖµ£º·µ»ØÌæ»»Ö®ºóµÄ×Ö·û´®
+  38           * °æ  ±¾£º V0.2
+  39           */
+  40          char *strrpc(char *str,char *oldstr,char *newstr) {
+  41   1          char bstr[32];//×ª»»»º³åÇø
+  42   1          unsigned char i = 0 ;
+  43   1          memset(bstr,0,sizeof(bstr));
+  44   1      
+  45   1          for(i = 0; i < strlen(str); i++) {
+  46   2              if(!strncmp(str+i,oldstr,strlen(oldstr))) { //²éÕÒÄ¿±ê×Ö·û´®
+  47   3                  strcat(bstr,newstr);
+  48   3                  i += strlen(oldstr) - 1;
+  49   3              } else {
+  50   3                  strncat(bstr,str + i,1);//±£´æÒ»×Ö½Ú½ø»º³åÇø
+  51   3              }
+  52   2          }
+  53   1      
+  54   1          strcpy(str,bstr);
+C51 COMPILER V9.60.0.0   MAIN                                                              04/30/2022 15:41:01 PAGE 2   
 
-  55   1      }
-  56          char *SubString(char *p,char *dst,index)
-  57          {
-  58   1          char bstr[32];
-  59   1          char i = 0 ;
-  60   1          memset(bstr,0,sizeof(bstr));
-  61   1      
-  62   1          for(i = index ; i < strlen(p); i++)
-  63   1          {
-  64   2              bstr[i-index] = *(p+i);
-  65   2          }
-  66   1      
-  67   1          strcpy(dst,bstr);
-  68   1          return dst;
-  69   1      
+  55   1          return str;
+  56   1      }
+  57          char *SubString(char *p,char *dst,index)
+  58          {
+  59   1          char bstr[32];
+  60   1          char i = 0 ;
+  61   1          memset(bstr,0,sizeof(bstr));
+  62   1      
+  63   1          for(i = index ; i < strlen(p); i++)
+  64   1          {
+  65   2              bstr[i-index] = *(p+i);
+  66   2          }
+  67   1      
+  68   1          strcpy(dst,bstr);
+  69   1          return dst;
   70   1      
-  71   1      }
-  72          
-  73          unsigned char ESP8266_send_cmd(char *b,char *a,unsigned char times,unsigned int wait_time)
-  74          {
-  75   1          unsigned char  i=0;
-  76   1          while(i < times)
-  77   1          {
-  78   2              uart_printf(2,b);
-  79   2              uart_printf(2,"\r\n");           // »Ø³µ»»ÐÐ
-  80   2      
-  81   2              delay_ms(wait_time);
-  82   2              Get_Line(ptrqueue2,line2);
-  83   2              if(find_string(line2,a))
-  84   2              {
-  85   3                  return 1;
-  86   3              }
-  87   2              i++;
-  88   2          }
-  89   1          return 0;
-  90   1      }
-  91          unsigned int tick =0,tickflag=0;
-  92          void fun1(void)TIMER0_IT_NUM{//ÕâÊÇ¶¨Ê±Æ÷0µÄÖÐ¶Ï´¦Àíº¯Êý¡£10ms
-  93   1      
-  94   1          tick++;
-  95   1          if(tick%100==0)
-  96   1          {
-  97   2              tickflag=1;
-  98   2          }
-  99   1      
+  71   1      
+  72   1      }
+  73          
+  74          unsigned char ESP8266_send_cmd(char *b,char *a,unsigned char times,unsigned int wait_time)
+  75          {
+  76   1          unsigned char  i=0;
+  77   1          while(i < times)
+  78   1          {
+  79   2              uart_printf(2,b);
+  80   2              uart_printf(2,"\r\n");           // »Ø³µ»»ÐÐ
+  81   2      
+  82   2              delay_ms(wait_time);
+  83   2              Get_Line(ptrqueue2,line2);
+  84   2              if(find_string(line2,a))
+  85   2              {
+  86   3                  return 1;
+  87   3              }
+  88   2              i++;
+  89   2          }
+  90   1          return 0;
+  91   1      }
+  92          unsigned int tick =0,tickflag=0;
+  93          void fun1(void)TIMER0_IT_NUM { //ÕâÊÇ¶¨Ê±Æ÷0µÄÖÐ¶Ï´¦Àíº¯Êý¡£10ms
+  94   1      
+  95   1          tick++;
+  96   1          if(tick%100==0)
+  97   1          {
+  98   2              tickflag=1;
+  99   2          }
  100   1      
  101   1      
  102   1      
- 103   1      }
- 104          void main() {                   //mainº¯Êý£¬±ØÐëµÄ¡£
- 105   1      
- 106   1          int times = 0 ;
- 107   1          int len = 0 ;
- 108   1          bit    yifuyao=0;
- 109   1          bit    yiduishi=0;
- 110   1          unsigned char time[2]= {0};
- 111   1          unsigned char  volatile beep = 0;
- 112   1          unsigned int year=0;
- 113   1          BYTE BYTEYEAR = 0 ;
- 114   1          unsigned int secondstick = 0 ;
- 115   1      
+ 103   1      
+ 104   1      }
+ 105          void main() {     //mainº¯Êý£¬±ØÐëµÄ¡£
+ 106   1      
+ 107   1          int times = 0 ;
+ 108   1          int len = 0 ;
+ 109   1          unsigned char     yifuyao=0;
+ 110   1          bit    yiduishi=0;
+ 111   1          unsigned char time[2]= {0};
+ 112   1          unsigned char  volatile beep = 0;
+ 113   1          unsigned int year=0;
+ 114   1          BYTE BYTEYEAR = 0 ;
+ 115   1          unsigned int secondstick = 0 ;
  116   1      
-C51 COMPILER V9.60.0.0   MAIN                                                              01/08/2022 22:38:24 PAGE 3   
+C51 COMPILER V9.60.0.0   MAIN                                                              04/30/2022 15:41:01 PAGE 3   
 
- 117   1          P37 = 0 ;
- 118   1          P3M0 = 0X80;
- 119   1          P3M1 = 0;
- 120   1          beep = 0 ;
- 121   1      
- 122   1          /**********************
- 123   1              ¿ÉÒÔ½µµÍ¹¦ºÄ
- 124   1          ******************/
- 125   1          P0M0 = 0xff ;
- 126   1          P0M1 = 0xff ;
- 127   1          P1M0 = 0xff;
- 128   1          P1M1 = 0xff;
- 129   1          P2M0 = 0xff;
- 130   1          P2M1 = 0xff;
- 131   1          P3M0 = 0xff;
- 132   1          P3M1 = 0xff;
- 133   1          P4M0 = 0xff;
- 134   1          P4M1 = 0xff;
- 135   1          P5M0 = 0xff ;
- 136   1          P5M1 = 0xff;
- 137   1      
- 138   1          P1M0 &= 0XF0;  //P10 1 2 3´®¿Ú¶þÎª×¼Ë«Ïò
- 139   1          P1M1 &=0XF0;
- 140   1      
- 141   1          P3M1 &=0X7F; //P37 ÉèÖÃ³ÉÍÆÍìÊä³öÇý¶¯·äÃùÆ÷  M0 = 1 M1 = 0
- 142   1          P3M0 |= 0X80;
- 143   1      
- 144   1          P3M1 &= 0XFB;//½«P32ÉèÖÃ³É×¼Ë«ÏòÄ£Ê½
- 145   1          P3M0 &= 0XFB;
- 146   1      
- 147   1          P2M1 &= 0X0F;//½«P24,5,6,7ÉèÖÃ³É×¼Ë«ÏòÄ£Ê½£¬ÆäËüµÄÎª¿ªÂ©
- 148   1          P2M0 &= 0X0F;
- 149   1      
- 150   1          P3M1 &=0XFC; //´®¿ÚP30 1 Îª×¼Ë«Ïò
- 151   1          P3M0 &=0XFC;
- 152   1      
+ 117   1      
+ 118   1          P37 = 0 ;
+ 119   1          P3M0 = 0X80;
+ 120   1          P3M1 = 0;
+ 121   1          beep = 0 ;
+ 122   1      
+ 123   1          /**********************
+ 124   1            ¿ÉÒÔ½µµÍ¹¦ºÄ
+ 125   1          ******************/
+ 126   1          P0M0 = 0xff ;
+ 127   1          P0M1 = 0xff ;
+ 128   1          P1M0 = 0xff;
+ 129   1          P1M1 = 0xff;
+ 130   1          P2M0 = 0xff;
+ 131   1          P2M1 = 0xff;
+ 132   1          P3M0 = 0xff;
+ 133   1          P3M1 = 0xff;
+ 134   1          P4M0 = 0xff;
+ 135   1          P4M1 = 0xff;
+ 136   1          P5M0 = 0xff ;
+ 137   1          P5M1 = 0xff;
+ 138   1      
+ 139   1          P1M0 &= 0XF0;  //P10 1 2 3´®¿Ú¶þÎª×¼Ë«Ïò
+ 140   1          P1M1 &=0XF0;
+ 141   1      
+ 142   1          P3M1 &=0X7F; //P37 ÉèÖÃ³ÉÍÆÍìÊä³öÇý¶¯·äÃùÆ÷  M0 = 1 M1 = 0
+ 143   1          P3M0 |= 0X80;
+ 144   1      
+ 145   1          P3M1 &= 0XFB;//½«P32ÉèÖÃ³É×¼Ë«ÏòÄ£Ê½
+ 146   1          P3M0 &= 0XFB;
+ 147   1      
+ 148   1          P2M1 &= 0X0F;//½«P24,5,6,7ÉèÖÃ³É×¼Ë«ÏòÄ£Ê½£¬ÆäËüµÄÎª¿ªÂ©
+ 149   1          P2M0 &= 0X0F;
+ 150   1      
+ 151   1          P3M1 &=0XFC; //´®¿ÚP30 1 Îª×¼Ë«Ïò
+ 152   1          P3M0 &=0XFC;
  153   1      
  154   1      
  155   1      
  156   1      
  157   1      
  158   1      
- 159   1          system_init();              //ÏµÍ³³õÊ¼»¯º¯Êý£¬Ò²ÊÇ±ØÐëµÄ¡£
- 160   1          timer_init();
- 161   1          eeprom_init();
- 162   1          timer_start(0);//ÔÙ´ò¿ª¶¨Ê±Æ÷0¡£
- 163   1          timer_set_timer_mode(0,10000);
- 164   1          DS1302_Initial();
- 165   1      
- 166   1          FUYAOSHIJIAN = eeprom_read(0);
- 167   1          FUYAOSHIJIANFENZHONG = eeprom_read(1);
- 168   1          DUISHISHIJIAN = eeprom_read(2);
- 169   1          QINGSHUJUSHIJIAN = eeprom_read(3);
- 170   1          if(FUYAOSHIJIAN == 3 || FUYAOSHIJIAN == 0XFF)FUYAOSHIJIAN = 7;
- 171   1          if(FUYAOSHIJIANFENZHONG==3 || FUYAOSHIJIANFENZHONG == 0XFF)FUYAOSHIJIANFENZHONG=0;
- 172   1          if(DUISHISHIJIAN==3)DUISHISHIJIAN = 8;
- 173   1          if(QINGSHUJUSHIJIAN==3)QINGSHUJUSHIJIAN = 0;
- 174   1      
+ 159   1      
+ 160   1          system_init();    //ÏµÍ³³õÊ¼»¯º¯Êý£¬Ò²ÊÇ±ØÐëµÄ¡£
+ 161   1          timer_init();
+ 162   1          eeprom_init();
+ 163   1          timer_start(0);//ÔÙ´ò¿ª¶¨Ê±Æ÷0¡£
+ 164   1          timer_set_timer_mode(0,10000);
+ 165   1          DS1302_Initial();
+ 166   1      
+ 167   1          FUYAOSHIJIAN = eeprom_read(0);
+ 168   1          FUYAOSHIJIANFENZHONG = eeprom_read(1);
+ 169   1          DUISHISHIJIAN = eeprom_read(2);
+ 170   1          QINGSHUJUSHIJIAN = eeprom_read(3);
+ 171   1          if(FUYAOSHIJIAN == 3 || FUYAOSHIJIAN == 0XFF)FUYAOSHIJIAN = 7;
+ 172   1          if(FUYAOSHIJIANFENZHONG==3 || FUYAOSHIJIANFENZHONG == 0XFF)FUYAOSHIJIANFENZHONG=0;
+ 173   1          if(DUISHISHIJIAN==3)DUISHISHIJIAN = 8;
+ 174   1          if(QINGSHUJUSHIJIAN==3)QINGSHUJUSHIJIAN = 0;
  175   1      
- 176   1          //Á½¸ö´®¿ÚµÄ»·ÐÎ¶ÓÁÐ³õÊ¼»¯
- 177   1          ptrqueue1 = &queue1;
- 178   1          ptrqueue2 = &queue2;
-C51 COMPILER V9.60.0.0   MAIN                                                              01/08/2022 22:38:24 PAGE 4   
+ 176   1      
+ 177   1          //Á½¸ö´®¿ÚµÄ»·ÐÎ¶ÓÁÐ³õÊ¼»¯
+ 178   1          ptrqueue1 = &queue1;
+C51 COMPILER V9.60.0.0   MAIN                                                              04/30/2022 15:41:01 PAGE 4   
 
- 179   1          initQueue(ptrqueue1);
- 180   1          initQueue(ptrqueue2);
- 181   1              
- 182   1              uart_printf(1,"¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
-             -¡ª¡ª¡ª¡ª¡ª\r\n");
- 183   1              uart_printf(1,"¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª·þÒ©ÌáÐÑ¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
-             -¡ª¡ª\r\n");
- 184   1              uart_printf(1,"ÊµÏÖµÄÃüÁî:\r\n");
- 185   1              uart_printf(1,"           1. ÉèÖÃ±¨¾¯Ê±¼ä SETATIME#07:00\r\n");
- 186   1              uart_printf(1,"¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª
-             -¡ª¡ª¡ª¡ª¡ª\r\n");
- 187   1      
- 188   1          uart_printf(1,"starting..\r\n");
- 189   1          uart_set_baud(2,115200);
- 190   1          delay_ms(3000);
- 191   1          while(Get_Line(ptrqueue2,line2));//Çå³ýUART2µÄ»º³åÇø
- 192   1          memset(line2,0,BUF_SIZE);
- 193   1      
+ 179   1          ptrqueue2 = &queue2;
+ 180   1          initQueue(ptrqueue1);
+ 181   1          initQueue(ptrqueue2);
+ 182   1      
+ 183   1          uart_printf(1,"¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡
+             -ª¡ª¡ª¡ª¡ª¡ª¡ª\r\n");
+ 184   1          uart_printf(1,"¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª·þÒ©ÌáÐÑ¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡
+             -ª¡ª¡ª¡ª\r\n");
+ 185   1          uart_printf(1,"ÊµÏÖµÄÃüÁî:\r\n");
+ 186   1          uart_printf(1,"           1. ÉèÖÃ±¨¾¯Ê±¼ä: SETATIME#07:00\r\n");
+ 187   1          uart_printf(1,"¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡
+             -ª¡ª¡ª¡ª¡ª¡ª¡ª\r\n");
+ 188   1      
+ 189   1          uart_printf(1,"starting..\r\n");
+ 190   1          uart_set_baud(2,115200);
+ 191   1          delay_ms(3000);
+ 192   1          while(Get_Line(ptrqueue2,line2));//Çå³ýUART2µÄ»º³åÇø
+ 193   1          memset(line2,0,BUF_SIZE);
  194   1      
  195   1      
- 196   1          if(ESP8266_send_cmd("AT+CIPSNTPCFG=1,8","OK",3,300))
- 197   1          {
- 198   2              uart_printf(1,"send command AT+CIPSNTPCFG=1,8  OK\r\n");
- 199   2          }
- 200   1          else
- 201   1          {
- 202   2              uart_printf(1,"send command AT+CIPSNTPCFG=1,8 failed\r\n");
- 203   2          }
- 204   1      
- 205   1          delay_ms(3000);
- 206   1              
- 207   1          uart_printf(2,"AT+CIPSNTPTIME?\r\n");
- 208   1      
+ 196   1      
+ 197   1          if(ESP8266_send_cmd("AT+CIPSNTPCFG=1,8","OK",3,300))
+ 198   1          {
+ 199   2              uart_printf(1,"send command AT+CIPSNTPCFG=1,8  OK\r\n");
+ 200   2          }
+ 201   1          else
+ 202   1          {
+ 203   2              uart_printf(1,"send command AT+CIPSNTPCFG=1,8 failed\r\n");
+ 204   2          }
+ 205   1      
+ 206   1          delay_ms(3000);
+ 207   1      
+ 208   1          uart_printf(2,"AT+CIPSNTPTIME?\r\n");
  209   1      
- 210   1      
- 211   1          while(1)
- 212   1          {
- 213   2      
- 214   2              if(tickflag) //1sÊ±¼äµ½
- 215   2              {
- 216   3                  tickflag=0;
- 217   3                  DS1302_GetTime(now);
- 218   3                  uart_printf(1,"%bd: %bd: %bd   ATIME£º%bd   %bd \r\n",now[2],now[1],now[0],FUYAOSHIJIAN,FUYAOS
+ 210   1          eeprom_read_ex(20,&yifuyao,1);
+ 211   1      
+ 212   1          while(1)
+ 213   1          {
+ 214   2      
+ 215   2              if(tickflag) //1sÊ±¼äµ½
+ 216   2              {
+ 217   3                  tickflag=0;
+ 218   3                  DS1302_GetTime(now);
+ 219   3                  uart_printf(1,"%bd: %bd: %bd   ATIME£º%bd   %bd \r\n",now[2],now[1],now[0],FUYAOSHIJIAN,FUYAOS
              -HIJIANFENZHONG);
- 219   3                  secondstick++;
- 220   3                  if(secondstick%5==0)P12=0;
- 221   3                              else P12 = 1;
- 222   3                              if(secondstick % 3600==0)//Ã¿¸öÐ¡Ê±¶ÔÒ»´ÎÊ±£¬±ÜÃâÅ¼¶û¶ÔÊ±Ê§°Ü£¬µ¼ÖÂÊ±¼äÓÀÔ¶²»ÄÜ¶ÔÊ±
- 223   3                              {
- 224   4                                      uart_printf(2,"AT+CIPSNTPTIME?\r\n");
- 225   4                              }
- 226   3                
+ 220   3                  secondstick++;
+ 221   3                  if(secondstick%5==0)P12=0;
+ 222   3                  else P12 = 1;
+ 223   3                  if(secondstick % 3600==0)//Ã¿¸öÐ¡Ê±¶ÔÒ»´ÎÊ±£¬±ÜÃâÅ¼¶û¶ÔÊ±Ê§°Ü£¬µ¼ÖÂÊ±¼äÓÀÔ¶²»ÄÜ¶ÔÊ±
+ 224   3                  {
+ 225   4                      uart_printf(2,"AT+CIPSNTPTIME?\r\n");
+ 226   4                  }
  227   3      
- 228   3      //            if(now[2] == DUISHISHIJIAN && now[1] ==1 && now[0] == 1 && yiduishi == 0)  // 8£º1:1Ê±£¬Á¬½Ó
+ 228   3      
+ 229   3      //            if(now[2] == DUISHISHIJIAN && now[1] ==1 && now[0] == 1 && yiduishi == 0)  // 8£º1:1Ê±£¬Á¬½Ó
              -·þÆ÷Æ÷¶ÔÊ±
- 229   3      //            {
- 230   3      //                
- 231   3      //                 
- 232   3      //            }
- 233   3                  if(now[2] == QINGSHUJUSHIJIAN && now[1] == 1&& now[0] == 0)//0£º1£º0Ê±ÇåfifuyaoºÍ 
- 234   3                  {
- 235   4                      yifuyao=0;
-C51 COMPILER V9.60.0.0   MAIN                                                              01/08/2022 22:38:24 PAGE 5   
+ 230   3      //            {
+ 231   3      //
+ 232   3      //
+ 233   3      //            }
+ 234   3                  if(now[2] != FUYAOSHIJIAN )//Ê±ÇåfifuyaoºÍ 
+ 235   3                  {
+C51 COMPILER V9.60.0.0   MAIN                                                              04/30/2022 15:41:01 PAGE 5   
 
- 236   4                     
- 237   4                  }
- 238   3                  if(now[2] == FUYAOSHIJIAN &&now[1] >= FUYAOSHIJIANFENZHONG  )
- 239   3                  {
- 240   4                      if(yifuyao==0)
- 241   4                      {
- 242   5                          beep = 1;
- 243   5                          //ÅÐ¶ÏÊÇ·ñÒÑÈ¡Æ¿£¬ÒÑÈ¡Æ¿¾Í½«yifuyaoÖÃ1
- 244   5                          P24 = 0 ;//´ò¿ª¹âµç¹ÜµÄµçÔ´£¬
- 245   5      
- 246   5                          delay_ms(1);
- 247   5                          if(P32 == 1) //¼ì²âÒ©Æ¿ÊÇ·ñÔÚÉÏÃæ
- 248   5                          {
- 249   6                              delay_ms(20);
- 250   6                              if(P32 == 1)
- 251   6                              {
- 252   7                                  _nop_();
- 253   7                                  yifuyao = 1;
- 254   7                              }
- 255   6                          }
- 256   5                          P24 = 1 ;
- 257   5      
- 258   5                      }
- 259   4                      else beep = 0;
- 260   4                  }
- 261   3                  if(beep)
- 262   3                  {
- 263   4                      BEEP= !BEEP;
- 264   4                  }
- 265   3                  else BEEP = 0 ;
- 266   3      
- 267   3              }
- 268   2              //ÒÔÏÂÊÇ´®¿Ú´¦Àí³ÌÐò
- 269   2              if(flag>0)
- 270   2              {
- 271   3                  flag-=1;
- 272   3                  uart_printf(1,"uart1 received:");
- 273   3                  Get_Line(ptrqueue1,line1);
- 274   3                  if(strlen(line1)>0)
- 275   3                  {
- 276   4                      if(line1[0]=='A' && line1[1] == 'T')    uart_printf(2,line1); //Èç¹ûÊÇATÖ¸Áî£¬Ôò×ª·¢´®¿Ú2
- 277   4                      else if(strncmp(line1,"SETATIME",8)==0)//Èç¹û½ÓÊÕµ½µÄÊÇSETATIME£¬ÔòÊÇÉèÖÃÌáÐÑ·þÒ©Ê±¼ä£¬SET
+ 236   4                      yifuyao=0;
+ 237   4                      eeprom_read_ex(20,&yifuyao,1);
+ 238   4                      if(yifuyao!= 0 )
+ 239   4                      {
+ 240   5                          yifuyao = 0;
+ 241   5                          eeprom_write_ex(20,&yifuyao,1);delay_ms(50);
+ 242   5                      }
+ 243   4      
+ 244   4                  }
+ 245   3                  if(now[2] == FUYAOSHIJIAN &&now[1] >= FUYAOSHIJIANFENZHONG  )
+ 246   3                  {
+ 247   4                      eeprom_read_ex(20,&yifuyao,1);
+ 248   4                      if(yifuyao==0)
+ 249   4                      {
+ 250   5                          beep = 1;
+ 251   5                          //ÅÐ¶ÏÊÇ·ñÒÑÈ¡Æ¿£¬ÒÑÈ¡Æ¿¾Í½«yifuyaoÖÃ1
+ 252   5                          P24 = 0 ;//´ò¿ª¹âµç¹ÜµÄµçÔ´£¬
+ 253   5      
+ 254   5                          delay_ms(1);
+ 255   5                          if(P32 == 1) //¼ì²âÒ©Æ¿ÊÇ·ñÔÚÉÏÃæ
+ 256   5                          {
+ 257   6                              delay_ms(20);
+ 258   6                              if(P32 == 1)
+ 259   6                              {
+ 260   7                                  _nop_();
+ 261   7                                  yifuyao = 1;
+ 262   7                                  eeprom_write_ex(20,&yifuyao,1);delay_ms(50);
+ 263   7                              }
+ 264   6                          }
+ 265   5                          P24 = 1 ;
+ 266   5      
+ 267   5                      }
+ 268   4                      else beep = 0;
+ 269   4                  }
+ 270   3                  if(beep)
+ 271   3                  {
+ 272   4                      BEEP= !BEEP;
+ 273   4                  }
+ 274   3                  else BEEP = 0 ;
+ 275   3      
+ 276   3              }
+ 277   2              //ÒÔÏÂÊÇ´®¿Ú´¦Àí³ÌÐò
+ 278   2              if(flag>0)
+ 279   2              {
+ 280   3                  flag-=1;
+ 281   3                  uart_printf(1,"uart1 received:");
+ 282   3                  Get_Line(ptrqueue1,line1);
+ 283   3                  if(strlen(line1)>0)
+ 284   3                  {
+ 285   4                      if(line1[0]=='A' && line1[1] == 'T')  uart_printf(2,line1); //Èç¹ûÊÇATÖ¸Áî£¬Ôò×ª·¢´®¿Ú2
+ 286   4                      else if(strncmp(line1,"SETATIME",8)==0)//Èç¹û½ÓÊÕµ½µÄÊÇSETATIME£¬ÔòÊÇÉèÖÃÌáÐÑ·þÒ©Ê±¼ä£¬SET
              -ATIME#07:00;
- 278   4                      {
- 279   5                          i=strpos(line1,'#');
- 280   5                          if(i!=-1)
- 281   5                          {
- 282   6                              time[0]=line1[i+1];
- 283   6                              time[1]=line1[i+2];
- 284   6                              FUYAOSHIJIAN = atoi(time);
- 285   6                              time[0] = line1[i+4],time[1] = line1[i+5];
- 286   6                              FUYAOSHIJIANFENZHONG = atoi(time);
- 287   6                              time[0] = FUYAOSHIJIAN;
- 288   6                              time[1] = FUYAOSHIJIANFENZHONG;
- 289   6                              eeprom_write_ex(0,time,2);
- 290   6                              delay_ms(50);
- 291   6                              time[0]=0;
- 292   6                              time[1] = 0;
- 293   6                              eeprom_read_ex(0,time,2);
- 294   6                              if(time[0] ==FUYAOSHIJIAN && time[1] == FUYAOSHIJIANFENZHONG) uart_printf(1,"SETAT
+ 287   4                      {
+ 288   5                          i=strpos(line1,'#');
+ 289   5                          if(i!=-1)
+ 290   5                          {
+ 291   6                              time[0]=line1[i+1];
+ 292   6                              time[1]=line1[i+2];
+ 293   6                              FUYAOSHIJIAN = atoi(time);
+ 294   6                              time[0] = line1[i+4],time[1] = line1[i+5];
+ 295   6                              FUYAOSHIJIANFENZHONG = atoi(time);
+ 296   6                              time[0] = FUYAOSHIJIAN;
+C51 COMPILER V9.60.0.0   MAIN                                                              04/30/2022 15:41:01 PAGE 6   
+
+ 297   6                              time[1] = FUYAOSHIJIANFENZHONG;
+ 298   6                              eeprom_write_ex(0,time,2);
+ 299   6                              delay_ms(50);
+ 300   6                              time[0]=0;
+ 301   6                              time[1] = 0;
+ 302   6                              eeprom_read_ex(0,time,2);
+ 303   6                              if(time[0] ==FUYAOSHIJIAN && time[1] == FUYAOSHIJIANFENZHONG) uart_printf(1,"SETAT
              -IME AT %bd£º%bd  ....OK!\r\n",time[0],time[1]);
- 295   6                              else uart_printf(1,"SETATIME FAILED!\r\n");
-C51 COMPILER V9.60.0.0   MAIN                                                              01/08/2022 22:38:24 PAGE 6   
-
- 296   6                          }
- 297   5                      }
- 298   4                  }
- 299   3      
- 300   3                  memset(line1,0,BUF_SIZE);
- 301   3              }
- 302   2              if(flag2>0)
- 303   2              {
- 304   3                  flag2-=1;
- 305   3                  Get_Line(ptrqueue2,line2);
- 306   3                  uart_string(1,line2);
- 307   3      
- 308   3                  if(find_string(line2,"+CIPSNTPTIME:"))
- 309   3                  {
- 310   4                      uart_printf(1,"time:");
- 311   4                      uart_printf(1,line2);
- 312   4                      len = strlen(line2);
- 313   4                      time[0]=line2[len-9];
- 314   4                      time[1]=line2[len-8];
- 315   4                      init[0] = atoi(time);
- 316   4      
- 317   4                      time[0]=line2[len-12];
- 318   4                      time[1]=line2[len-11];
- 319   4                      init[1] = atoi(time);
- 320   4      
- 321   4                      time[0]=line2[len-15];
- 322   4                      time[1]=line2[len-14];
- 323   4                      init[2] = atoi(time);
- 324   4      
- 325   4                      time[0]=line2[len-4];  //+CIPSNTPTIME:Mon Nov 08 19:49:26 2021  ×îºóµÄ21,±£´æµ½initÖÐ£¬
- 326   4                      time[1] = line2[len-3];
- 327   4                      init[6] = atoi(time);
- 328   4      
+ 304   6                              else uart_printf(1,"SETATIME FAILED!\r\n");
+ 305   6                          }
+ 306   5                      }
+ 307   4                  }
+ 308   3      
+ 309   3                  memset(line1,0,BUF_SIZE);
+ 310   3              }
+ 311   2              if(flag2>0)
+ 312   2              {
+ 313   3                  flag2-=1;
+ 314   3                  Get_Line(ptrqueue2,line2);
+ 315   3                  uart_string(1,line2);
+ 316   3      
+ 317   3                  if(find_string(line2,"+CIPSNTPTIME:"))
+ 318   3                  {
+ 319   4                      uart_printf(1,"time:");
+ 320   4                      uart_printf(1,line2);
+ 321   4                      len = strlen(line2);
+ 322   4                      time[0]=line2[len-9];
+ 323   4                      time[1]=line2[len-8];
+ 324   4                      init[0] = atoi(time);
+ 325   4      
+ 326   4                      time[0]=line2[len-12];
+ 327   4                      time[1]=line2[len-11];
+ 328   4                      init[1] = atoi(time);
  329   4      
- 330   4                      time[0] = line2[len-6];//+CIPSNTPTIME:Mon Nov 08 19:49:26 2021  ×îºóµÄ20,ºÍ21×éºÏ£¬¼ì²âÊÇ·
-             -ñ»ñÈ¡ÕýÈ·µÄÊ±¼ä
- 331   4                      time[1] = line2[len-5];
- 332   4                      BYTEYEAR = atoi(time);
+ 330   4                      time[0]=line2[len-15];
+ 331   4                      time[1]=line2[len-14];
+ 332   4                      init[2] = atoi(time);
  333   4      
- 334   4                      init[3] = 1;
- 335   4                      init[4] = 1,init[5] = 1;
- 336   4      
- 337   4                      year=(int)(BYTEYEAR*100)+init[6];
- 338   4                      uart_printf(1,"--    %d\r\n",year);
- 339   4      
- 340   4                      if(year>= 2021)
- 341   4                      {
- 342   5                          if(init[0]!=0&&init[1]!=0&&init[2]!=0)
- 343   5                          {
- 344   6                              DS1302_SetTime(init);
- 345   6                              uart_printf(1,"set time ok\r\n");
- 346   6                          }
- 347   5                      }
- 348   4                      //Ãë    ·Ö    Ê±    ÈÕ    ÔÂ  ÐÇÆÚ    Äê
- 349   4                      //extern BYTE data init[7] ;
- 350   4                  }
- 351   3                  memset(line2,0,BUF_SIZE);
- 352   3              }
- 353   2              //ÒÔÉÏÊÇ´®¿Ú´¦Àí³ÌÐò
- 354   2          }
- 355   1      }
- 356          unsigned char temp1 = 0 ;
-C51 COMPILER V9.60.0.0   MAIN                                                              01/08/2022 22:38:24 PAGE 7   
+ 334   4                      time[0]=line2[len-4];  //+CIPSNTPTIME:Mon Nov 08 19:49:26 2021  ×îºóµÄ21,±£´æµ½initÖÐ£¬
+ 335   4                      time[1] = line2[len-3];
+ 336   4                      init[6] = atoi(time);
+ 337   4      
+ 338   4      
+ 339   4                      time[0] = line2[len-6];//+CIPSNTPTIME:Mon Nov 08 19:49:26 2021  ×îºóµÄ20,ºÍ21×éºÏ£¬¼ì²âÊÇ·
+             -ñ»ñÈ¡ÕýÈ·µÄÊ±¼ä
+ 340   4                      time[1] = line2[len-5];
+ 341   4                      BYTEYEAR = atoi(time);
+ 342   4      
+ 343   4                      init[3] = 1;
+ 344   4                      init[4] = 1,init[5] = 1;
+ 345   4      
+ 346   4                      year=(int)(BYTEYEAR*100)+init[6];
+ 347   4                      uart_printf(1,"--    %d\r\n",year);
+ 348   4      
+ 349   4                      if(year>= 2021)
+ 350   4                      {
+ 351   5                          if(init[0]!=0&&init[1]!=0&&init[2]!=0)
+ 352   5                          {
+ 353   6                              DS1302_SetTime(init);
+ 354   6                              uart_printf(1,"set time ok\r\n");
+ 355   6                          }
+ 356   5                      }
+C51 COMPILER V9.60.0.0   MAIN                                                              04/30/2022 15:41:01 PAGE 7   
 
- 357          void uart1_receive_callback(void)
- 358          {
- 359   1          temp1 = SBUF;
- 360   1          In_Queue(ptrqueue1,temp1);
- 361   1      
- 362   1          if(temp1 == '\n')
- 363   1          {
- 364   2              flag++;
- 365   2          }
- 366   1      }
- 367          unsigned char temp2=0;
- 368          void uart2_receive_callback(void)
- 369          {
- 370   1          temp2 = S2BUF;
- 371   1          In_Queue(ptrqueue2,temp2);
- 372   1      
- 373   1          if(temp2 == '\n')
- 374   1          {
- 375   2              flag2++;
- 376   2          }
- 377   1      }
+ 357   4                      //Ãë    ·Ö    Ê±    ÈÕ    ÔÂ  ÐÇÆÚ    Äê
+ 358   4                      //extern BYTE data init[7] ;
+ 359   4                  }
+ 360   3                  memset(line2,0,BUF_SIZE);
+ 361   3              }
+ 362   2              //ÒÔÉÏÊÇ´®¿Ú´¦Àí³ÌÐò
+ 363   2          }
+ 364   1      }
+ 365          unsigned char temp1 = 0 ;
+ 366          void uart1_receive_callback(void)
+ 367          {
+ 368   1          temp1 = SBUF;
+ 369   1          In_Queue(ptrqueue1,temp1);
+ 370   1      
+ 371   1          if(temp1 == '\n')
+ 372   1          {
+ 373   2              flag++;
+ 374   2          }
+ 375   1      }
+ 376          unsigned char temp2=0;
+ 377          void uart2_receive_callback(void)
+ 378          {
+ 379   1          temp2 = S2BUF;
+ 380   1          In_Queue(ptrqueue2,temp2);
+ 381   1      
+ 382   1          if(temp2 == '\n')
+ 383   1          {
+ 384   2              flag2++;
+ 385   2          }
+ 386   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   2436    ----
-   CONSTANT SIZE    =    549    ----
-   XDATA SIZE       =    540     111
+   CODE SIZE        =   2560    ----
+   CONSTANT SIZE    =    550    ----
+   XDATA SIZE       =    541     112
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =   ----       2
+   BIT SIZE         =   ----       1
 END OF MODULE INFORMATION.
 
 

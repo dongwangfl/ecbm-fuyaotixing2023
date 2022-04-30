@@ -1,25 +1,25 @@
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 1   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PWM
 OBJECT MODULE PLACED IN .\output\pwm.obj
-COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\pwm.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\de
-                    -vice;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\pwm.lst) OBJECT(.\output\pwm.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\pwm.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device
+                    -;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\pwm.lst) TABS(2) OBJECT(.\output\pwm.obj)
 
 line level    source
 
    1          #include "ecbm_core.h"//统一加载核心头文件
    2          #if ECBM_PWM_LIB_EN   //检查本库有没有被使能
-   3          /*--------------------------------------程序定义-----------------------------------*/
-   4          /*-------------------------------------------------------
-   5          PWM初始化函数。
-   6          -------------------------------------------------------*/
-   7          void pwm_init(void){
-   8   1          #if   ((ECBM_MCU&0xF00000)==0x200000)   //STC8A
-   9   1              PWM15_POWER_ON;                             //根据手册，开启电源才可写入配置。
-  10   1              PWM15_SET_REG_CLK(ECBM_PWM_GROUP0_CLK);     //写入PWM时钟配置参数。
-  11   1              PWM15_SET_REG_COUNT(ECBM_PWM_GROUP0_COUNT); //写入PWM计时最大值。
-  12   1              #if ECBM_PWM_GROUP0_CH0_EN    //如果使能了PWM的通道0。
+              /*--------------------------------------程序定义-----------------------------------*/
+              /*-------------------------------------------------------
+              PWM初始化函数。
+              -------------------------------------------------------*/
+              void pwm_init(void){
+                  #if   ((ECBM_MCU&0xF00000)==0x200000)   //STC8A
+                      PWM15_POWER_ON;                             //根据手册，开启电源才可写入配置。
+                      PWM15_SET_REG_CLK(ECBM_PWM_GROUP0_CLK);     //写入PWM时钟配置参数。
+                      PWM15_SET_REG_COUNT(ECBM_PWM_GROUP0_COUNT); //写入PWM计时最大值。
+                      #if ECBM_PWM_GROUP0_CH0_EN    //如果使能了PWM的通道0。
                           PWM15_SET_REG_CH0_T1(ECBM_PWM_GROUP0_CH0_T1);//写入通道0的低电平翻转点。
                           PWM15_SET_REG_CH0_T2(ECBM_PWM_GROUP0_CH0_T2);//写入通道0的高电平翻转点。
                           PWM15_SET_REG_CH0_CR(ECBM_PWM_GROUP0_CH0_CR);//写入通道0的配置。
@@ -31,7 +31,7 @@ line level    source
                               gpio_mode(D60,GPIO_OUT);
                           #endif
                       #endif
-  24   1              #if ECBM_PWM_GROUP0_CH1_EN    //如果使能了PWM的通道1。
+                      #if ECBM_PWM_GROUP0_CH1_EN    //如果使能了PWM的通道1。
                           PWM15_SET_REG_CH1_T1(ECBM_PWM_GROUP0_CH1_T1);//写入通道1的低电平翻转点。
                           PWM15_SET_REG_CH1_T2(ECBM_PWM_GROUP0_CH1_T2);//写入通道1的高电平翻转点。
                           PWM15_SET_REG_CH1_CR(ECBM_PWM_GROUP0_CH1_CR);//写入通道1的配置。
@@ -43,7 +43,7 @@ line level    source
                               gpio_mode(D61,GPIO_OUT);
                           #endif
                       #endif
-  36   1              #if ECBM_PWM_GROUP0_CH2_EN    //如果使能了PWM的通道2。
+                      #if ECBM_PWM_GROUP0_CH2_EN    //如果使能了PWM的通道2。
                           PWM15_SET_REG_CH2_T1(ECBM_PWM_GROUP0_CH2_T1);//写入通道2的低电平翻转点。
                           PWM15_SET_REG_CH2_T2(ECBM_PWM_GROUP0_CH2_T2);//写入通道2的高电平翻转点。
                           PWM15_SET_REG_CH2_CR(ECBM_PWM_GROUP0_CH2_CR);//写入通道2的配置。
@@ -55,21 +55,21 @@ line level    source
                               gpio_mode(D62,GPIO_OUT);
                           #endif
                       #endif
-  48   1              #if ECBM_PWM_GROUP0_CH3_EN    //如果使能了PWM的通道3。
+                      #if ECBM_PWM_GROUP0_CH3_EN    //如果使能了PWM的通道3。
                           PWM15_SET_REG_CH3_T1(ECBM_PWM_GROUP0_CH3_T1);//写入通道3的低电平翻转点。
                           PWM15_SET_REG_CH3_T2(ECBM_PWM_GROUP0_CH3_T2);//写入通道3的高电平翻转点。
                           PWM15_SET_REG_CH3_CR(ECBM_PWM_GROUP0_CH3_CR);//写入通道3的配置。
                           #if   (ECBM_PWM_GROUP0_CH3_CR & 0x18) == PWM_8A_IO_P2x
                               gpio_mode(D23,GPIO_OUT);
                           #elif (ECBM_PWM_GROUP0_CH3_CR & 0x18) == PWM_8A_IO_P1x
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 2   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 2   
 
                               gpio_mode(D13,GPIO_OUT);
                           #elif (ECBM_PWM_GROUP0_CH3_CR & 0x18) == PWM_8A_IO_P6x
                               gpio_mode(D63,GPIO_OUT);
                           #endif
                       #endif
-  60   1              #if ECBM_PWM_GROUP0_CH4_EN    //如果使能了PWM的通道4。
+                      #if ECBM_PWM_GROUP0_CH4_EN    //如果使能了PWM的通道4。
                           PWM15_SET_REG_CH4_T1(ECBM_PWM_GROUP0_CH4_T1);//写入通道4的低电平翻转点。
                           PWM15_SET_REG_CH4_T2(ECBM_PWM_GROUP0_CH4_T2);//写入通道4的高电平翻转点。
                           PWM15_SET_REG_CH4_CR(ECBM_PWM_GROUP0_CH4_CR);//写入通道4的配置。
@@ -81,7 +81,7 @@ line level    source
                               gpio_mode(D64,GPIO_OUT);
                           #endif
                       #endif
-  72   1              #if ECBM_PWM_GROUP0_CH5_EN    //如果使能了PWM的通道5。
+                      #if ECBM_PWM_GROUP0_CH5_EN    //如果使能了PWM的通道5。
                           PWM15_SET_REG_CH5_T1(ECBM_PWM_GROUP0_CH5_T1);//写入通道5的低电平翻转点。
                           PWM15_SET_REG_CH5_T2(ECBM_PWM_GROUP0_CH5_T2);//写入通道5的高电平翻转点。
                           PWM15_SET_REG_CH5_CR(ECBM_PWM_GROUP0_CH5_CR);//写入通道5的配置。
@@ -93,7 +93,7 @@ line level    source
                               gpio_mode(D65,GPIO_OUT);
                           #endif
                       #endif
-  84   1              #if ECBM_PWM_GROUP0_CH6_EN    //如果使能了PWM的通道6。
+                      #if ECBM_PWM_GROUP0_CH6_EN    //如果使能了PWM的通道6。
                           PWM15_SET_REG_CH6_T1(ECBM_PWM_GROUP0_CH6_T1);//写入通道6的低电平翻转点。
                           PWM15_SET_REG_CH6_T2(ECBM_PWM_GROUP0_CH6_T2);//写入通道6的高电平翻转点。
                           PWM15_SET_REG_CH6_CR(ECBM_PWM_GROUP0_CH6_CR);//写入通道6的配置。
@@ -105,7 +105,7 @@ line level    source
                               gpio_mode(D66,GPIO_OUT);
                           #endif
                       #endif
-  96   1              #if ECBM_PWM_GROUP0_CH7_EN    //如果使能了PWM的通道7。
+                      #if ECBM_PWM_GROUP0_CH7_EN    //如果使能了PWM的通道7。
                           PWM15_SET_REG_CH7_T1(ECBM_PWM_GROUP0_CH7_T1);//写入通道7的低电平翻转点。
                           PWM15_SET_REG_CH7_T2(ECBM_PWM_GROUP0_CH7_T2);//写入通道7的高电平翻转点。
                           PWM15_SET_REG_CH7_CR(ECBM_PWM_GROUP0_CH7_CR);//写入通道7的配置。
@@ -117,8 +117,8 @@ line level    source
                               gpio_mode(D67,GPIO_OUT);
                           #endif
                       #endif
- 108   1              PWM15_START;
- 109   1          #elif   ((ECBM_MCU&0xFF0000)==0x320000)   //STC8G2K系列
+                      PWM15_START;
+                  #elif   ((ECBM_MCU&0xFF0000)==0x320000)   //STC8G2K系列
                       #if ECBM_PWM_GROUP0_EN
                           PWM15_G0_POWER_ON;                                  //根据手册，开启电源才可写入配置。
                           PWM15_SET_REG_G0_CLK(ECBM_PWM_GROUP0_CLK);          //写入PWM时钟配置参数。
@@ -126,7 +126,7 @@ line level    source
                           #if ECBM_PWM_GROUP0_CH0_EN                          //如果使能了PWM的通道0。
                               PWM15_SET_REG_G0_CH0_T1(ECBM_PWM_GROUP0_CH0_T1);//写入通道0的低电平翻转点。
                               PWM15_SET_REG_G0_CH0_T2(ECBM_PWM_GROUP0_CH0_T2);//写入通道0的高电平翻转点。
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 3   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 3   
 
                               PWM15_SET_REG_G0_CH0_CR(ECBM_PWM_GROUP0_CH0_CR);//写入通道0的配置。
                               gpio_mode(D00,GPIO_OUT);
@@ -190,7 +190,7 @@ line level    source
                               PWM15_SET_REG_G1_CH1_T2(ECBM_PWM_GROUP1_CH1_T2);//写入通道1的高电平翻转点。
                               PWM15_SET_REG_G1_CH1_CR(ECBM_PWM_GROUP1_CH1_CR);//写入通道1的配置。
                               gpio_mode(D11,GPIO_OUT);
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 4   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 4   
 
                           #endif
                           #if ECBM_PWM_GROUP1_CH2_EN                          //如果使能了PWM的通道2。
@@ -254,7 +254,7 @@ line level    source
                               gpio_mode(D22,GPIO_OUT);
                           #endif
                           #if ECBM_PWM_GROUP2_CH3_EN                          //如果使能了PWM的通道3。
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 5   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 5   
 
                               PWM15_SET_REG_G2_CH3_T1(ECBM_PWM_GROUP2_CH3_T1);//写入通道3的低电平翻转点。
                               PWM15_SET_REG_G2_CH3_T2(ECBM_PWM_GROUP2_CH3_T2);//写入通道3的高电平翻转点。
@@ -318,7 +318,7 @@ line level    source
                           #if ECBM_PWM_GROUP3_CH4_EN                          //如果使能了PWM的通道4。
                               PWM15_SET_REG_G3_CH4_T1(ECBM_PWM_GROUP3_CH4_T1);//写入通道4的低电平翻转点。
                               PWM15_SET_REG_G3_CH4_T2(ECBM_PWM_GROUP3_CH4_T2);//写入通道4的高电平翻转点。
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 6   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 6   
 
                               PWM15_SET_REG_G3_CH4_CR(ECBM_PWM_GROUP3_CH4_CR);//写入通道4的配置。
                               gpio_mode(D34,GPIO_OUT);
@@ -382,7 +382,7 @@ line level    source
                               PWM15_SET_REG_G4_CH5_T2(ECBM_PWM_GROUP4_CH5_T2);//写入通道5的高电平翻转点。
                               PWM15_SET_REG_G4_CH5_CR(ECBM_PWM_GROUP4_CH5_CR);//写入通道5的配置。
                               gpio_mode(D45,GPIO_OUT);
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 7   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 7   
 
                           #endif
                           #if ECBM_PWM_GROUP4_CH6_EN                          //如果使能了PWM的通道6。
@@ -446,7 +446,7 @@ line level    source
                               gpio_mode(D56,GPIO_OUT);
                           #endif
                           #if ECBM_PWM_GROUP5_CH7_EN                          //如果使能了PWM的通道7。
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 8   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 8   
 
                               PWM15_SET_REG_G5_CH7_T1(ECBM_PWM_GROUP5_CH7_T1);//写入通道7的低电平翻转点。
                               PWM15_SET_REG_G5_CH7_T2(ECBM_PWM_GROUP5_CH7_T2);//写入通道7的高电平翻转点。
@@ -456,26 +456,26 @@ line level    source
                           PWM15_G5_START;
                       #endif
                   #endif
- 435   1      }
- 436          /*-------------------------------------------------------
- 437          PWM设置频率函数。
- 438          -------------------------------------------------------*/
- 439          void pwm_set_freq(u8 group,u32 freq){
- 440   1          u8 i;
- 441   1          u32 temp;
- 442   1          for(i=1;i<16;i++){if((ecbm_sys_clk/i/32767)<freq)break;}
- 443   1          temp=(ecbm_sys_clk/i/freq);
- 444   1          if(temp>32767){return;}
- 445   1          switch(group){
- 446   2              default:break;
- 447   2              #if     ((ECBM_MCU&0xF00000)==0x200000)   //STC8A
- 448   2                  case 0:{
- 449   3                      PWM15_STOP;
- 450   3                      PWM15_SET_REG_CLK(i-1);
- 451   3                      PWM15_SET_REG_COUNT(temp);
- 452   3                      PWM15_START;
- 453   3                  }break;
- 454   2              #elif   ((ECBM_MCU&0xFF0000)==0x320000)   //STC8G2K系列
+              }
+              /*-------------------------------------------------------
+              PWM设置频率函数。
+              -------------------------------------------------------*/
+              void pwm_set_freq(u8 group,u32 freq){
+                  u8 i;
+                  u32 temp;
+                  for(i=1;i<16;i++){if((ecbm_sys_clk/i/32767)<freq)break;}
+                  temp=(ecbm_sys_clk/i/freq);
+                  if(temp>32767){return;}
+                  switch(group){
+                      default:break;
+                      #if     ((ECBM_MCU&0xF00000)==0x200000)   //STC8A
+                          case 0:{
+                              PWM15_STOP;
+                              PWM15_SET_REG_CLK(i-1);
+                              PWM15_SET_REG_COUNT(temp);
+                              PWM15_START;
+                          }break;
+                      #elif   ((ECBM_MCU&0xFF0000)==0x320000)   //STC8G2K系列
                           #if ECBM_PWM_GROUP0_EN
                               case 0:{
                                   PWM15_G0_STOP;
@@ -510,7 +510,7 @@ line level    source
                           #endif
                           #if ECBM_PWM_GROUP4_EN
                               case 4:{
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 9   
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 9   
 
                                   PWM15_G4_STOP;
                                   PWM15_SET_REG_G4_CLK(i-1);
@@ -527,20 +527,20 @@ line level    source
                               }break;
                           #endif
                       #endif
- 504   2          }
- 505   1      }
- 506          /*-------------------------------------------------------
- 507          PWM设置占空比函数。
- 508          -------------------------------------------------------*/
- 509          void pwm_set_duty(u8 group,u8 ch,u16 duty){
- 510   1              ch=ch;
- 511   1              duty=duty;
- 512   1          switch(group){
- 513   2              default:break;
- 514   2              #if   ((ECBM_MCU&0xF00000)==0x200000)   //STC8A
- 515   2                  case 0:{
- 516   3                      switch(ch){
- 517   4                          #if ECBM_PWM_GROUP0_CH0_EN
+                  }
+              }
+              /*-------------------------------------------------------
+              PWM设置占空比函数。
+              -------------------------------------------------------*/
+              void pwm_set_duty(u8 group,u8 ch,u16 duty){
+                ch=ch;
+                duty=duty;
+                  switch(group){
+                      default:break;
+                      #if   ((ECBM_MCU&0xF00000)==0x200000)   //STC8A
+                          case 0:{
+                              switch(ch){
+                                  #if ECBM_PWM_GROUP0_CH0_EN
                                       case 0:{
                                           if(duty>=1000){
                                               PWM15_SET_CH0_HOLD_H;
@@ -553,7 +553,7 @@ line level    source
                                           }
                                       }break;
                                   #endif
- 530   4                          #if ECBM_PWM_GROUP0_CH1_EN
+                                  #if ECBM_PWM_GROUP0_CH1_EN
                                       case 1:{
                                           if(duty>=1000){
                                               PWM15_SET_CH1_HOLD_H;
@@ -566,7 +566,7 @@ line level    source
                                           }
                                       }break;
                                   #endif
- 543   4                          #if ECBM_PWM_GROUP0_CH2_EN
+                                  #if ECBM_PWM_GROUP0_CH2_EN
                                       case 2:{
                                           if(duty>=1000){
                                               PWM15_SET_CH2_HOLD_H;
@@ -574,14 +574,14 @@ line level    source
                                               PWM15_SET_CH2_HOLD_L;
                                           }else{
                                               PWM15_SET_CH2_HOLD_OFF;
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 10  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 10  
 
                                               PWM15_SET_REG_CH2_T2(0x0000);
                                               PWM15_SET_REG_CH2_T1((u32)PWM15_GET_REG_COUNT*duty/1000);
                                           }
                                       }break;
                                   #endif
- 556   4                          #if ECBM_PWM_GROUP0_CH3_EN
+                                  #if ECBM_PWM_GROUP0_CH3_EN
                                       case 3:{
                                           if(duty>=1000){
                                               PWM15_SET_CH3_HOLD_H;
@@ -594,7 +594,7 @@ line level    source
                                           }
                                       }break;
                                   #endif
- 569   4                          #if ECBM_PWM_GROUP0_CH4_EN
+                                  #if ECBM_PWM_GROUP0_CH4_EN
                                       case 4:{
                                           if(duty>=1000){
                                               PWM15_SET_CH4_HOLD_H;
@@ -607,7 +607,7 @@ line level    source
                                           }
                                       }break;
                                   #endif
- 582   4                          #if ECBM_PWM_GROUP0_CH5_EN
+                                  #if ECBM_PWM_GROUP0_CH5_EN
                                       case 5:{
                                           if(duty>=1000){
                                               PWM15_SET_CH5_HOLD_H;
@@ -620,7 +620,7 @@ line level    source
                                           }
                                       }break;
                                   #endif
- 595   4                          #if ECBM_PWM_GROUP0_CH6_EN
+                                  #if ECBM_PWM_GROUP0_CH6_EN
                                       case 6:{
                                           if(duty>=1000){
                                               PWM15_SET_CH6_HOLD_H;
@@ -633,12 +633,12 @@ line level    source
                                           }
                                       }break;
                                   #endif
- 608   4                          #if ECBM_PWM_GROUP0_CH7_EN
+                                  #if ECBM_PWM_GROUP0_CH7_EN
                                       case 7:{
                                           if(duty>=1000){
                                               PWM15_SET_CH7_HOLD_H;
                                           }else if(duty==0){
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 11  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 11  
 
                                               PWM15_SET_CH7_HOLD_L;
                                           }else{
@@ -648,10 +648,10 @@ line level    source
                                           }
                                       }break;
                                   #endif
- 621   4                          default:break;
- 622   4                      }
- 623   3                  }break;
- 624   2              #elif   ((ECBM_MCU&0xFF0000)==0x320000)   //STC8G2K系列
+                                  default:break;
+                              }
+                          }break;
+                      #elif   ((ECBM_MCU&0xFF0000)==0x320000)   //STC8G2K系列
                           #if ECBM_PWM_GROUP0_EN
                               case 0:{
                                   switch(ch){
@@ -702,7 +702,7 @@ line level    source
                                                   PWM15_SET_G0_CH3_HOLD_L;
                                               }else{
                                                   PWM15_SET_G0_CH3_HOLD_OFF;
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 12  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 12  
 
                                                   PWM15_SET_REG_G0_CH3_T2(0x0000);
                                                   PWM15_SET_REG_G0_CH3_T1((u32)PWM15_GET_REG_G0_COUNT*duty/1000);
@@ -766,7 +766,7 @@ line level    source
                               }break;
                           #endif
                           #if ECBM_PWM_GROUP1_EN
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 13  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 13  
 
                               case 1:{
                                   switch(ch){
@@ -830,7 +830,7 @@ line level    source
                                                   PWM15_SET_G1_CH4_HOLD_L;
                                               }else{
                                                   PWM15_SET_G1_CH4_HOLD_OFF;
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 14  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 14  
 
                                                   PWM15_SET_REG_G1_CH4_T2(0x0000);
                                                   PWM15_SET_REG_G1_CH4_T1((u32)PWM15_GET_REG_G1_COUNT*duty/1000);
@@ -894,7 +894,7 @@ line level    source
                                                   PWM15_SET_REG_G2_CH0_T2(0x0000);
                                                   PWM15_SET_REG_G2_CH0_T1((u32)PWM15_GET_REG_G2_COUNT*duty/1000);
                                               }
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 15  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 15  
 
                                           }break;
                                       #endif
@@ -958,7 +958,7 @@ line level    source
                                                   PWM15_SET_G2_CH5_HOLD_L;
                                               }else{
                                                   PWM15_SET_G2_CH5_HOLD_OFF;
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 16  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 16  
 
                                                   PWM15_SET_REG_G2_CH5_T2(0x0000);
                                                   PWM15_SET_REG_G2_CH5_T1((u32)PWM15_GET_REG_G2_COUNT*duty/1000);
@@ -1022,7 +1022,7 @@ line level    source
                                                   PWM15_SET_REG_G3_CH1_T2(0x0000);
                                                   PWM15_SET_REG_G3_CH1_T1((u32)PWM15_GET_REG_G3_COUNT*duty/1000);
                                               }
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 17  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 17  
 
                                           }break;
                                       #endif
@@ -1086,7 +1086,7 @@ line level    source
                                                   PWM15_SET_G3_CH6_HOLD_L;
                                               }else{
                                                   PWM15_SET_G3_CH6_HOLD_OFF;
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 18  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 18  
 
                                                   PWM15_SET_REG_G3_CH6_T2(0x0000);
                                                   PWM15_SET_REG_G3_CH6_T1((u32)PWM15_GET_REG_G3_COUNT*duty/1000);
@@ -1150,7 +1150,7 @@ line level    source
                                                   PWM15_SET_REG_G4_CH2_T2(0x0000);
                                                   PWM15_SET_REG_G4_CH2_T1((u32)PWM15_GET_REG_G4_COUNT*duty/1000);
                                               }
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 19  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 19  
 
                                           }break;
                                       #endif
@@ -1214,7 +1214,7 @@ line level    source
                                                   PWM15_SET_G4_CH7_HOLD_L;
                                               }else{
                                                   PWM15_SET_G4_CH7_HOLD_OFF;
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 20  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 20  
 
                                                   PWM15_SET_REG_G4_CH7_T2(0x0000);
                                                   PWM15_SET_REG_G4_CH7_T1((u32)PWM15_GET_REG_G4_COUNT*duty/1000);
@@ -1278,7 +1278,7 @@ line level    source
                                                   PWM15_SET_REG_G5_CH3_T2(0x0000);
                                                   PWM15_SET_REG_G5_CH3_T1((u32)PWM15_GET_REG_G5_COUNT*duty/1000);
                                               }
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 21  
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 21  
 
                                           }break;
                                       #endif
@@ -1339,19 +1339,19 @@ line level    source
                               }break;
                           #endif
                       #endif
-1292   2          }
-1293   1      }
-1294          
-C51 COMPILER V9.60.0.0   PWM                                                               11/12/2021 21:36:41 PAGE 22  
+                  }
+              }
+              
+C51 COMPILER V9.60.0.0   PWM                                                               04/30/2022 15:41:03 PAGE 22  
 
-1295          #endif  //和最上面的#ifndef配合成一个程序段。
+              #endif  //和最上面的#ifndef配合成一个程序段。
 1296                  //以一个空行为结尾。
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    224    ----
+   CODE SIZE        =   ----    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =   ----      10
+   XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

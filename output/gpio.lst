@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 1   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE GPIO
 OBJECT MODULE PLACED IN .\output\gpio.obj
-COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\gpio.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\d
-                    -evice;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\gpio.lst) OBJECT(.\output\gpio.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\gpio.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\devic
+                    -e;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\gpio.lst) TABS(2) OBJECT(.\output\gpio.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   52   3                  #if ECBM_GPIO1_EN
   53   3                  case 0x10:P1PU&=~ecbm_pin;break;
   54   3                  #endif
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 2   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 2   
 
   55   3                  #if ECBM_GPIO2_EN
   56   3                  case 0x20:P2PU&=~ecbm_pin;break;
@@ -126,7 +126,7 @@ line level    source
  114   2              case 0x70:ecbm_port=GPIO_P7;break;
  115   2              #endif
  116   2              default:return;break;
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 3   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 3   
 
  117   2          }
  118   1          /*-------到这里结束，解读完成。-------*/
@@ -190,7 +190,7 @@ line level    source
  176   2          }
  177   1          #endif
  178   1          #if ECBM_GPIO7_EN
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 4   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 4   
 
  179   1          if(ecbm_port==GPIO_P7){
  180   2              if(mode==GPIO_PU){P7M1&=~ecbm_pin;P7M0&=~ecbm_pin;}
@@ -254,7 +254,7 @@ line level    source
                           #if ECBM_GPIO2_EN
                           case GPIO_P2:{P2SR|=ecbm_pin;}break;
                           #endif
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 5   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 5   
 
                           #if ECBM_GPIO3_EN
                           case GPIO_P3:{P3SR|=ecbm_pin;}break;
@@ -318,7 +318,7 @@ line level    source
                       return;
                   }
                   switch(ecbm_port){
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 6   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 6   
 
                       #if ECBM_GPIO0_EN
                       case 0x00:ecbm_port=GPIO_P0;break;
@@ -382,7 +382,7 @@ line level    source
                           #if ECBM_GPIO1_EN
                           case GPIO_P1:{P1DR&=~ecbm_pin;}break;
                           #endif
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 7   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 7   
 
                           #if ECBM_GPIO2_EN
                           case GPIO_P2:{P2DR&=~ecbm_pin;}break;
@@ -446,7 +446,7 @@ line level    source
  424   1      }
  425          #endif
  426          /*-------------------------------------------------------
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 8   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 8   
 
  427          P口读出函数，将整个P口的值一次性读出(并口)。
  428          -------------------------------------------------------*/
@@ -477,7 +477,7 @@ line level    source
  453   2              #if ECBM_GPIO7_EN
  454   2              case GPIO_P7:return P7;break;
  455   2              #endif
- 456   2                      default:
+ 456   2          default:
  457   2              case GPIO_Px:return 0xff;break;
  458   2          }
  459   1      }
@@ -510,7 +510,7 @@ line level    source
  486   3                  case 0x30:P3|=ecbm_pin;break;
  487   3                  #endif
  488   3                  #if ECBM_GPIO4_EN
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 9   
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 9   
 
  489   3                  case 0x40:P4|=ecbm_pin;break;
  490   3                  #endif
@@ -574,7 +574,7 @@ line level    source
  548   1          switch(ecbm_port){//直接读取整个P口的数据
  549   2              #if ECBM_GPIO0_EN
  550   2              case 0x00:value=P0;break;
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 10  
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 10  
 
  551   2              #endif
  552   2              #if ECBM_GPIO1_EN
@@ -638,7 +638,7 @@ line level    source
  610   2              #endif
  611   2              #if ECBM_GPIO6_EN
  612   2              case 0x60:P6^=ecbm_pin;break;
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 11  
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 11  
 
  613   2              #endif
  614   2              #if ECBM_GPIO7_EN
@@ -702,7 +702,7 @@ line level    source
  672   3                  case GPIO_P2:P2|=pin;break;
  673   3                  #endif
  674   3                  #if ECBM_GPIO3_EN
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 12  
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 12  
 
  675   3                  case GPIO_P3:P3|=pin;break;
  676   3                  #endif
@@ -766,7 +766,7 @@ line level    source
  734   2              #endif
  735   2              #if ECBM_GPIO2_EN
  736   2              case GPIO_P2:val=P2;break;
-C51 COMPILER V9.60.0.0   GPIO                                                              11/12/2021 21:36:39 PAGE 13  
+C51 COMPILER V9.60.0.0   GPIO                                                              04/30/2022 15:41:01 PAGE 13  
 
  737   2              #endif
  738   2              #if ECBM_GPIO3_EN

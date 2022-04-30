@@ -118,31 +118,31 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define ECBM_EEPROM_LIB_EN 1
 //<q>SPI库
 //<i>该库提供了关于STC8的硬件SPI相关操作函数。
-#define ECBM_SPI_LIB_EN 1
+#define ECBM_SPI_LIB_EN 0
 //<q>SOFT_SPI库
 //<i>该库提供了关于STC8基于GPIO库的软件SPI相关操作函数。
-#define ECBM_SOFTSPI_LIB_EN 1
+#define ECBM_SOFTSPI_LIB_EN 0
 //<q>IIC库
 //<i>该库提供了关于STC8的硬件IIC相关操作函数。
-#define ECBM_IIC_LIB_EN 1
+#define ECBM_IIC_LIB_EN 0
 //<q>SOFT_IIC库
 //<i>该库提供了关于STC8基于GPIO库的软件IIC相关操作函数。
-#define ECBM_SOFTIIC_LIB_EN 1
+#define ECBM_SOFTIIC_LIB_EN 0
 //<q>ADC库
 //<i>该库提供了关于STC8的硬件ADC相关操作函数。
-#define ECBM_ADC_LIB_EN 1
+#define ECBM_ADC_LIB_EN 0
 //<q>CMP库
 //<i>该库提供了关于STC8的硬件CMP相关操作函数。
-#define ECBM_CMP_LIB_EN 1
+#define ECBM_CMP_LIB_EN 0
 //<q>MDU16库
 //<i>该库提供了关于STC8G的硬件乘除法相关操作函数。
-#define ECBM_MDU16_LIB_EN 1
+#define ECBM_MDU16_LIB_EN 0
 //<q>PCA库
 //<i>该库提供了关于STC8A的硬件PCA相关操作函数。
-#define ECBM_PCA_LIB_EN 1
+#define ECBM_PCA_LIB_EN 0
 //<q>PWM库
 //<i>该库提供了关于STC8的硬件PWM相关操作函数。
-#define ECBM_PWM_LIB_EN 1
+#define ECBM_PWM_LIB_EN 0
 //<q>LCM库
 //<i>该库提供了关于STC8的硬件LCM相关操作函数。
 #define ECBM_LCM_LIB_EN 0

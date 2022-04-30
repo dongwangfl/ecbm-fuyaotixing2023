@@ -1,1 +1,1 @@
-"ringq.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\ringq.lst) OBJECT(.\output\ringq.obj)
+"ringq.c" LARGE OPTIMIZE (8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\ringq.lst) TABS (2) OBJECT(.\output\ringq.obj)

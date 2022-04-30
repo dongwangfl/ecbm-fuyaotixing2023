@@ -1,57 +1,57 @@
-C51 COMPILER V9.60.0.0   SPI                                                               11/12/2021 21:36:40 PAGE 1   
+C51 COMPILER V9.60.0.0   SPI                                                               04/30/2022 15:41:02 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE SPI
 OBJECT MODULE PLACED IN .\output\spi.obj
-COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\spi.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\de
-                    -vice;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\spi.lst) OBJECT(.\output\spi.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\spi.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device
+                    -;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\spi.lst) TABS(2) OBJECT(.\output\spi.obj)
 
 line level    source
 
    1          #include "ecbm_core.h"//统一加载核心头文件
    2          #if ECBM_SPI_LIB_EN 
-   3          /*--------------------------------------程序定义-----------------------------------*/
-   4          /*-------------------------------------------------------
-   5          SPI的引脚设置函数。
-   6          -------------------------------------------------------*/
-   7          void spi_set_pin(u8 group){
-   8   1      #if ((ECBM_MCU&0xF00000)<=0x200000)
-   9   1          switch(group){
-  10   2              case SPI_PIN_P12_P13_P14_P15:{
-  11   3                  #if (ECBM_SPI_REG&0x80)
+              /*--------------------------------------程序定义-----------------------------------*/
+              /*-------------------------------------------------------
+              SPI的引脚设置函数。
+              -------------------------------------------------------*/
+              void spi_set_pin(u8 group){
+              #if ((ECBM_MCU&0xF00000)<=0x200000)
+                  switch(group){
+                      case SPI_PIN_P12_P13_P14_P15:{
+                          #if (ECBM_SPI_REG&0x80)
                           gpio_mode(D12,GPIO_IN);
                           #endif
-  14   3                  gpio_mode(D13,GPIO_OUT);
-  15   3                  gpio_mode(D14,GPIO_IN);
-  16   3                  gpio_mode(D15,GPIO_OUT);
-  17   3              }break;
-  18   2              case SPI_PIN_P22_P23_P24_P25:{
-  19   3                  #if (ECBM_SPI_REG&0x80)
+                          gpio_mode(D13,GPIO_OUT);
+                          gpio_mode(D14,GPIO_IN);
+                          gpio_mode(D15,GPIO_OUT);
+                      }break;
+                      case SPI_PIN_P22_P23_P24_P25:{
+                          #if (ECBM_SPI_REG&0x80)
                           gpio_mode(D22,GPIO_IN);
                           #endif
-  22   3                  gpio_mode(D23,GPIO_OUT);
-  23   3                  gpio_mode(D24,GPIO_IN);
-  24   3                  gpio_mode(D25,GPIO_OUT);
-  25   3              }break;
-  26   2              case SPI_PIN_P74_P75_P76_P77:{
-  27   3                  #if (ECBM_SPI_REG&0x80)
+                          gpio_mode(D23,GPIO_OUT);
+                          gpio_mode(D24,GPIO_IN);
+                          gpio_mode(D25,GPIO_OUT);
+                      }break;
+                      case SPI_PIN_P74_P75_P76_P77:{
+                          #if (ECBM_SPI_REG&0x80)
                           gpio_mode(D74,GPIO_IN);
                           #endif
-  30   3                  gpio_mode(D75,GPIO_OUT);
-  31   3                  gpio_mode(D76,GPIO_IN);
-  32   3                  gpio_mode(D77,GPIO_OUT);
-  33   3              }break;
-  34   2              case SPI_PIN_P35_P34_P33_P32:{
-  35   3                  #if (ECBM_SPI_REG&0x80)
+                          gpio_mode(D75,GPIO_OUT);
+                          gpio_mode(D76,GPIO_IN);
+                          gpio_mode(D77,GPIO_OUT);
+                      }break;
+                      case SPI_PIN_P35_P34_P33_P32:{
+                          #if (ECBM_SPI_REG&0x80)
                           gpio_mode(D35,GPIO_IN);
                           #endif
-  38   3                  gpio_mode(D34,GPIO_OUT);
-  39   3                  gpio_mode(D33,GPIO_IN);
-  40   3                  gpio_mode(D32,GPIO_OUT);
-  41   3              }break;
-  42   2          }
-  43   1      #endif
-  44   1      #if    ((ECBM_MCU&0xF00000)==0x300000)
+                          gpio_mode(D34,GPIO_OUT);
+                          gpio_mode(D33,GPIO_IN);
+                          gpio_mode(D32,GPIO_OUT);
+                      }break;
+                  }
+              #endif
+              #if    ((ECBM_MCU&0xF00000)==0x300000)
                   #if (ECBM_MCU==0x310201)||(ECBM_MCU==0x3102A1)
                   switch(group){
                       case SPI_PIN_P55_P54_P33_P32:{
@@ -62,7 +62,7 @@ line level    source
                           gpio_mode(D33,GPIO_IN);
                           gpio_mode(D32,GPIO_OUT);
                       }break;
-C51 COMPILER V9.60.0.0   SPI                                                               11/12/2021 21:36:40 PAGE 2   
+C51 COMPILER V9.60.0.0   SPI                                                               04/30/2022 15:41:02 PAGE 2   
 
                   }
                   #else
@@ -102,7 +102,7 @@ line level    source
                   }
                   #endif
               #endif
-  93   1      #if    ((ECBM_MCU&0xF00000)==0x400000)
+              #if    ((ECBM_MCU&0xF00000)==0x400000)
                   #if (ECBM_MCU==0x4205C4)||(ECBM_MCU==0x4805C4)
                   switch(group){
                       case SPI_PIN_P54_P13_P14_P15:{
@@ -126,7 +126,7 @@ line level    source
                       }break;
                       case SPI_PIN_P22_P23_P24_P25:{
                           #if (ECBM_SPI_REG&0x80)
-C51 COMPILER V9.60.0.0   SPI                                                               11/12/2021 21:36:40 PAGE 3   
+C51 COMPILER V9.60.0.0   SPI                                                               04/30/2022 15:41:02 PAGE 3   
 
                           gpio_mode(D22,GPIO_IN);
                           #endif
@@ -153,35 +153,35 @@ line level    source
                   }
                   #endif
               #endif    
- 142   1          SPI_SET_PIN(group);    
- 143   1      }
- 144          /*-------------------------------------------------------
- 145          SPI初始化函数。
- 146          -------------------------------------------------------*/
- 147          void spi_init(void){
- 148   1          spi_set_pin         (ECBM_SPI_IO);
- 149   1          SPI_SET_REG_SPCTL   (ECBM_SPI_REG);  //使能SPI主机模式
- 150   1          SPI_SET_REG_SPSTAT  (0xc0); 
- 151   1          SPI_POWER_ON;
- 152   1      }
- 153          /*-------------------------------------------------------
- 154          SPI发送/接收函数。
- 155          -------------------------------------------------------*/
- 156          u8 spi_send(u8 dat){
- 157   1          u16 timeout=500;
- 158   1          SPI_SET_REG_SPDAT(dat);        //发送测试数据
- 159   1          while((!(SPI_GET_IT_FLAG))||(timeout))timeout--;//查询完成标志
- 160   1          SPI_IT_CLS;                 //清中断标志
- 161   1          return SPI_GET_REG_SPDAT;
- 162   1      }
- 163          #endif  //和最上面的#ifndef配合成一个程序段。
+                  SPI_SET_PIN(group);    
+              }
+              /*-------------------------------------------------------
+              SPI初始化函数。
+              -------------------------------------------------------*/
+              void spi_init(void){
+                  spi_set_pin         (ECBM_SPI_IO);
+                  SPI_SET_REG_SPCTL   (ECBM_SPI_REG);  //使能SPI主机模式
+                  SPI_SET_REG_SPSTAT  (0xc0); 
+                  SPI_POWER_ON;
+              }
+              /*-------------------------------------------------------
+              SPI发送/接收函数。
+              -------------------------------------------------------*/
+              u8 spi_send(u8 dat){
+                  u16 timeout=500;
+                  SPI_SET_REG_SPDAT(dat);        //发送测试数据
+                  while((!(SPI_GET_IT_FLAG))||(timeout))timeout--;//查询完成标志
+                  SPI_IT_CLS;                 //清中断标志
+                  return SPI_GET_REG_SPDAT;
+              }
+              #endif  //和最上面的#ifndef配合成一个程序段。
  164                  //以一个空行为结尾。
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    160    ----
+   CODE SIZE        =   ----    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =   ----       1
+   XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

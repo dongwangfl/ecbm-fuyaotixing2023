@@ -1,10 +1,10 @@
-C51 COMPILER V9.60.0.0   LCM                                                               11/12/2021 21:36:41 PAGE 1   
+C51 COMPILER V9.60.0.0   LCM                                                               04/30/2022 15:41:03 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LCM
 OBJECT MODULE PLACED IN .\output\lcm.obj
-COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\lcm.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\de
-                    -vice;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\lcm.lst) OBJECT(.\output\lcm.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\lcm.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device
+                    -;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\lcm.lst) TABS(2) OBJECT(.\output\lcm.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
                   gpio_mode(D40,GPIO_OUT);
                   #elif ((ECBM_LCM_CFG2&0x60)==0x60)
                   gpio_mode(D40,GPIO_OUT);
-C51 COMPILER V9.60.0.0   LCM                                                               11/12/2021 21:36:41 PAGE 2   
+C51 COMPILER V9.60.0.0   LCM                                                               04/30/2022 15:41:03 PAGE 2   
 
                   gpio_mode(D37,GPIO_OUT);
                   gpio_mode(D36,GPIO_OUT);

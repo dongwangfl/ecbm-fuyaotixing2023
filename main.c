@@ -8,6 +8,7 @@ unsigned char   FUYAOSHIJIAN =3;
 unsigned char FUYAOSHIJIANFENZHONG = 3;
 unsigned char  DUISHISHIJIAN =3;
 unsigned char  QINGSHUJUSHIJIAN = 3;
+unsigned char YIFUYAOCUNCHU = 0;
 
 sbit BEEP= P3^7;
 unsigned char line1[128]= {0};
@@ -89,7 +90,7 @@ unsigned char ESP8266_send_cmd(char *b,char *a,unsigned char times,unsigned int 
     return 0;
 }
 unsigned int tick =0,tickflag=0;
-void fun1(void)TIMER0_IT_NUM{//这是定时器0的中断处理函数。10ms
+void fun1(void)TIMER0_IT_NUM { //这是定时器0的中断处理函数。10ms
 
     tick++;
     if(tick%100==0)
@@ -105,7 +106,7 @@ void main() {			//main函数，必须的。
 
     int times = 0 ;
     int len = 0 ;
-    bit    yifuyao=0;
+    unsigned char     yifuyao=0;
     bit    yiduishi=0;
     unsigned char time[2]= {0};
     unsigned char  volatile beep = 0;
@@ -178,12 +179,12 @@ void main() {			//main函数，必须的。
     ptrqueue2 = &queue2;
     initQueue(ptrqueue1);
     initQueue(ptrqueue2);
-	
-	uart_printf(1,"——————————————————————————————————————————————————\r\n");
-	uart_printf(1,"———————————————————————服药提醒————————————————————\r\n");
-	uart_printf(1,"实现的命令:\r\n");
-	uart_printf(1,"           1. 设置报警时间: SETATIME#07:00\r\n");
-	uart_printf(1,"——————————————————————————————————————————————————\r\n");
+
+    uart_printf(1,"——————————————————————————————————————————————————\r\n");
+    uart_printf(1,"———————————————————————服药提醒————————————————————\r\n");
+    uart_printf(1,"实现的命令:\r\n");
+    uart_printf(1,"           1. 设置报警时间: SETATIME#07:00\r\n");
+    uart_printf(1,"——————————————————————————————————————————————————\r\n");
 
     uart_printf(1,"starting..\r\n");
     uart_set_baud(2,115200);
@@ -203,10 +204,10 @@ void main() {			//main函数，必须的。
     }
 
     delay_ms(3000);
-	
+
     uart_printf(2,"AT+CIPSNTPTIME?\r\n");
 
-
+    eeprom_read_ex(20,&yifuyao,1);
 
     while(1)
     {
@@ -218,25 +219,32 @@ void main() {			//main函数，必须的。
             uart_printf(1,"%bd: %bd: %bd   ATIME：%bd   %bd \r\n",now[2],now[1],now[0],FUYAOSHIJIAN,FUYAOSHIJIANFENZHONG);
             secondstick++;
             if(secondstick%5==0)P12=0;
-			else P12 = 1;
-			if(secondstick % 3600==0)//每个小时对一次时，避免偶尔对时失败，导致时间永远不能对时
-			{
-				uart_printf(2,"AT+CIPSNTPTIME?\r\n");
-			}
-          
+            else P12 = 1;
+            if(secondstick % 3600==0)//每个小时对一次时，避免偶尔对时失败，导致时间永远不能对时
+            {
+                uart_printf(2,"AT+CIPSNTPTIME?\r\n");
+            }
+
 
 //            if(now[2] == DUISHISHIJIAN && now[1] ==1 && now[0] == 1 && yiduishi == 0)  // 8：1:1时，连接服器器对时
 //            {
-//                
-//                 
+//
+//
 //            }
-            if(now[2] == QINGSHUJUSHIJIAN && now[1] == 1&& now[0] == 0)//0：1：0时清fifuyao和 
+            if(now[2] != FUYAOSHIJIAN )//时清fifuyao和 
             {
                 yifuyao=0;
-               
+                eeprom_read_ex(20,&yifuyao,1);
+                if(yifuyao!= 0 )
+                {
+                    yifuyao = 0;
+                    eeprom_write_ex(20,&yifuyao,1);delay_ms(50);
+                }
+
             }
             if(now[2] == FUYAOSHIJIAN &&now[1] >= FUYAOSHIJIANFENZHONG  )
             {
+								eeprom_read_ex(20,&yifuyao,1);
                 if(yifuyao==0)
                 {
                     beep = 1;
@@ -251,6 +259,7 @@ void main() {			//main函数，必须的。
                         {
                             _nop_();
                             yifuyao = 1;
+                            eeprom_write_ex(20,&yifuyao,1);delay_ms(50);
                         }
                     }
                     P24 = 1 ;

@@ -1,107 +1,107 @@
-C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 1   
+C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PCA
 OBJECT MODULE PLACED IN .\output\pca.obj
-COMPILER INVOKED BY: C:\Keil_v5_c51\C51\BIN\C51.EXE ECBM_LIB\pca.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\de
-                    -vice;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\pca.lst) OBJECT(.\output\pca.obj)
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\pca.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device
+                    -;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\pca.lst) TABS(2) OBJECT(.\output\pca.obj)
 
 line level    source
 
    1          #include "ecbm_core.h"//统一加载核心头文件
    2          #if ECBM_PCA_LIB_EN   //检查本库有没有被使能
-   3          /*--------------------------------------变量定义-----------------------------------*/
-   4          #if ECBM_PCA0_EN
+              /*--------------------------------------变量定义-----------------------------------*/
+              #if ECBM_PCA0_EN
               u8  pca_mode_0=0;
               u16 pca_timer_count_0=0;
               u16 pca_timer_add_0=0;
               #endif
-   9          #if ECBM_PCA1_EN
+              #if ECBM_PCA1_EN
               u8  pca_mode_1=0;
               u16 pca_timer_count_1=0;
               u16 pca_timer_add_1=0;
               #endif
-  14          #if ECBM_PCA2_EN
+              #if ECBM_PCA2_EN
               u8  pca_mode_2=0;
               u16 pca_timer_count_2=0;
               u16 pca_timer_add_2=0;
               #endif
-  19          #if ECBM_PCA3_EN
+              #if ECBM_PCA3_EN
               u8  pca_mode_3=0;
               u16 pca_timer_count_3=0;
               u16 pca_timer_add_3=0;
               #endif
-  24          /*------------------------------------资源冲突警告---------------------------------*/
-  25          #if  ((ECBM_MCU&0xF00000)==0x400000)
+              /*------------------------------------资源冲突警告---------------------------------*/
+              #if  ((ECBM_MCU&0xF00000)==0x400000)
               #error STC8H有更高级的PWM模块，所以取消了PCA功能。
               #endif
-  28          /*--------------------------------------程序定义-----------------------------------*/
-  29          /*-------------------------------------------------------
-  30          PCA初始化置函数。
-  31          -------------------------------------------------------*/
-  32          void pca_init(){
-  33   1          PCA_SET_REG_CCON(0);//初始化PCA控制寄存器。
-  34   1          PCA_SET_REG_CHL(0); //复位PCA寄存器。
-  35   1          PCA_SET_REG_CMOD(ECBM_PCA_CMOD);//设置PCA的工作模式。
-  36   1          
-  37   1          pca_set_io(ECBM_PCA_IO);
-  38   1          
-  39   1          #if ECBM_PCA0_EN
+              /*--------------------------------------程序定义-----------------------------------*/
+              /*-------------------------------------------------------
+              PCA初始化置函数。
+              -------------------------------------------------------*/
+              void pca_init(){
+                  PCA_SET_REG_CCON(0);//初始化PCA控制寄存器。
+                  PCA_SET_REG_CHL(0); //复位PCA寄存器。
+                  PCA_SET_REG_CMOD(ECBM_PCA_CMOD);//设置PCA的工作模式。
+                  
+                  pca_set_io(ECBM_PCA_IO);
+                  
+                  #if ECBM_PCA0_EN
                   pca_set_mode(0,ECBM_PCA0_MODE);
                   #endif
-  42   1          #if ECBM_PCA1_EN
+                  #if ECBM_PCA1_EN
                   pca_set_mode(1,ECBM_PCA1_MODE);
                   #endif
-  45   1          #if ECBM_PCA2_EN
+                  #if ECBM_PCA2_EN
                   pca_set_mode(2,ECBM_PCA2_MODE);
                   #endif
-  48   1          #if ECBM_PCA3_EN
+                  #if ECBM_PCA3_EN
                   pca_set_mode(3,ECBM_PCA3_MODE);
                   #endif
-  51   1          PCA_POWER_ON;//打开PCA。
-  52   1      }
-  53          /*-------------------------------------------------------
-  54          PCA设置IO映射函数。
-C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 2   
+                  PCA_POWER_ON;//打开PCA。
+              }
+              /*-------------------------------------------------------
+              PCA设置IO映射函数。
+C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 2   
 
-  55          -------------------------------------------------------*/
-  56          void pca_set_io(u8 io){
-  57   1          PCA_SET_PIN(io);
-  58   1      #if ((ECBM_MCU&0xF00000)==0x200000)
-  59   1          switch(io){
-  60   2              case PCA_PIN_P12_P17_P16_P15_P14:{
-  61   3                  gpio_mode(D12,GPIO_IN);
-  62   3                  gpio_mode(D17,GPIO_IN);
-  63   3                  gpio_mode(D16,GPIO_IN);
-  64   3                  gpio_mode(D15,GPIO_IN);
-  65   3                  gpio_mode(D14,GPIO_IN);
-  66   3              }break;
-  67   2              case PCA_PIN_P22_P23_P24_P25_P26:{
-  68   3                  gpio_mode(D22,GPIO_IN);
-  69   3                  gpio_mode(D23,GPIO_IN);
-  70   3                  gpio_mode(D24,GPIO_IN);
-  71   3                  gpio_mode(D25,GPIO_IN);
-  72   3                  gpio_mode(D26,GPIO_IN);
-  73   3              }break;
-  74   2              case PCA_PIN_P74_P70_P71_P72_P73:{
-  75   3                  gpio_mode(D74,GPIO_IN);
-  76   3                  gpio_mode(D70,GPIO_IN);
-  77   3                  gpio_mode(D71,GPIO_IN);
-  78   3                  gpio_mode(D72,GPIO_IN);
-  79   3                  gpio_mode(D73,GPIO_IN);
-  80   3              }break;
-  81   2              case PCA_PIN_P35_P33_P32_P31_P30:{
-  82   3                  gpio_mode(D35,GPIO_IN);
-  83   3                  gpio_mode(D33,GPIO_IN);
-  84   3                  gpio_mode(D32,GPIO_IN);
-  85   3                  gpio_mode(D31,GPIO_IN);
-  86   3                  gpio_mode(D30,GPIO_IN);
-  87   3              }break;
-  88   2              default:break;
-  89   2          }
-  90   1      #endif
-  91   1          
-  92   1      #if (ECBM_MCU==0x3102A1)//STC8G1KxxA_8PIN
+              -------------------------------------------------------*/
+              void pca_set_io(u8 io){
+                  PCA_SET_PIN(io);
+              #if ((ECBM_MCU&0xF00000)==0x200000)
+                  switch(io){
+                      case PCA_PIN_P12_P17_P16_P15_P14:{
+                          gpio_mode(D12,GPIO_IN);
+                          gpio_mode(D17,GPIO_IN);
+                          gpio_mode(D16,GPIO_IN);
+                          gpio_mode(D15,GPIO_IN);
+                          gpio_mode(D14,GPIO_IN);
+                      }break;
+                      case PCA_PIN_P22_P23_P24_P25_P26:{
+                          gpio_mode(D22,GPIO_IN);
+                          gpio_mode(D23,GPIO_IN);
+                          gpio_mode(D24,GPIO_IN);
+                          gpio_mode(D25,GPIO_IN);
+                          gpio_mode(D26,GPIO_IN);
+                      }break;
+                      case PCA_PIN_P74_P70_P71_P72_P73:{
+                          gpio_mode(D74,GPIO_IN);
+                          gpio_mode(D70,GPIO_IN);
+                          gpio_mode(D71,GPIO_IN);
+                          gpio_mode(D72,GPIO_IN);
+                          gpio_mode(D73,GPIO_IN);
+                      }break;
+                      case PCA_PIN_P35_P33_P32_P31_P30:{
+                          gpio_mode(D35,GPIO_IN);
+                          gpio_mode(D33,GPIO_IN);
+                          gpio_mode(D32,GPIO_IN);
+                          gpio_mode(D31,GPIO_IN);
+                          gpio_mode(D30,GPIO_IN);
+                      }break;
+                      default:break;
+                  }
+              #endif
+                  
+              #if (ECBM_MCU==0x3102A1)//STC8G1KxxA_8PIN
                   switch(io){
                       case PCA_PIN_P55_P32_P33_P54:{
                           gpio_mode(D55,GPIO_IN);
@@ -126,7 +126,7 @@ line level    source
               #elif (ECBM_MCU==0x3103A1)//STC8G1KxxT_20PIN
                   switch(io){
                       case PCA_PIN_P13_P11_P10_P37:{
-C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 3   
+C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 3   
 
                           gpio_mode(D13,GPIO_IN);
                           gpio_mode(D11,GPIO_IN);
@@ -148,69 +148,69 @@ line level    source
                       default:break;
                   }    
               #else
- 137   1          switch(io){
- 138   2              case PCA_PIN_P12_P11_P10_P37:{
- 139   3                  gpio_mode(D12,GPIO_IN);
- 140   3                  gpio_mode(D11,GPIO_IN);
- 141   3                  gpio_mode(D10,GPIO_IN);
- 142   3                  gpio_mode(D37,GPIO_IN);
- 143   3              }break;
- 144   2              case PCA_PIN_P34_P35_P36_P37:{
- 145   3                  gpio_mode(D34,GPIO_IN);
- 146   3                  gpio_mode(D35,GPIO_IN);
- 147   3                  gpio_mode(D36,GPIO_IN);
- 148   3                  gpio_mode(D37,GPIO_IN);
- 149   3              }break;
- 150   2              case PCA_PIN_P24_P25_P26_P27:{
- 151   3                  gpio_mode(D24,GPIO_IN);
- 152   3                  gpio_mode(D25,GPIO_IN);
- 153   3                  gpio_mode(D26,GPIO_IN);
- 154   3                  gpio_mode(D27,GPIO_IN);
- 155   3              }break;
- 156   2              default:break;
- 157   2          }    
- 158   1      #endif
- 159   1      }
- 160          /*-------------------------------------------------------
- 161          PCA在PWM模式下的占空比设置函数。
- 162          -------------------------------------------------------*/
- 163          void pca_set_mode(u8 id,u8 mode){
- 164   1          
- 165   1          u8 pca_pwmx,pca_ccapmx;
- 166   1          switch(mode){
- 167   2              case 0:{
- 168   3                  
- 169   3              }break;
- 170   2              case 1:{//6位PWM模式
- 171   3                  pca_pwmx=0x80;
- 172   3                  pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
- 173   3              }break;
- 174   2              case 2:{//7位PWM模式
- 175   3                  pca_pwmx=0x40;
- 176   3                  pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
- 177   3              }break;
- 178   2              case 3:{//8位PWM模式
-C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 4   
+                  switch(io){
+                      case PCA_PIN_P12_P11_P10_P37:{
+                          gpio_mode(D12,GPIO_IN);
+                          gpio_mode(D11,GPIO_IN);
+                          gpio_mode(D10,GPIO_IN);
+                          gpio_mode(D37,GPIO_IN);
+                      }break;
+                      case PCA_PIN_P34_P35_P36_P37:{
+                          gpio_mode(D34,GPIO_IN);
+                          gpio_mode(D35,GPIO_IN);
+                          gpio_mode(D36,GPIO_IN);
+                          gpio_mode(D37,GPIO_IN);
+                      }break;
+                      case PCA_PIN_P24_P25_P26_P27:{
+                          gpio_mode(D24,GPIO_IN);
+                          gpio_mode(D25,GPIO_IN);
+                          gpio_mode(D26,GPIO_IN);
+                          gpio_mode(D27,GPIO_IN);
+                      }break;
+                      default:break;
+                  }    
+              #endif
+              }
+              /*-------------------------------------------------------
+              PCA在PWM模式下的占空比设置函数。
+              -------------------------------------------------------*/
+              void pca_set_mode(u8 id,u8 mode){
+                  
+                  u8 pca_pwmx,pca_ccapmx;
+                  switch(mode){
+                      case 0:{
+                          
+                      }break;
+                      case 1:{//6位PWM模式
+                          pca_pwmx=0x80;
+                          pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
+                      }break;
+                      case 2:{//7位PWM模式
+                          pca_pwmx=0x40;
+                          pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
+                      }break;
+                      case 3:{//8位PWM模式
+C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 4   
 
- 179   3                  pca_pwmx=0x00;
- 180   3                  pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
- 181   3              }break;
- 182   2              case 4:{//10位PWM模式
- 183   3                  pca_pwmx=0xC0;
- 184   3                  pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
- 185   3              }break;
- 186   2              case 5:{//16位捕获模式
- 187   3                  pca_ccapmx=ECBM_PCA0_UP_DOWN|0x01;
- 188   3              }break;
- 189   2              case 6:{//16位软件定时器
- 190   3                  pca_ccapmx=PCA_ECOMn_1|PCA_MATn_1|0x01;
- 191   3              }break;
- 192   2              case 7:{//16位高速脉冲输出
- 193   3                  pca_ccapmx=PCA_ECOMn_1|PCA_MATn_1|PCA_TOGn_1|0x01;
- 194   3              }break;
- 195   2          }
- 196   1          switch(id){
- 197   2              #if ECBM_PCA0_EN
+                          pca_pwmx=0x00;
+                          pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
+                      }break;
+                      case 4:{//10位PWM模式
+                          pca_pwmx=0xC0;
+                          pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
+                      }break;
+                      case 5:{//16位捕获模式
+                          pca_ccapmx=ECBM_PCA0_UP_DOWN|0x01;
+                      }break;
+                      case 6:{//16位软件定时器
+                          pca_ccapmx=PCA_ECOMn_1|PCA_MATn_1|0x01;
+                      }break;
+                      case 7:{//16位高速脉冲输出
+                          pca_ccapmx=PCA_ECOMn_1|PCA_MATn_1|PCA_TOGn_1|0x01;
+                      }break;
+                  }
+                  switch(id){
+                      #if ECBM_PCA0_EN
                       case 0:{
                           pca_mode_0=mode;
                           if((mode>0)&&(mode<5)){
@@ -220,7 +220,7 @@ line level    source
                           PCA_SET_REG_CCAP0HL(0);
                       }break;
                       #endif
- 207   2              #if ECBM_PCA1_EN
+                      #if ECBM_PCA1_EN
                       case 1:{
                           pca_mode_1=mode;
                           if((mode>0)&&(mode<5)){
@@ -230,7 +230,7 @@ line level    source
                           PCA_SET_REG_CCAP1HL(0); 
                       }break;
                       #endif
- 217   2              #if ECBM_PCA2_EN
+                      #if ECBM_PCA2_EN
                       case 2:{
                           pca_mode_2=mode;
                           if((mode>0)&&(mode<5)){
@@ -240,7 +240,7 @@ line level    source
                           PCA_SET_REG_CCAP2HL(0);
                       }break;
                       #endif
- 227   2              #if ECBM_PCA3_EN
+                      #if ECBM_PCA3_EN
                       case 3:{
                           pca_mode_3=mode;
                           if((mode>0)&&(mode<5)){
@@ -250,17 +250,17 @@ line level    source
                           PCA_SET_REG_CCAP3HL(0);
                       }break;
                       #endif
- 237   2          }
- 238   1      }
- 239          /*-------------------------------------------------------
- 240          PCA在定时器模式或高速脉冲输出模式下的计数值设置函数
-C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 5   
+                  }
+              }
+              /*-------------------------------------------------------
+              PCA在定时器模式或高速脉冲输出模式下的计数值设置函数
+C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 5   
 
- 241          -------------------------------------------------------*/
- 242          void pca_set_timer(u8 id,u16 count){
- 243   1          count=count;
- 244   1          switch(id){
- 245   2              #if ECBM_PCA0_EN
+              -------------------------------------------------------*/
+              void pca_set_timer(u8 id,u16 count){
+                  count=count;
+                  switch(id){
+                      #if ECBM_PCA0_EN
                       case 0:{
                           if(pca_mode_0>=6){
                               pca_timer_count_0=count;
@@ -270,7 +270,7 @@ line level    source
                           pca_timer_count_0+=pca_timer_add_0;
                       }break;
                       #endif
- 255   2              #if ECBM_PCA1_EN
+                      #if ECBM_PCA1_EN
                       case 1:{
                           if(pca_mode_1>=6){
                               pca_timer_count_1=count;
@@ -280,7 +280,7 @@ line level    source
                           pca_timer_count_1+=pca_timer_add_1;
                       }break;
                       #endif
- 265   2              #if ECBM_PCA2_EN
+                      #if ECBM_PCA2_EN
                       case 2:{
                           if(pca_mode_2>=6){
                               pca_timer_count_2=count;
@@ -290,7 +290,7 @@ line level    source
                           pca_timer_count_2+=pca_timer_add_2;
                       }break;
                       #endif
- 275   2              #if ECBM_PCA3_EN
+                      #if ECBM_PCA3_EN
                       case 3:{
                           if(pca_mode_3>=6){
                               pca_timer_count_3=count;
@@ -300,128 +300,128 @@ line level    source
                           pca_timer_count_3+=pca_timer_add_3;
                       }break;
                       #endif
- 285   2          }
- 286   1      }
- 287          /*-------------------------------------------------------
- 288          PCA在PWM模式下的占空比设置函数。
- 289          -------------------------------------------------------*/
- 290          void pca_set_duty(u8 id,u16 duty){
- 291   1          u8 pcax,pcah=0,mode;
- 292   1          u16 temp;
- 293   1          switch(id){
- 294   2              #if ECBM_PCA0_EN
+                  }
+              }
+              /*-------------------------------------------------------
+              PCA在PWM模式下的占空比设置函数。
+              -------------------------------------------------------*/
+              void pca_set_duty(u8 id,u16 duty){
+                  u8 pcax,pcah=0,mode;
+                  u16 temp;
+                  switch(id){
+                      #if ECBM_PCA0_EN
                       case 0:{
                           mode=pca_mode_0;
                       }break;
                       #endif
- 299   2              #if ECBM_PCA1_EN
+                      #if ECBM_PCA1_EN
                       case 1:{
                           mode=pca_mode_1;
                       }break;
-C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 6   
+C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 6   
 
                       #endif
- 304   2              #if ECBM_PCA2_EN
+                      #if ECBM_PCA2_EN
                       case 2:{
                           mode=pca_mode_2;
                       }break;
                       #endif
- 309   2              #if ECBM_PCA3_EN
+                      #if ECBM_PCA3_EN
                       case 3:{
                           mode=pca_mode_3;
                       }break;
                       #endif
- 314   2          }
- 315   1          if((mode<=4)&&(mode>0)){
- 316   2              
- 317   2              switch(mode){
- 318   3                  case 1:{//6位PWM模式
- 319   4                      if(duty>=1000){
- 320   5                          temp=0;
- 321   5                      }else{
- 322   5                          temp=(u16)((64*(1000-(u32)duty))/1000);
- 323   5                      }
- 324   4                      pcax=(u8)(temp&0x3F);
- 325   4                      if(temp&0x0040){
- 326   5                          pcah=0x02;
- 327   5                      }
- 328   4                  }break;
- 329   3                  case 2:{//7位PWM模式
- 330   4                      if(duty>=1000){
- 331   5                          temp=0;
- 332   5                      }else{
- 333   5                          temp=(u16)((128*(1000-(u32)duty))/1000);
- 334   5                      }
- 335   4                      pcax=(u8)(temp&0x7F);
- 336   4                      if(temp&0x0080){
- 337   5                          pcah=0x02;
- 338   5                      }
- 339   4                  }break;
- 340   3                  case 3:{//8位PWM模式
- 341   4                      if(duty>=1000){
- 342   5                          temp=0;
- 343   5                      }else{
- 344   5                          temp=(u16)((256*(1000-(u32)duty))/1000);
- 345   5                      }
- 346   4                      pcax=(u8)(temp);
- 347   4                      if(temp&0x0100){
- 348   5                          pcah=0x02;
- 349   5                      }
- 350   4                  }break;
- 351   3                  case 4:{//10位PWM模式
- 352   4                      if(duty>=1000){
- 353   5                          temp=0;
- 354   5                      }else{
- 355   5                          temp=(u16)((1024*(1000-(u32)duty))/1000);
- 356   5                      }
- 357   4                      pcax=(u8)(temp);
- 358   4                      pcah=(u8)(temp>>4)&0x30;
- 359   4                      if(temp&0x0400){
- 360   5                          pcah|=0x02;
- 361   5                      }
- 362   4                  }break;
- 363   3              }
- 364   2              switch(id){
-C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 7   
+                  }
+                  if((mode<=4)&&(mode>0)){
+                      
+                      switch(mode){
+                          case 1:{//6位PWM模式
+                              if(duty>=1000){
+                                  temp=0;
+                              }else{
+                                  temp=(u16)((64*(1000-(u32)duty))/1000);
+                              }
+                              pcax=(u8)(temp&0x3F);
+                              if(temp&0x0040){
+                                  pcah=0x02;
+                              }
+                          }break;
+                          case 2:{//7位PWM模式
+                              if(duty>=1000){
+                                  temp=0;
+                              }else{
+                                  temp=(u16)((128*(1000-(u32)duty))/1000);
+                              }
+                              pcax=(u8)(temp&0x7F);
+                              if(temp&0x0080){
+                                  pcah=0x02;
+                              }
+                          }break;
+                          case 3:{//8位PWM模式
+                              if(duty>=1000){
+                                  temp=0;
+                              }else{
+                                  temp=(u16)((256*(1000-(u32)duty))/1000);
+                              }
+                              pcax=(u8)(temp);
+                              if(temp&0x0100){
+                                  pcah=0x02;
+                              }
+                          }break;
+                          case 4:{//10位PWM模式
+                              if(duty>=1000){
+                                  temp=0;
+                              }else{
+                                  temp=(u16)((1024*(1000-(u32)duty))/1000);
+                              }
+                              pcax=(u8)(temp);
+                              pcah=(u8)(temp>>4)&0x30;
+                              if(temp&0x0400){
+                                  pcah|=0x02;
+                              }
+                          }break;
+                      }
+                      switch(id){
+C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 7   
 
- 365   3                  #if ECBM_PCA0_EN
+                          #if ECBM_PCA0_EN
                           case 0:{
                               PCA_SET_REG_PWM0((PCA_GET_REG_PWM0&0xC0)|pcah);
                               PCA_SET_REG_CCAP0H(pcax);
                           }break;
                           #endif
- 371   3                  #if ECBM_PCA1_EN
+                          #if ECBM_PCA1_EN
                           case 1:{
                               PCA_SET_REG_PWM1((PCA_GET_REG_PWM1&0xC0)|pcah);
                               PCA_SET_REG_CCAP1H(pcax);
                           }break;
                           #endif
- 377   3                  #if ECBM_PCA2_EN
+                          #if ECBM_PCA2_EN
                           case 2:{
                               PCA_SET_REG_PWM2((PCA_GET_REG_PWM2&0xC0)|pcah);
                               PCA_SET_REG_CCAP2H(pcax);
                           }break;
                           #endif
- 383   3                  #if ECBM_PCA3_EN
+                          #if ECBM_PCA3_EN
                           case 3:{
                               PCA_SET_REG_PWM3((PCA_GET_REG_PWM3&0xC0)|pcah);
                               PCA_SET_REG_CCAP3H(pcax);
                           }break;
                           #endif
- 389   3              }
- 390   2          }
- 391   1      }
- 392          /*-------------------------------------------------------
- 393          PCA的各种中断处理函数。
- 394          -------------------------------------------------------*/
- 395          void PCA_Isr()PCA_IT_NUM{
- 396   1          if(PCA_GET_IT_FLAG){
- 397   2              PCA_IT_CLS;
- 398   2              #if ECBM_PCA_CALLBACK_EN == 1
+                      }
+                  }
+              }
+              /*-------------------------------------------------------
+              PCA的各种中断处理函数。
+              -------------------------------------------------------*/
+              void PCA_Isr()PCA_IT_NUM{
+                  if(PCA_GET_IT_FLAG){
+                      PCA_IT_CLS;
+                      #if ECBM_PCA_CALLBACK_EN == 1
                       pca_timer_callback();
                       #endif
- 401   2          }
- 402   1          #if ECBM_PCA0_EN
+                  }
+                  #if ECBM_PCA0_EN
                   if(PCA0_GET_IT_FLAG){
                       PCA0_IT_CLS;
                       #if ECBM_PCA0_TIMER_AUTO_EN == 1
@@ -435,7 +435,7 @@ line level    source
                       #endif
                   }
                   #endif
- 416   1          #if ECBM_PCA1_EN
+                  #if ECBM_PCA1_EN
                   if(PCA1_GET_IT_FLAG){
                       PCA1_IT_CLS;
                       #if ECBM_PCA1_TIMER_AUTO_EN == 1
@@ -446,12 +446,12 @@ line level    source
                       #endif
                       #if ECBM_PCA1_CALLBACK_EN == 1
                       pca1_callback();
-C51 COMPILER V9.60.0.0   PCA                                                               11/12/2021 21:36:41 PAGE 8   
+C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 8   
 
                       #endif
                   }
                   #endif
- 430   1          #if ECBM_PCA2_EN
+                  #if ECBM_PCA2_EN
                   if(PCA2_GET_IT_FLAG){
                       PCA2_IT_CLS;
                       #if ECBM_PCA2_TIMER_AUTO_EN == 1
@@ -465,7 +465,7 @@ line level    source
                       #endif
                   }
                   #endif
- 444   1          #if ECBM_PCA3_EN
+                  #if ECBM_PCA3_EN
                   if(PCA3_GET_IT_FLAG){
                       PCA3_IT_CLS;
                       #if ECBM_PCA3_TIMER_AUTO_EN == 1
@@ -479,15 +479,15 @@ line level    source
                       #endif
                   }
                   #endif
- 458   1      }
- 459          #endif  //和最上面的#ifndef配合成一个程序段。
+              }
+              #endif  //和最上面的#ifndef配合成一个程序段。
  460                  //以一个空行为结尾。
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    749    ----
+   CODE SIZE        =   ----    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =   ----       7
+   XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
