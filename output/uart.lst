@@ -1,7 +1,7 @@
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 1   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE UART
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE UART
 OBJECT MODULE PLACED IN .\output\uart.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\uart.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\devic
                     -e;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\uart.lst) TABS(2) OBJECT(.\output\uart.obj)
@@ -62,7 +62,7 @@ line level    source
   52          #if            (ECBM_UART1_PARITY!=0)                    //若打开了校验，
                   #if        ((ECBM_UART1_SCON_CONFIG&0x80)!=0x80)    //但是没有设置成9位数据。
                   #error    若想开启串口1的校验功能，请把工作模式设置为9位！
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 2   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 2   
 
                   #endif
               #else                                                //若没有打开校验或者多机通信，
@@ -126,7 +126,7 @@ line level    source
               #endif
  111          //------------------------------------串口数量警告---------------------------------//
  112          #if    (ECBM_UART2_EN == 1)&&((ECBM_MCU&0x00000F)<0x000002)
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 3   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 3   
 
               #error 当前单片机型号不支持串口2，请更换型号或者关闭串口2。
               #endif
@@ -190,7 +190,7 @@ line level    source
  162   1          uart_set_baud        (1,ECBM_UART1_BAUD_RATE);    //设置波特率。
  163   1          #if (ECBM_UART1_SCON_CONFIG&0x20)                //如果打开了多机通信功能，
                   UART1_SET_REG_SADDR    (ECBM_UART1_SADDR_CONFIG);    //写入从机地址。
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 4   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 4   
 
                   UART1_SET_REG_SADEN    (ECBM_UART1_SADEN_CONFIG);    //写入从机地址使能位。
                   #endif
@@ -254,7 +254,7 @@ line level    source
                   #endif
                   uart4_busy=0;       //串口4忙标志位清0。
                   UART4_IT_ENABLE;    //打开串口4中断。
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 5   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 5   
 
               #endif
  225   1      }
@@ -318,7 +318,7 @@ line level    source
                       case 3:{
                           #if (ECBM_UART3_S3CON_CONFIG&0x40)==0
                           TIMER2_SET_REG_HL(res); //设定定时初值。
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 6   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 6   
 
                           #else
                           TIMER3_SET_REG_HL(res);    //设定定时初值。
@@ -382,7 +382,7 @@ line level    source
                           #elif ECBM_UART2_PARITY == 3
                           UART2_SET_TXD_BYTE9_1;
                           #elif ECBM_UART2_PARITY == 4
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 7   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 7   
 
                           UART2_SET_TXD_BYTE9_0;
                           #endif
@@ -446,7 +446,7 @@ line level    source
  407          -------------------------------------------------------*/
  408          void uart_char_9(u8 id,u8 ch,u8 bit9){
  409   1          switch(id){
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 8   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 8   
 
  410   2              #if ECBM_UART1_EN
  411   2              case 1:{
@@ -510,7 +510,7 @@ line level    source
  469          串口打印函数。
  470          -------------------------------------------------------*/
  471          #if    ECBM_UART_PRINTF_EN    ==    1
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 9   
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 9   
 
  472          void uart_printf(u8 id,const char * str,...){
  473   1          char xdata buf[ECBM_UART_PRINTF_BUF_MAX];
@@ -574,7 +574,7 @@ line level    source
                       UART3_RI_CLR; //清掉串口3接收标志。
                       #if ECBM_UART3_RECEIVE_CALLBACK_EN
                       uart3_receive_callback();
-C51 COMPILER V9.60.0.0   UART                                                              04/30/2022 15:41:02 PAGE 10  
+C51 COMPILER V9.60.7.0   UART                                                              10/04/2023 09:21:30 PAGE 10  
 
                       #endif
                   }

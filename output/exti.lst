@@ -1,7 +1,7 @@
-C51 COMPILER V9.60.0.0   EXTI                                                              04/30/2022 15:41:02 PAGE 1   
+C51 COMPILER V9.60.7.0   EXTI                                                              10/04/2023 09:21:30 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE EXTI
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE EXTI
 OBJECT MODULE PLACED IN .\output\exti.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\exti.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\devic
                     -e;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\exti.lst) TABS(2) OBJECT(.\output\exti.obj)
@@ -62,7 +62,7 @@ line level    source
                       EXTI4_SET_IO_HIGH;      //置一，防止内部接地影响读取。
                       #if ECBM_EXTI4_INIT
                           EXTI4_ENABLE;       //打开外部中断4
-C51 COMPILER V9.60.0.0   EXTI                                                              04/30/2022 15:41:02 PAGE 2   
+C51 COMPILER V9.60.7.0   EXTI                                                              10/04/2023 09:21:30 PAGE 2   
 
                       #endif
                   #endif
@@ -126,7 +126,7 @@ line level    source
                           }else{
                               EXTI0_SET_MODE_UP_DOWM;
                           }
-C51 COMPILER V9.60.0.0   EXTI                                                              04/30/2022 15:41:02 PAGE 3   
+C51 COMPILER V9.60.7.0   EXTI                                                              10/04/2023 09:21:30 PAGE 3   
 
                       }break;
                       #endif

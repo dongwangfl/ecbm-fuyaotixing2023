@@ -1,7 +1,7 @@
-C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 1   
+C51 COMPILER V9.60.7.0   PCA                                                               10/04/2023 09:21:31 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PCA
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PCA
 OBJECT MODULE PLACED IN .\output\pca.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\pca.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device
                     -;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\pca.lst) TABS(2) OBJECT(.\output\pca.obj)
@@ -62,7 +62,7 @@ line level    source
               }
               /*-------------------------------------------------------
               PCA设置IO映射函数。
-C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 2   
+C51 COMPILER V9.60.7.0   PCA                                                               10/04/2023 09:21:31 PAGE 2   
 
               -------------------------------------------------------*/
               void pca_set_io(u8 io){
@@ -126,7 +126,7 @@ line level    source
               #elif (ECBM_MCU==0x3103A1)//STC8G1KxxT_20PIN
                   switch(io){
                       case PCA_PIN_P13_P11_P10_P37:{
-C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 3   
+C51 COMPILER V9.60.7.0   PCA                                                               10/04/2023 09:21:31 PAGE 3   
 
                           gpio_mode(D13,GPIO_IN);
                           gpio_mode(D11,GPIO_IN);
@@ -190,7 +190,7 @@ line level    source
                           pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
                       }break;
                       case 3:{//8位PWM模式
-C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 4   
+C51 COMPILER V9.60.7.0   PCA                                                               10/04/2023 09:21:31 PAGE 4   
 
                           pca_pwmx=0x00;
                           pca_ccapmx=PCA_ECOMn_1|PCA_PWMn_1;
@@ -254,7 +254,7 @@ line level    source
               }
               /*-------------------------------------------------------
               PCA在定时器模式或高速脉冲输出模式下的计数值设置函数
-C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 5   
+C51 COMPILER V9.60.7.0   PCA                                                               10/04/2023 09:21:31 PAGE 5   
 
               -------------------------------------------------------*/
               void pca_set_timer(u8 id,u16 count){
@@ -318,7 +318,7 @@ line level    source
                       case 1:{
                           mode=pca_mode_1;
                       }break;
-C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 6   
+C51 COMPILER V9.60.7.0   PCA                                                               10/04/2023 09:21:31 PAGE 6   
 
                       #endif
                       #if ECBM_PCA2_EN
@@ -382,7 +382,7 @@ line level    source
                           }break;
                       }
                       switch(id){
-C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 7   
+C51 COMPILER V9.60.7.0   PCA                                                               10/04/2023 09:21:31 PAGE 7   
 
                           #if ECBM_PCA0_EN
                           case 0:{
@@ -446,7 +446,7 @@ line level    source
                       #endif
                       #if ECBM_PCA1_CALLBACK_EN == 1
                       pca1_callback();
-C51 COMPILER V9.60.0.0   PCA                                                               04/30/2022 15:41:03 PAGE 8   
+C51 COMPILER V9.60.7.0   PCA                                                               10/04/2023 09:21:31 PAGE 8   
 
                       #endif
                   }

@@ -1,7 +1,7 @@
-C51 COMPILER V9.60.0.0   IIC                                                               04/30/2022 15:41:02 PAGE 1   
+C51 COMPILER V9.60.7.0   IIC                                                               10/04/2023 09:21:30 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE IIC
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE IIC
 OBJECT MODULE PLACED IN .\output\iic.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\iic.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device
                     -;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\iic.lst) TABS(2) OBJECT(.\output\iic.obj)
@@ -62,7 +62,7 @@ line level    source
               /*-------------------------------------------------------
               IIC的引脚设置函数（内联版）。
               -------------------------------------------------------*/
-C51 COMPILER V9.60.0.0   IIC                                                               04/30/2022 15:41:02 PAGE 2   
+C51 COMPILER V9.60.7.0   IIC                                                               10/04/2023 09:21:30 PAGE 2   
 
               void iic_set_pin_linkage(u8 group){
                   if(iic_index!=group){
@@ -126,7 +126,7 @@ line level    source
                   IIC_SET_SPEED(res);//等待时钟
                   IIC_SET_REG_MSST(0);//清除所有标志位
                   iic_set_pin(ECBM_IIC_IO);//默认使用0组，即P14和P15
-C51 COMPILER V9.60.0.0   IIC                                                               04/30/2022 15:41:02 PAGE 3   
+C51 COMPILER V9.60.7.0   IIC                                                               10/04/2023 09:21:30 PAGE 3   
 
                   iic_index=ECBM_IIC_IO;
                   IIC_POWER_ON;//开启IIC
@@ -190,7 +190,7 @@ line level    source
                   IIC_CMD_TX_DATA;//发送SEND命令
                   while(iic_busy&&(timeout--));
               }
-C51 COMPILER V9.60.0.0   IIC                                                               04/30/2022 15:41:02 PAGE 4   
+C51 COMPILER V9.60.7.0   IIC                                                               10/04/2023 09:21:30 PAGE 4   
 
               void iic_write_ack(){
                   u8 timeout=ECBM_IIC_TIMEOUT;

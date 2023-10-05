@@ -1,7 +1,7 @@
-C51 COMPILER V9.60.0.0   DS1302                                                            04/30/2022 13:06:20 PAGE 1   
+C51 COMPILER V9.60.7.0   DS1302                                                            10/04/2023 09:21:29 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE DS1302
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE DS1302
 OBJECT MODULE PLACED IN .\output\DS1302.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE DS1302.C LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device;.\dev
                     -ice\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\DS1302.lst) TABS(2) OBJECT(.\output\DS1302.obj)
@@ -62,7 +62,7 @@ line level    source
   52   2              if (IO) dat |= 0x80;        //读取数据
   53   2              SCLK = 1;                   //时钟线拉高
   54   2              Delay();                //延时等待
-C51 COMPILER V9.60.0.0   DS1302                                                            04/30/2022 13:06:20 PAGE 2   
+C51 COMPILER V9.60.7.0   DS1302                                                            10/04/2023 09:21:29 PAGE 2   
 
   55   2          }
   56   1      
@@ -126,7 +126,7 @@ line level    source
  114   1      }
  115          
  116          /**************************************
-C51 COMPILER V9.60.0.0   DS1302                                                            04/30/2022 13:06:20 PAGE 3   
+C51 COMPILER V9.60.7.0   DS1302                                                            10/04/2023 09:21:29 PAGE 3   
 
  117          写入初始时间
  118          **************************************/
@@ -189,8 +189,8 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    351    ----
-C51 COMPILER V9.60.0.0   DS1302                                                            04/30/2022 13:06:20 PAGE 4   
+   CODE SIZE        =    324    ----
+C51 COMPILER V9.60.7.0   DS1302                                                            10/04/2023 09:21:29 PAGE 4   
 
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----      10

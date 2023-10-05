@@ -1,7 +1,7 @@
-C51 COMPILER V9.60.0.0   POWER                                                             04/30/2022 15:41:01 PAGE 1   
+C51 COMPILER V9.60.7.0   POWER                                                             10/04/2023 09:21:30 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE POWER
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE POWER
 OBJECT MODULE PLACED IN .\output\power.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ECBM_LIB\power.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\devi
                     -ce;.\device\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\power.lst) TABS(2) OBJECT(.\output\power.obj)
@@ -62,7 +62,7 @@ line level    source
                   WDT_SET_REG_CONTR(ECBM_POWER_WDT_MODE|EN_WDT);
               }
               /*----------------------------
-C51 COMPILER V9.60.0.0   POWER                                                             04/30/2022 15:41:01 PAGE 2   
+C51 COMPILER V9.60.7.0   POWER                                                             10/04/2023 09:21:30 PAGE 2   
 
               Î¹¹·º¯Êý
               -----------------------------*/

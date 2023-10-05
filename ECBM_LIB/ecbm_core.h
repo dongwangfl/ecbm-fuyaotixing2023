@@ -142,7 +142,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define ECBM_PCA_LIB_EN 0
 //<q>PWM库
 //<i>该库提供了关于STC8的硬件PWM相关操作函数。
-#define ECBM_PWM_LIB_EN 0
+#define ECBM_PWM_LIB_EN 1
 //<q>LCM库
 //<i>该库提供了关于STC8的硬件LCM相关操作函数。
 #define ECBM_LCM_LIB_EN 0

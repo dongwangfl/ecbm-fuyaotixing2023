@@ -1,7 +1,7 @@
-C51 COMPILER V9.60.0.0   RINGQ                                                             04/30/2022 13:06:20 PAGE 1   
+C51 COMPILER V9.60.7.0   RINGQ                                                             10/04/2023 09:21:29 PAGE 1   
 
 
-C51 COMPILER V9.60.0.0, COMPILATION OF MODULE RINGQ
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE RINGQ
 OBJECT MODULE PLACED IN .\output\ringq.obj
 COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ringq.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\ECBM_LIB;.\device;.\devi
                     -ce\new_test;.\device\proj) DEBUG OBJECTEXTEND PRINT(.\output\ringq.lst) TABS(2) OBJECT(.\output\ringq.obj)
@@ -62,7 +62,7 @@ line level    source
   52   1      }
   53          //成功返回1,否则返回0，在调用此函数前，最好将对应的str参数清0
   54          unsigned char Get_Line(QUEUE* queue_q,unsigned char *str)
-C51 COMPILER V9.60.0.0   RINGQ                                                             04/30/2022 13:06:20 PAGE 2   
+C51 COMPILER V9.60.7.0   RINGQ                                                             10/04/2023 09:21:29 PAGE 2   
 
   55          {
   56   1          unsigned char temp;
@@ -93,7 +93,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    503    ----
+   CODE SIZE        =    501    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----      24
    PDATA SIZE       =   ----    ----

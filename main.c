@@ -11,6 +11,7 @@ unsigned char  QINGSHUJUSHIJIAN = 3;
 unsigned char YIFUYAOCUNCHU = 0;
 
 sbit BEEP= P3^7;
+
 unsigned char line1[128]= {0};
 unsigned char line2[128]= {0};
 
@@ -104,6 +105,7 @@ void fun1(void)TIMER0_IT_NUM { //这是定时器0的中断处理函数。10ms
 }
 void main() {			//main函数，必须的。
 
+    int duty = 0 ;
     int times = 0 ;
     int len = 0 ;
     unsigned char     yifuyao=0;
@@ -164,6 +166,10 @@ void main() {			//main函数，必须的。
     timer_set_timer_mode(0,10000);
     DS1302_Initial();
 
+    pwm_init();
+    pwm_set_freq(PWM_8A_IO_P1x,1024);
+
+
     FUYAOSHIJIAN = eeprom_read(0);
     FUYAOSHIJIANFENZHONG = eeprom_read(1);
     DUISHISHIJIAN = eeprom_read(2);
@@ -212,14 +218,20 @@ void main() {			//main函数，必须的。
     while(1)
     {
 
+
         if(tickflag) //1s时间到
         {
+
+            duty+=20;
+            pwm_set_duty(PWM_8A_IO_P1x, 1,duty%100);
+
             tickflag=0;
             DS1302_GetTime(now);
             uart_printf(1,"%bd: %bd: %bd   ATIME：%bd   %bd \r\n",now[2],now[1],now[0],FUYAOSHIJIAN,FUYAOSHIJIANFENZHONG);
             secondstick++;
-            if(secondstick%5==0)P12=0;
-            else P12 = 1;
+						
+            if(secondstick%5==0)P12=0;//P12上的LED
+            else P12 = 1; 
             if(secondstick % 3600==0)//每个小时对一次时，避免偶尔对时失败，导致时间永远不能对时
             {
                 uart_printf(2,"AT+CIPSNTPTIME?\r\n");
@@ -231,20 +243,23 @@ void main() {			//main函数，必须的。
 //
 //
 //            }
-            if(now[2] != FUYAOSHIJIAN )//时清fifuyao和 
+						//2023-10-4 CZDT 修改清yifuyao代码，提前1小时清数据，不管分钟，
+            if(now[2] == FUYAOSHIJIAN-1 )//&& now[1] < FUYAOSHIJIANFENZHONG)//时清fifuyao和
             {
                 yifuyao=0;
                 eeprom_read_ex(20,&yifuyao,1);
                 if(yifuyao!= 0 )
                 {
                     yifuyao = 0;
-                    eeprom_write_ex(20,&yifuyao,1);delay_ms(50);
+                    eeprom_write_ex(20,&yifuyao,1);
+                    delay_ms(50);
                 }
 
             }
-            if(now[2] == FUYAOSHIJIAN &&now[1] >= FUYAOSHIJIANFENZHONG  )
+						//2023-10-4 CZDT修改报警逻辑，当时间设置为6.45时，如果不加后面的或条件，则当时间大于7点，取了药瓶也不会停止。原来是now[2]!=FUYAOSHIJIAN && now[1] >=FUYAOSHIJIANFENZHONG
+            if(now[2] == FUYAOSHIJIAN &&now[1] >= FUYAOSHIJIANFENZHONG || (now[2] > FUYAOSHIJIAN && now[2] < FUYAOSHIJIAN+2))
             {
-								eeprom_read_ex(20,&yifuyao,1);
+                eeprom_read_ex(20,&yifuyao,1);
                 if(yifuyao==0)
                 {
                     beep = 1;
@@ -259,7 +274,8 @@ void main() {			//main函数，必须的。
                         {
                             _nop_();
                             yifuyao = 1;
-                            eeprom_write_ex(20,&yifuyao,1);delay_ms(50);
+                            eeprom_write_ex(20,&yifuyao,1);
+                            delay_ms(50);
                         }
                     }
                     P24 = 1 ;
